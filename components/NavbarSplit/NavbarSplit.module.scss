@@ -1,0 +1,24 @@
+@import '../../styles/variables.scss';
+
+.header {
+  display: flex;
+  justify-content: left;
+  font-size:xx-small;
+  height: 3vh;
+  align-items: center;
+  background-color: $secondary-color;
+  //background-image: url('/images/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+}
+
+
+.logo {
+    margin: 0 auto;
+}
+
+.div {
+    margin: 0 auto;
+}

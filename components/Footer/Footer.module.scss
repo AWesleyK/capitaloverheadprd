@@ -1,0 +1,127 @@
+@import '../../styles/variables.scss';
+
+.footer {
+  width: 100%;
+}
+
+.topBar {
+  background-color: $light-grey-color;
+  color: white;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.awkward {
+  font-weight: bold;
+}
+
+.logo {
+  height: 20px;
+  width: 20px;
+  margin-left: 4px;
+}
+
+.socialMedia {
+  background-color: #333;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.socialLink {
+  height: 30px;
+  margin: 0 0.5rem;
+}
+
+.socialMedia {
+  background-color: #333;
+  padding: 1rem 0;
+}
+
+.bottomSection {
+  display: flex;
+  justify-content: space-between;
+  background-color: $black-color;
+  padding: 2rem;
+}
+
+.boxesContainer {
+  display: flex;
+  position: relative;
+  align-items: center; /* Center vertically */
+}
+
+.box {
+  background-color: $secondary-color;
+  width: 60px; /* Adjust box size for desktop */
+  height: 60px; /* Adjust box size for desktop */
+  position: absolute;
+}
+
+.box:first-child {
+  top: -10px; /* Adjust top spacing for desktop */
+  left: -30px; /* Adjust left spacing for desktop */
+  z-index: 1;
+}
+
+.companyLogo {
+  position: relative;
+  z-index: 2;
+}
+
+.box:last-child {
+  bottom: -10px; /* Adjust bottom spacing for desktop */
+  right: -30px; /* Adjust right spacing for desktop */
+  z-index: 1;
+}
+
+.contactInfo {
+  color: white;
+  align-items: right;
+  font-size: 1.2rem;
+}
+
+.phoneNumber {
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    height: 20px;
+    width: 20px;
+    margin-left: 4px;
+  }
+
+  .socialLink {
+    height: 30px;
+    margin: 0 0.5rem;
+  }
+
+  .box {
+    background-color: $secondary-color;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+  }
+
+  .box:last-child {
+    bottom: -10px; /* Adjust bottom spacing for mobile */
+    right: -15px; /* Adjust right spacing for mobile */
+    z-index: 1;
+  }
+
+  .box:first-child {
+    top: -10px; /* Adjust top spacing for mobile */
+    left: -15px; /* Adjust left spacing for mobile */
+    z-index: 1;
+  }
+
+  .contactInfo {
+    color: white;
+    font-size: .8rem;
+    align-items: right;
+    margin-left: 30px;
+  }
+}

@@ -1,0 +1,169 @@
+@import '../../styles/variables.scss';
+
+.applySection {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  background-image: url('/images/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: $text-color-alt;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.applyHeading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.applyPara {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.applyParaContainer {
+  text-align: center;
+  padding: 1rem;
+}
+
+.applyForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    max-width: 320px;
+  }
+}
+
+.nameInputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+}
+
+.ageCheck {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .ageCheckInput {
+    margin-right: 0.5rem;
+  }
+
+  .ageCheckLabel {
+    font-size: 0.875rem;
+  }
+}
+
+.experiencesGroup {
+  margin-bottom: 1rem;
+
+  .experiencesLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .experiencesTextarea {
+    width: 100%;
+    height: 10rem; /* Updated height */
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+.nameLabel,
+.resumeLabel {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
+.fNameInput,
+.lNameInput,
+.emailInput,
+.resumeInput {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    width: 100%;
+  }
+}
+
+.fNameInput {
+  margin-right: 2rem;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.namePair {
+  display: flex;
+  flex-direction: column;
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+}
+
+.submitButton {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: $primary-color;
+  color: $text-color;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+
+  // Mobile Styles
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}

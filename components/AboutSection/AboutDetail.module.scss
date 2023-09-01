@@ -1,0 +1,83 @@
+// AboutDetail.module.scss
+@import '../../styles/variables.scss';
+
+.aboutDetailSection {
+  position: relative;
+  overflow: hidden;
+  background-color: $background1-color;
+}
+
+.backgroundImageWrapper {
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-image: url('/images/About_Detail_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.detailHeading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: $secondary-color; /* Set font color to white */
+  text-align: center; /* Center the text */
+  font-weight: bolder;
+  padding: 20px; /* Add padding to create space */
+  //text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black; /* Add black stroke using text-shadow */
+}
+
+.detailText {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.aboutDetailBox {
+  background-color: rgba(48, 48, 48, 0.9);
+  color: white;
+  border-radius: 5px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10%);
+}
+
+.h3 {
+  color: $primary-color;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .detailsContainer {
+    padding: 1.5rem;
+  }
+
+  .detailHeading {
+    font-size: 1.5rem;
+  }
+
+  .detailText {
+    font-size: 1rem;
+  }
+
+  .aboutDetailSection {
+    background-color: rgba(48, 48, 48, 0);
+  }
+
+  .aboutDetailBox {
+    margin: 1rem 0;
+  }
+
+  .backgroundImageWrapper {
+    background-image: url('/images/About_Detail_bg_Mobile.jpg');
+    margin: 0;
+    padding: 0;
+  }
+}

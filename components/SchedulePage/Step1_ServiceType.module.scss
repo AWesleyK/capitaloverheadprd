@@ -1,0 +1,87 @@
+@import '../../styles/variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('/images/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100%;
+  color: white;
+}
+
+.serviceTypeContainer {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10rem;
+
+  .serviceTypeCard {
+    flex: 1;
+    min-width: 200px;
+    max-width: 600px;
+  }
+}
+
+.serviceTypeCard {
+  background-color: $secondary-color;
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    outline: 2px solid #f0f0f0;
+    outline-offset: -10px;
+    border-radius: 20px;
+  }
+}
+
+.serviceTypeCard.selected {
+  background-color: $secondary-color;
+  color: white;
+
+  &:hover {
+    outline: 2px solid #f0f0f0;
+    outline-offset: -10px;
+    border-radius: 20px;
+  }
+}
+
+.serviceTypeCard h3 {
+  margin-bottom: 10px;
+}
+
+.serviceTypeCard p {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .serviceTypeContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mobileStack {
+    margin-top: 20px;
+  }
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  margin: 300px;
+}

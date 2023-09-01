@@ -1,0 +1,68 @@
+@import '../../styles/variables.scss';
+
+.header {
+  display: flex;
+  justify-content: left;
+  font-size:xx-small;
+  height: 5vh;
+  align-items: center;
+  background-color: $secondary-color;
+  //background-image: url('/images/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Hide the blinking cursor (caret) */
+  caret-color: transparent;
+}
+
+.h1 {
+  color: white;
+  /*text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;*/
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.icon {
+  color: white; /* Set the color to white */
+  margin-right: 0.5rem; /* Adjust spacing as needed */
+}
+
+.phoneNumber {
+  font-size:medium
+}
+
+.email {
+  font-size:medium
+}
+
+.multiline {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .h1 {
+    font-size: xx-small;
+    margin: 0 auto;
+  }
+
+  .icon {
+    margin-right: 0.2rem;
+  }
+
+  .phoneNumber, .email {
+    font-size: small; /* Adjust font size on mobile */
+    margin: 0.2rem;
+  }
+}
