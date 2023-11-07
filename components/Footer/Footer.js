@@ -12,11 +12,12 @@ const Footer = () => {
       <div className={styles.topBar}>
         Powered By{' '}
         <span className={styles.awkward}>
-          AWKward Studios{' '}
+          Scorch{' '}
           {!isMobile && (
               <Image
-                src={'/images/AWKwardLogo.png'}
-                alt="AWKward Studios Logo"
+                src={'/images/logo192.png'}
+                alt="Scorch"
+                href={'https://www.scorchseo.com'}
                 className={styles.logo}
                 width={20}
                 height={20}
