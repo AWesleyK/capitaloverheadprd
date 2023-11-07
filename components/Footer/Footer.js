@@ -11,19 +11,18 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.topBar}>
         Powered By{' '}
-        <span className={styles.awkward}>
+        <a className={styles.awkward} href={'http://www.scorchseo.com'}>
           Scorch{' '}
           {!isMobile && (
-              <Image
-                src={'/images/logo192.png'}
-                alt="Scorch"
-                href={'https://www.scorchseo.com'}
-                className={styles.logo}
-                width={20}
-                height={20}
-              />
+            <Image
+              src={'/images/logo192.png'}
+              alt="Scorch"
+              className={styles.logo}
+              width={20}
+              height={20}
+            />
           )}
-        </span>
+        </a>
       </div>
       <div className={styles.socialMedia}>
         <a
