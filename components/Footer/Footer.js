@@ -11,7 +11,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.topBar}>
         Powered By{' '}
-        <a className={styles.awkward} href={'http://www.scorchseo.com'}>
+        <a className={styles.awkward} href={'http://scorchseo.com'}>
           Scorch{' '}
           {!isMobile && (
             <Image
