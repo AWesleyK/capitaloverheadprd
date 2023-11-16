@@ -32,6 +32,7 @@
 .icon {
   color: white; /* Set the color to white */
   margin-right: 0.5rem; /* Adjust spacing as needed */
+  size: .5vh
 }
 
 .phoneNumber {
@@ -50,6 +51,10 @@
   .phoneNumber, .email {
     font-size: xx-small; /* Adjust font size on mobile */
     margin: 0.1rem;
+  }
+
+  .icon {
+    size: .3vh
   }
 }
 
