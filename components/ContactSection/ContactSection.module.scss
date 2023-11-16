@@ -86,6 +86,12 @@
   height: 75%;
 }
 
+@media screen and (max-width: 1600vw) {
+.imageContainer {
+  width: 75%;
+}
+}
+
 @media screen and (max-width: 768px) {
   .imageContainer {
     width: 75%; 

@@ -22,14 +22,13 @@ const ContactSection = () => {
           </a>
         </div>
         <div className={styles.imageContainer}>
-          {/*<Image
+          <Image
             src="/images/Wood_Gate_Black_Frame.jpg"
             alt="Home Image"
-            //width={imageWidth}
-            //height={imageHeight}
+            width={imageWidth}
+            height={imageHeight}
             className={styles.image}
-  />*/}
-  <contactImage/>
+          />
         </div>
       </div>
     </section>
