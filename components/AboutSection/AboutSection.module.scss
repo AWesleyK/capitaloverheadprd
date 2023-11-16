@@ -29,6 +29,14 @@
   border-radius: 5px;
 }
 
+@media screen and (max-width: 1600vh) {
+
+  .content {
+    width: auto;
+    height: auto;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .content {
     padding: 0.5rem;
