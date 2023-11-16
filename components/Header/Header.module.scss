@@ -46,6 +46,13 @@
   white-space: pre-wrap;
 }
 
+@media (max-width: 1024px) {
+  .phoneNumber, .email {
+    font-size: xx-small; /* Adjust font size on mobile */
+    margin: 0.2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: row;
