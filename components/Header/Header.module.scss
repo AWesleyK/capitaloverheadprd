@@ -3,7 +3,7 @@
 .header {
   display: flex;
   justify-content: left;
-  font-size:auto;
+  font-size:xx-small;
   height: 5vh;
   align-items: center;
   background-color: $secondary-color;
@@ -49,7 +49,7 @@
 @media (max-width: 1024px) {
   .phoneNumber, .email {
     font-size: xx-small; /* Adjust font size on mobile */
-    margin: 0.2rem;
+    margin: 0.1rem;
   }
 }
 
