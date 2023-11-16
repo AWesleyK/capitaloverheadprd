@@ -3,15 +3,15 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center children horizontally */
   align-items: flex-start; 
   background-color: $primary-color;
   background-color: rgba(43, 42, 42, 0.705);
-  padding: 1rem 2rem 1rem 1rem; 
+  padding: 1rem; 
   border-radius: 20px;
-  height: 20rem;
-  margin-left: -50rem;
-  margin-bottom: 30rem;
+  height: auto; /* Let the container grow with content */
+  margin: auto; /* Center the container */
+  max-width: 90%; /* Set a max-width */
 }
 
 
@@ -122,10 +122,10 @@
     background-color: rgba(43, 42, 42, 0.705);
     padding: 1rem 2rem 1rem 1rem; 
     border-radius: 20px;
-    height: 20rem;
+    height: auto;
     width: 90%;
     margin-left: 0rem;
-    margin-bottom: 20rem;
+    margin-bottom: 2rem;
   }
 
   .homeSection {
