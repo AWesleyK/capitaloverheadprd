@@ -30,6 +30,15 @@
   border-radius: 5px;
 }
 
+@media screen and (max-width: 1600vh) {
+  .taglineContainer {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+    margin-right: 70vw;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .content {
     padding: 0.5rem;
