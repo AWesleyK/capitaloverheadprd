@@ -90,6 +90,14 @@
 .imageContainer {
   width: 50%;
 }
+
+.contactSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  height: 50vh;
+}
 }
 
 @media screen and (max-width: 768px) {

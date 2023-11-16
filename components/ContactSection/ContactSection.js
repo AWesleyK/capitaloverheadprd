@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './ContactSection.module.scss';
 import Image from 'next/image';
-import contactImage from 'public/images/Wood_Gate_Black_Frame.jpg'
 
 const ContactSection = () => {
   const phoneNumber = '4054560399'; // Replace with your phone number
