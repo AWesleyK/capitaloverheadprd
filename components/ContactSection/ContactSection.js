@@ -1,13 +1,10 @@
+// ContactSection.js
 import React from 'react';
 import styles from './ContactSection.module.scss';
 import Image from 'next/image';
 
 const ContactSection = () => {
   const phoneNumber = '4054560399'; // Replace with your phone number
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-  const imageWidth = isMobile ? 200 : 300; // Adjust image width for mobile
-  const imageHeight = isMobile ? 200 : 300; // Adjust image height for mobile
 
   return (
     <section className={styles.contactSection}>
@@ -16,7 +13,7 @@ const ContactSection = () => {
           <p className={styles.catchphrase}>
             Experience Top-Notch Garage Door and Gate Solutions!
           </p>
-          <a className={styles.callButton} href="tel:4054560399">
+          <a className={styles.callButton} href={`tel:${phoneNumber}`}>
             Consult With Us
           </a>
         </div>
@@ -24,8 +21,8 @@ const ContactSection = () => {
           <Image
             src="/images/Wood_Gate_Black_Frame.jpg"
             alt="Home Image"
-            width={imageWidth}
-            height={imageHeight}
+            layout="fill" // This tells Next.js to use the parent dimensions
+            objectFit="cover" // This will cover the area without stretching the image
             className={styles.image}
           />
         </div>
