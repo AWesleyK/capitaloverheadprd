@@ -150,6 +150,14 @@ const Navbar = () => {
                     Services
                   </Link>
                 </li>
+                <li className={styles.mobileNavItem}>
+                  <Link
+                    href="/recent-projects"
+                    className={styles.mobileNavLink}
+                  >
+                    Recent Projects
+                  </Link>
+                </li>
               </ul>
             </div>
           )}
@@ -187,6 +195,15 @@ const Navbar = () => {
                 data-hover-text="Services"
               >
                 Services
+              </Link>
+            </li>
+            <li className={styles.navItem}>
+              <Link
+                href="/recent-projects"
+                className={styles.navLink}
+                data-hover-text="Services"
+              >
+                Recent Projects
               </Link>
             </li>
           </ul>
