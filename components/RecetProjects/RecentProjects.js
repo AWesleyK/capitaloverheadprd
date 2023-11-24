@@ -22,7 +22,7 @@ const RecentProjects = () => {
       }, []);
     
       return (
-        <div>
+        <div className={styles.container}>
           <h1>Recent Projects</h1>
           <div id="rwl-output"></div>
         </div>
