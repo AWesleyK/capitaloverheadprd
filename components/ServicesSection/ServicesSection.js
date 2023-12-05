@@ -13,11 +13,12 @@ const ServicesSection = () => {
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>Our Services</h2>
           <p className={styles.catchphrase}>
-                We offer a wide range of garage door and automatic gaet operator services and solutions. Whether it's repairs or new installations that you're needing, our team has you covered.
+            We offer a wide range of garage door and automatic gate operator services and solutions. Whether it&apos;s repairs or new installations
+            that you&apos;re needing, our team has you covered.
           </p>
           <Link href="/services-page">
-  <span className={styles.learnMore}>More Services</span>
-</Link>
+            <span className={styles.learnMore}>More Services</span>
+          </Link>
         </div>
       </div>
     </section>

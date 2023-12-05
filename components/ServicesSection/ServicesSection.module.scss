@@ -24,38 +24,11 @@
   padding: 2rem;
   width: 40rem;
   height: 60rem;
-  margin-bottom: 30rem;
-  margin-right: 70rem;
   align-self: flex-start;
   border-radius: 5px;
 }
 
-@media screen and (max-width: 1600vh) {
-  .taglineContainer {
-    width: 100%;
-    height: auto;
-    margin-bottom: 2rem;
-    margin-right: 200vw;
-  }
 
-  .content {
-    width: 50%;
-    height: 90%;
-    margin-right: 40vw;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .content {
-    padding: 0.5rem;
-  }
-
-  .taglineContainer {
-    width: 100%;
-    height: auto;
-    margin-bottom: 2rem;
-  }
-}
 
 .tagline {
   font-size: 3rem;
@@ -67,18 +40,6 @@
 .catchphrase {
   font-size: 1.5rem;
   user-select: none;
-}
-
-@media screen and (max-width: 768px) {
-  .tagline {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .catchphrase {
-    font-size: 1.2rem;
-    line-height: 1.5;
-  }
 }
 
 .learnMore {
@@ -94,4 +55,42 @@
 
 .learnMore:hover {
   background-color: $secondary-color;
+}
+
+@media screen and (max-width: 1600vh) {
+  .taglineContainer {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    width: 50%;
+    height: 90%;
+    margin-right: 40vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 95%;
+    padding: 0.5rem;
+    margin-right: 5vw;
+  }
+
+  .taglineContainer {
+    width: 100%;
+    height: auto;
+    margin-bottom: 5%;
+    margin-right: 5%;
+  }
+  .tagline {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .catchphrase {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
 }
