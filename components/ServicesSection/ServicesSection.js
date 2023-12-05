@@ -13,8 +13,7 @@ const ServicesSection = () => {
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>Our Services</h2>
           <p className={styles.catchphrase}>
-                We offer a wide range of services. You can come to us for anything ranging from garage door and garage door opener repairs 
-                all the way to custom welded gates. Click below for more detail!
+                We offer a wide range of garage door and automatic gaet operator services and solutions. Whether it's repairs or new installations that you're needing, our team has you covered.
           </p>
           <Link href="/services-page">
   <span className={styles.learnMore}>More Services</span>
