@@ -24,7 +24,9 @@ const RecentProjects = () => {
     
       return (
         <div className={styles.container}>
+          <div className={styles.h1Container}>
           <h1>Recent Projects</h1>
+          </div>
           <div id="rwl-output"></div>
         </div>
       );
