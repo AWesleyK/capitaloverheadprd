@@ -25,7 +25,7 @@ const HomeSection = () => {
         </div>
         <div className={styles.imageContainer}>
           <Image
-            src="/images/Homepage2.jpg"
+            src="/images/Homepage8.jpeg"
             alt="Home Image"
             width={300}
             height={300}

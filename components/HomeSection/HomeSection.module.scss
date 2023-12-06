@@ -3,22 +3,34 @@
 
 .container {
   display: flex;
-  justify-content: center; /* Center children horizontally */
-  align-items: flex-start; 
+  flex-direction: column; // Stack children vertically
+  justify-content: flex-start; // Align children to the start of the main axis
+  align-items: flex-start; // Align children to the start of the cross axis
   background-color: $primary-color;
   background-color: rgba(43, 42, 42, 0.705);
   padding: 1rem; 
   border-radius: 20px;
-  height: auto; /* Let the container grow with content */
-  margin: auto; /* Center the container */
-  max-width: 90%; /* Set a max-width */
+  height: auto; // Let the container grow with content
+  margin: auto; // Center the container
+  margin-top: 19rem;
+  margin-left: 3rem; // Align the container to the left
+  max-width: 18%; // Set a max-width to make it narrower
 }
 
-
+// You might also need to adjust other elements to fit the new container layout
 .text {
-  max-width: 50%;
+  max-width: 100%; // Allow text to fill the container
   color: white;
 }
+
+.imageContainer {
+  max-width: 100%; // Allow image container to fill the container
+ display: flex;
+  justify-content: center; // Center-align the image within its container
+  padding-right: 0; // Remove padding-right
+    user-select: none;
+}
+
 
 .title {
   font-size: 2rem;
@@ -28,15 +40,6 @@
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 1rem; /* Add margin to the bottom */
-}
-
-
-.imageContainer {
-  max-width: 50%;
-  display: flex;
-  justify-content: flex-end; /* Adjust alignment as needed */
-  padding-right: 50px;
-  user-select: none;
 }
 
 .image {
@@ -51,7 +54,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/images/Homepage5.jpg");
+  background-image: url("/images/Homepage7.jpg");
   //background-color: $background1-color;
   background-size: cover;
   background-repeat: no-repeat;
@@ -81,6 +84,10 @@
 
 .phoneNumber {
   text-decoration: underline;
+  color: $secondary-color;
+  border-radius: 5%;
+  font-size: 2rem;
+  background-color: rgba(43, 42, 42, 0.705);;
   margin-top: 10px;
 }
 
@@ -115,6 +122,25 @@
   }
 }
 
+@media (max-width: 1475px) {
+  .title {
+    font-size: 1.6rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  .phoneNumber {
+    font-size: 1.4rem;
+  }
+
+  .container {
+    margin-top: 25rem;
+    margin-left: 1rem; // Align the container to the left
+    max-width: 18%; // Set a max-width to make it narrower
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -122,13 +148,9 @@
     background-color: rgba(43, 42, 42, 0.705);
     border-radius: 20px;
     height: auto;
-    width: 90%;
+    max-width: 90%;
     margin-left: 2rem;
-    margin-top: 2rem;
-  }
-
-  .homeSection {
-    background-image: url("/images/Homepage5.jpg");
+    margin-top: 10rem;
   }
 
   .text {
@@ -137,6 +159,13 @@
     text-align: center;
     margin-top: 1rem;
     margin-left: 1rem;
+  }
+
+  .homeSection {
+    background-image: url("/images/Homepage5.jpg");
+    background-size: cover; // Ensure the background covers the entire section
+    background-repeat: no-repeat;
+    background-position: 50% 0%;
   }
 
   .imageContainer {
