@@ -13,8 +13,10 @@ const ServicesSection = () => {
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>Our Services</h2>
           <p className={styles.catchphrase}>
-            We offer a wide range of garage door and automatic gate operator services and solutions. Whether it&apos;s repairs or new installations
-            that you&apos;re needing, our team has you covered.
+            We offer garage door repairs for broken springs, cables, roller off track and broken garage door openers. 
+            We also stock and carry affordable garage door remotes and keypads for Liftmaster MyQ and Genie garage door openers. 
+            Don&apos;t forget! We also repair and install automatic drive way gate operators, servicing brands like Liftmaster, DoorKing, Maximum Controls, 
+            US Automatic, and even MightyMule! 
           </p>
           <Link href="/services-page">
             <span className={styles.learnMore}>More Services</span>

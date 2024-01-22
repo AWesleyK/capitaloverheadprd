@@ -20,27 +20,36 @@
   background-color: rgba(48, 48, 48, 0.705);
   color: white;
   padding: 1rem;
-  width: 80%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 700px;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 30%;
-  margin-right: 20%;
-
+  margin-left: 5vw;
+  margin-right: 5vw;
   // Responsive styles for smaller screens (max-width: 768px)
   @media screen and (max-width: 768px) {
     font-size: 0.8rem;
     padding: 0.5rem;
-    margin-left: 0;
-    margin-right: 0.5rem;
     width: 80%;
-    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
+
+.imageContainer {
+  margin-right: 10%;
+  border-radius: 20px;
+}
+
+.imageContainerLeft {
+  margin-left: 10%;
+  border-radius: 20px;
+}
+
 
 .tagline {
   font-size: 3rem;
@@ -81,14 +90,13 @@
   background-color: $secondary-color;
 }
 
-.imageContainer {
-  width: 75%;
-  height: 75%;
+.image {
+  border-radius: 20px;
 }
 
 @media screen and (max-width: 1600vw) {
 .imageContainer {
-  width: 50%;
+  width: 30%;
 }
 
 .contactSection {
@@ -96,7 +104,7 @@
   justify-content: center;
   align-items: center;
   background-color: black;
-  height: 50vh;
+  height: 70vh;
 }
 }
 

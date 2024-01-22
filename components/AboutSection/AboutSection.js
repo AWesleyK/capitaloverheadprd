@@ -15,12 +15,12 @@ const AboutSection = () => {
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>About Us</h2>
           <p className={styles.catchphrase}>
-          At Capital Overhead Doors and Gates, we take pride in being your trusted partner for top-notch garage door and gate solutions in Oklahoma. 
-          With a passion for excellence and a commitment to customer satisfaction, 
-          we specialize in providing reliable installation, repair, and maintenance services for both residential and commercial properties. 
-          Our skilled technicians bring years of experience to every project, ensuring your doors and gates function flawlessly and enhance the safety and security of your space. 
-          Whether you need a new installation, quick repair, or routine maintenance, count on us to deliver exceptional service that meets your needs and exceeds your expectations. 
-          Contact us today to experience the difference of quality craftsmanship and unparalleled customer care.
+          At Capital Overhead we take pride in being your local garage door and automatic gate repair and installation provider. 
+          Our team is trained and ready to work on your garage door openers like Liftmaster MyQ, Genie, Linear, and many others! 
+          With our packages, we can save you costs and time by performing our garage door inspections and offering proactive 
+          plans to prevent your garage door from failing, while also saving money! Whether your garage door won&apos;t open because of a broken spring, 
+          or your garage door opener stopped working and needs service. We have you covered with affordable and upfront pricing! 
+          Serving the Garvin County and surrounding areas with a smile! 
           </p>
           <Link href="/learn-more">
   <span className={styles.learnMore}>Learn More</span>
