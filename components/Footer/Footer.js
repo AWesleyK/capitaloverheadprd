@@ -64,6 +64,19 @@ const Footer = () => {
             height={30}
           />
         </a>
+        <a
+          href="https://www.youtube.com/@CapitalOverheadDoors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/link_images/YT2.png"
+            alt="Youtube"
+            className={styles.socialLink}
+            width={30}
+            height={30}
+          />
+        </a>
       </div>
       <div className={styles.bottomSection}>
         <div className={styles.boxesContainer}>
