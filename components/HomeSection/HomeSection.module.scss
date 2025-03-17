@@ -4,23 +4,25 @@
 .container {
   display: flex;
   flex-direction: column; // Stack children vertically
-  justify-content: flex-start; // Align children to the start of the main axis
-  align-items: flex-start; // Align children to the start of the cross axis
+  //justify-content: flex-start; // Align children to the start of the main axis
+  //align-items: flex-start; // Align children to the start of the cross axis
+  align-items: center;
   background-color: $primary-color;
-  background-color: rgba(43, 42, 42, 0.705);
+  //background-color: rgba(43, 42, 42, 0.705);
+  background-color: $grey-color;
   padding: 1rem; 
   border-radius: 20px;
   height: auto; // Let the container grow with content
   margin: auto; // Center the container
-  margin-top: 16rem;
-  margin-left: 3rem; // Align the container to the left
-  max-width: 18%; // Set a max-width to make it narrower
+  //margin-top: 5rem;
+  //margin-left: 3rem; // Align the container to the left
+  //max-width: 18%; // Set a max-width to make it narrower
 }
 
 // You might also need to adjust other elements to fit the new container layout
 .text {
   max-width: 100%; // Allow text to fill the container
-  color: white;
+  color: $secondary-color;
 }
 
 .imageContainer {
@@ -35,11 +37,14 @@
 .title {
   font-size: 2rem;
   margin-bottom: 1rem;
+  font-family: 'norwester';
+  color: $primary-color;
 }
 
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 1rem; /* Add margin to the bottom */
+  font-family: 'Shrikhand';
 }
 
 .image {
@@ -54,9 +59,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/images/Homepage7.jpg");
-  //background-color: $background1-color;
-  background-size: cover;
+  background-image: url("/images/Home Screen 1.jpg");
+  background-color: $grey-color;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -84,10 +89,11 @@
 
 .phoneNumber {
   text-decoration: underline;
-  color: $secondary-color;
+  color: $primary-color;
+  font-family: 'Shrikhand';
   border-radius: 5%;
   font-size: 2rem;
-  background-color: rgba(43, 42, 42, 0.705);;
+  //background-color: rgba(43, 42, 42, 0.705);;
   margin-top: 10px;
 }
 
@@ -135,9 +141,10 @@
   }
 
   .container {
-    margin-top: 21rem;
-    margin-left: 1rem; // Align the container to the left
-    max-width: 18%; // Set a max-width to make it narrower
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    //margin-left: 1rem; // Align the container to the left
+    //max-width: 18%; // Set a max-width to make it narrower
   }
 }
 
@@ -145,13 +152,14 @@
   .container {
     flex-direction: column;
     align-items: center; /* Center-align items */
-    background-color: rgba(43, 42, 42, 0.705);
+    //background-color: rgba(43, 42, 42, 0.705);
     border-radius: 20px;
-    height: auto;
+    //height: auto;
     max-width: 90%;
     margin-left: 2rem;
     margin-right: 2rem;
     margin-top: 4rem;
+    font-size: 150%;
   }
 
   .text {
@@ -163,20 +171,15 @@
   }
 
   .homeSection {
-    background-image: url("/images/Homepage7.jpg");
-    background-size: cover; // Ensure the background covers the entire section
+    background-image: url("/images/Home Screen 1.jpg");
     background-repeat: no-repeat;
-    background-position: 50% 0%;
+    //background-position: 50% 0%;
   }
 
   .imageContainer {
-    max-width: 100%;
+    //max-width: 100%;
     padding-left: 0; /* Reset padding */
     margin-top: 50px;
     justify-content: center; /* Center-align items */
-  }
-
-  .image {
-    display: none; /* Hide the image on mobile screens */
   }
 }

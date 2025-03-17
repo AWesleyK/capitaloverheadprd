@@ -10,6 +10,12 @@ const Navbar = () => {
 
   const mobileMenuRef = useRef(null);
   const mobileMenuToggleRef = useRef(null);
+  
+    const renderCallButton = () => (
+    <a href="tel:4054560399" className={styles.navButton}>
+          Call Now!
+	      </a>
+  );
 
   const handleScroll = () => {
     const navbarHeight = document.getElementById('navbar').clientHeight;
@@ -82,7 +88,8 @@ const Navbar = () => {
     if (isMobile) {
       return (
         <>
-          <div className={styles.navbarMobileLabel}>
+          <div className={styles.navButtonContainer}>
+	              {renderCallButton()} {/* Button added here for mobile */}
             {/*<ul>
               <li>
                 <Link
@@ -150,14 +157,6 @@ const Navbar = () => {
                     Services
                   </Link>
                 </li>
-                <li className={styles.mobileNavItem}>
-                  <Link
-                    href="/recent-projects"
-                    className={styles.mobileNavLink}
-                  >
-                    Recent Projects
-                  </Link>
-                </li>
               </ul>
             </div>
           )}
@@ -197,16 +196,8 @@ const Navbar = () => {
                 Services
               </Link>
             </li>
-            <li className={styles.navItem}>
-              <Link
-                href="/recent-projects"
-                className={styles.navLink}
-                data-hover-text="Services"
-              >
-                Recent Projects
-              </Link>
-            </li>
           </ul>
+          {renderCallButton()} {/* Button added here for desktop */}
         </div>
       );
     }
@@ -217,10 +208,10 @@ const Navbar = () => {
       id="navbar"
       className={`${styles.navbar} ${isSticky ? styles.sticky : ''}`}
     >
-      <div>
+      <div className={styles.logoContainer}>
         <Image
           className={styles.logo}
-          src="/images/Capital_Logo_small_bg.png"
+          src="/images/Dino_Doors_Logo_No_bg.png"
           alt="Logo"
           onClick={scrollToTop}
           width={140}

@@ -42,49 +42,61 @@
 .bottomSection {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Ensure vertical centering */
   background-color: $black-color;
   padding: 2rem;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 }
 
 .boxesContainer {
   display: flex;
+  flex-grow: 1; /* Allow the container to grow and use available space */
+  justify-content: center; /* Center the boxes and logo horizontally */
   position: relative;
-  align-items: center; /* Center vertically */
+  align-items: center;
 }
 
 .box {
   background-color: $secondary-color;
-  width: 60px; /* Adjust box size for desktop */
-  height: 60px; /* Adjust box size for desktop */
+  width: 60px;
+  height: 60px;
   position: absolute;
+  border-radius: 50%; /* Optional: Make the boxes circular */
 }
 
 .box:first-child {
-  top: -10px; /* Adjust top spacing for desktop */
-  left: -30px; /* Adjust left spacing for desktop */
-  z-index: 1;
+  top: -10px;
+  left: 50%; /* Position the box based on container's center */
+  transform: translateX(-100%); /* Adjust translation for better positioning */
 }
 
 .companyLogo {
-  position: relative;
+  position: relative; // Necessary for layout="fill" to work correctly
+  width: 100%;  // Full width of its parent
+  height: 200px; // Set a fixed height, or ensure parent containers provide height
   z-index: 2;
 }
 
 .box:last-child {
-  bottom: -10px; /* Adjust bottom spacing for desktop */
-  right: -30px; /* Adjust right spacing for desktop */
-  z-index: 1;
+  bottom: -10px;
+  right: 50%; /* Position the box based on container's center */
+  transform: translateX(100%); /* Adjust translation for better positioning */
 }
 
 .contactInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   color: white;
-  align-items: right;
   font-size: 1.2rem;
+  text-align: right; /* Align text to the right */
+  flex: 1; /* Take available space */
 }
 
 .phoneNumber {
   text-decoration: underline;
   margin-top: 10px;
+  font-weight: bold; /* Make the phone number more prominent */
 }
 
 @media (max-width: 768px) {
@@ -118,10 +130,18 @@
     z-index: 1;
   }
 
+  .bottomSection {
+    padding: 1rem;
+    justify-content: center;
+    text-align: center;
+  }
+
   .contactInfo {
-    color: white;
-    font-size: .8rem;
-    align-items: right;
-    margin-left: 30px;
+    align-items: center;
+    margin-top: 20px; /* Add spacing between logo and contact info on mobile */
+  }
+
+  .phoneNumber {
+    font-size: 1rem; /* Adjust font size for mobile readability */
   }
 }

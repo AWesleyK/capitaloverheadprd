@@ -7,12 +7,12 @@ const ServicesPage = () => {
     <div className={styles.container}>
       <div className={styles.innerContainer}>
         <div className={styles.hero}>
-          <h1 className={styles.heroTitle}>Capital Overhead Garage Door and Gates</h1>
+          <h1 className={styles.heroTitle}>Dino Doors Garage Doors and More</h1>
         </div>
         <div className={styles.content}>
           <h2 className={styles.sectionTitle}>Our Expertise</h2>
           <p className={styles.sectionText}>
-            At Capital Overhead Garage Door and Gates, we specialize in delivering premium garage door solutions for both residential and commercial properties. Our team of skilled technicians is dedicated to ensuring your doors function seamlessly and securely. Whether you require installation, repair, or maintenance, we have you covered.
+            At Dino Doors, we specialize in delivering premium garage door solutions for both residential and commercial properties. Our team of skilled technicians is dedicated to ensuring your doors function seamlessly and securely. Whether you require installation, repair, or maintenance, we have you covered.
           </p>
           <div className={styles.serviceItems}>
             <div className={styles.serviceItem}>

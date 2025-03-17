@@ -11,7 +11,7 @@ const HomeSection = () => {
           <h1 className={styles.title}>Schedule a visit now!</h1>
           <div className={styles.subtitle}>
             <p>
-              Hold the stress, let us check your garage door:
+              "Where Rural Meets Reliable"
             </p>
             <p>
               <Link className={styles.phoneNumber} href="tel:4054560399">(405) 456-0399</Link>
@@ -24,13 +24,15 @@ const HomeSection = () => {
   </div>*/}
         </div>
         <div className={styles.imageContainer}>
-          <Image
-            src="/images/Homepage8.jpeg"
-            alt="Home Image"
-            width={300}
-            height={300}
-            className={styles.image}
-          />
+        <a href="tel:4054560399">
+  <Image
+    src="/images/Dino_Doors_Logo_Partial.png"
+    alt="Home Image"
+    width={300}
+    height={300}
+    className={styles.image}
+  />
+</a>
         </div>
       </div>
     </section>

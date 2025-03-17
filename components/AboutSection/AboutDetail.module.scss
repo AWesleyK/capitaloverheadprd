@@ -30,6 +30,7 @@
   color: $secondary-color; /* Set font color to white */
   text-align: center; /* Center the text */
   font-weight: bolder;
+  background-color: rgba(48, 48, 48, 0.9);
   padding: 20px; /* Add padding to create space */
   //text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black; /* Add black stroke using text-shadow */
 }
@@ -50,7 +51,7 @@
 }
 
 .h3 {
-  color: $primary-color;
+  color: $secondary-color;
   font-weight: bold;
 }
 

@@ -44,7 +44,7 @@
 
 .learnMore {
   display: inline-block;
-  background-color: $primary-color;
+  background-color: $secondary-color;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -54,7 +54,7 @@
 }
 
 .learnMore:hover {
-  background-color: $secondary-color;
+  opacity: 80%;
 }
 
 @media screen and (max-width: 1600vh) {

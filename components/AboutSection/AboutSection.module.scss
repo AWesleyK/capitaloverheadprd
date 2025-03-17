@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $background1-color;
+  background-color: $grey-color;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -18,7 +18,7 @@
 }
 
 .taglineContainer {
-  background-color: rgba(48, 48, 48, 0.705);
+  background-color: rgba(15, 15, 15, 0.705);
   color: white;
   padding: 2rem;
   width: 40rem;
@@ -80,7 +80,7 @@
 
 .learnMore {
   display: inline-block;
-  background-color: $primary-color;
+  background-color: $secondary-color;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -90,5 +90,5 @@
 }
 
 .learnMore:hover {
-  background-color: $secondary-color;
+  opacity: 80%;
 }

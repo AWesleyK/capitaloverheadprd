@@ -10,13 +10,13 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/Dino_Doors_Logo_No_bg.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Capital Overhead Garage Doors and Gates" />
-        <title>Capital Overhead</title>
+        <meta name="description" content="Dino Doors Garage Doors and More" />
+        <title>Dino Doors</title>
       </Head>
       <div className={styles.stickyContainer}>
-        <Header />
+        {/*<Header />*/}
         <Navbar />
       </div>
       <main className={styles.main}>{children}</main>

@@ -26,7 +26,7 @@ const Footer = () => {
       </div>
       <div className={styles.socialMedia}>
         <a
-          href="https://www.facebook.com/capitaloverhead/"
+          href="https://www.facebook.com/DinoDoorsGarageDoors/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -39,7 +39,7 @@ const Footer = () => {
           />
         </a>
         <a
-          href="https://www.instagram.com/capitaloverhead/"
+          href="https://www.instagram.com/dinodoorsgaragedoors/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -52,7 +52,7 @@ const Footer = () => {
           />
         </a>
         <a
-          href="https://www.google.com/maps/place/Capital+Overhead+Doors+and+Gates/@34.6072528,-97.2112981,15z/data=!4m6!3m5!1s0x87b2e776c5a46013:0x3fce84e440e07175!8m2!3d34.6072528!4d-97.2112981!16s%2Fg%2F11ft396n76?entry=ttu"
+          href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/@34.6072528,-97.2112981,15z/data=!4m6!3m5!1s0x87b2e776c5a46013:0x3fce84e440e07175!8m2!3d34.6072528!4d-97.2112981!16s%2Fg%2F11ft396n76?entry=ttu&g_ep=EgoyMDI1MDMxMi4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -64,30 +64,19 @@ const Footer = () => {
             height={30}
           />
         </a>
-        <a
-          href="https://www.youtube.com/@CapitalOverheadDoors"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/link_images/YT2.png"
-            alt="Youtube"
-            className={styles.socialLink}
-            width={30}
-            height={30}
-          />
-        </a>
       </div>
       <div className={styles.bottomSection}>
         <div className={styles.boxesContainer}>
           <div className={styles.box}></div>
-          <Image
-            src={'/images/Capital_Logo_Solid_bg.jpg'}
-            alt="Kno More Logo"
-            className={styles.companyLogo}
-            width={isMobile ? 100 : 250}
-            height={isMobile ? 42 : 104}
-          />
+          <div className={styles.companyLogo}>
+  <Image
+    src="/images/Dino_Doors_Logo_Full.png"
+    alt="Dino Doors Logo"
+    layout="fill"
+    objectFit="contain"  // This will ensure the image maintains its aspect ratio
+  />
+</div>
+
           <div className={styles.box}></div>
         </div>
         <div className={styles.contactInfo}>
