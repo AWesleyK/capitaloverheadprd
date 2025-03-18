@@ -15,7 +15,7 @@ const AboutSection = () => {
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>About Us</h2>
           <p className={styles.catchphrase}>
-          At Capital Overhead we take pride in being your local garage door and automatic gate repair and installation provider. 
+          At Dino Doors we take pride in being your local garage door and automatic gate repair and installation provider. 
           Our team is trained and ready to work on your garage door openers like Liftmaster MyQ, Genie, Linear, and many others! 
           With our packages, we can save you costs and time by performing our garage door inspections and offering proactive 
           plans to prevent your garage door from failing, while also saving money! Whether your garage door won&apos;t open because of a broken spring, 
