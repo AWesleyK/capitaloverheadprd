@@ -17,7 +17,7 @@ const ServicesPage = () => {
           <div className={styles.serviceItems}>
             <div className={styles.serviceItem}>
               <Image
-                src="/images/service_image_1.jpg"
+                src="/images/Service_image_1.jpg"
                 alt="Service Icon"
                 width={300}
                 height={300}
@@ -30,7 +30,7 @@ const ServicesPage = () => {
             </div>
             <div className={styles.serviceItem}>
               <Image
-                src="/images/service_image_2.jpg"
+                src="/images/Service_image_2.jpg"
                 alt="Service Icon"
                 width={300}
                 height={300}
@@ -43,7 +43,7 @@ const ServicesPage = () => {
             </div>
             <div className={styles.serviceItem}>
               <Image
-                src="/images/service_image_3.jpg"
+                src="/images/Service_image_3.jpg"
                 alt="Service Icon"
                 width={300}
                 height={300}
@@ -56,7 +56,7 @@ const ServicesPage = () => {
             </div>
             <div className={styles.serviceItem}>
               <Image
-                src="/images/service_image_4.jpg"
+                src="/images/Service_image_4.jpg"
                 alt="Service Icon"
                 width={300}
                 height={300}
