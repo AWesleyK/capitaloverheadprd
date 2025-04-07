@@ -1,0 +1,88 @@
+@import '../variables.scss';
+
+.catalogItemContainer {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: $background1-color;
+    border: .2rem solid $secondary-color;
+    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1d3557;
+    margin-bottom: 1rem;
+  }
+  
+  .brand,
+  .price {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .imageWrapper {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .image:hover {
+    transform: scale(1);
+  }
+  
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    text-align: left;
+    margin-top: 2rem;
+  }
+
+  .backButton {
+    display: inline-block;
+    margin-left: 3rem; /* Align to left */
+    margin-top: 3rem;
+    background-color: $secondary-color;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+
+  
+  
+  @media screen and (max-width: 768px) {
+    .catalogItemContainer {
+      padding: 1.5rem;
+    }
+  
+    .title {
+      font-size: 2rem;
+    }
+  
+    .description {
+      font-size: 1rem;
+    }
+  }

@@ -1,12 +1,28 @@
+// /components/Layout/Layout.js
 import React from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Header from '../Header/Header';
-import Navbar from '../Navbar/Navbar'; // Add this import
+import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import NavbarSplit from '../NavbarSplit/NavbarSplit';
 import styles from './Layout.module.scss';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, services: initialServices = [] }) => {
+  const [services, setServices] = useState(initialServices);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await fetch('/api/services/menu');
+        const data = await res.json();
+        setServices(data);
+      } catch (err) {
+        console.error('Failed to fetch services:', err);
+      }
+    }
+
+    fetchServices();
+  }, []);
+
   return (
     <>
       <Head>
@@ -16,8 +32,7 @@ const Layout = ({ children }) => {
         <title>Dino Doors</title>
       </Head>
       <div className={styles.stickyContainer}>
-        {/*<Header />*/}
-        <Navbar />
+        <Navbar services={services} />
       </div>
       <main className={styles.main}>{children}</main>
       <Footer />

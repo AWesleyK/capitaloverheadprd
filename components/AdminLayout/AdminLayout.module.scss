@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    font-family: sans-serif;
+    background: #f9f9f9;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background: #1f2937;
+    color: #fff;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+  }
+  
+  .link {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .link:hover {
+    background-color: #374151;
+  }
+  
+  .active {
+    background-color: #374151;
+  }
+  
+  .main {
+    flex: 1;
+    padding: 2rem;
+  }
+  

@@ -1,5 +1,5 @@
+// /pages/index.js
 import React from 'react';
-import Layout from '../components/Layout/Layout';
 import HomeSection from '../components/HomeSection/HomeSection';
 import AboutSection from '../components/AboutSection/AboutSection';
 import ContactSection from '../components/ContactSection/ContactSection';
@@ -8,7 +8,7 @@ import ServicesSection from '../components/ServicesSection/ServicesSection';
 
 const HomePage = () => {
   return (
-    <Layout>
+    <>
       <div id="home">
         <HomeSection />
       </div>
@@ -23,8 +23,8 @@ const HomePage = () => {
       </div>
       {/*<div id="apply">
         <ApplySection />
-  </div>*/}
-    </Layout>
+      </div>*/}
+    </>
   );
 };
 

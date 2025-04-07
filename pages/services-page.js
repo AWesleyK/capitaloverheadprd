@@ -4,9 +4,7 @@ import ServicesPage from '../components/ServicesSection/ServicesPage/ServicesPag
 
 const LearnMore = () => {
   return (
-    <Layout>
       <ServicesPage />
-    </Layout>
   );
 };
 

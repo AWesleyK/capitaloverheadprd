@@ -1,75 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './Navbar.module.scss';
-import Image from 'next/image';
-import Link from 'next/link';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "./Navbar.module.scss";
+import Image from "next/image";
+import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = ({ services = [] }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showServicesDropdown, setShowServicesDropdown] = useState(false);
+  const [showCatalogDropdown, setShowCatalogDropdown] = useState(false);
 
   const mobileMenuRef = useRef(null);
   const mobileMenuToggleRef = useRef(null);
-  
-    const renderCallButton = () => (
-    <a href="tel:4054560399" className={styles.navButton}>
-          Call Now!
-	      </a>
-  );
 
-  const handleScroll = () => {
-    const navbarHeight = document.getElementById('navbar').clientHeight;
-    const scrollPosition = window.pageYOffset;
-    if (scrollPosition > navbarHeight) {
-      setIsSticky(true);
-    } else {
-      setIsSticky(false);
-    }
-  };
+  const renderCallButton = () => (
+    <a href="tel:4054560399" className={styles.navButton}>
+      Call Now!
+    </a>
+  );
 
   const handleResize = () => {
     const isMobile = window.innerWidth <= 768;
     setIsMobile(isMobile);
   };
 
-  const scrollToSection = (event, sectionId) => {
-    event.preventDefault();
-
-    if (window.location.pathname === '/') {
-      const section = document.getElementById(sectionId);
-      section.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      const url = `/#${sectionId}`;
-      window.location.href = url;
-    }
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const toggleServicesDropdown = () => setShowServicesDropdown(prev => !prev);
+  const toggleCatalogDropdown = () => setShowCatalogDropdown(prev => !prev);
 
   useEffect(() => {
-    //window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial check for mobile
-
-    // Close mobile menu when clicked outside
-    document.addEventListener('click', handleOutsideClick);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-      document.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
   const handleOutsideClick = (event) => {
     const target = event.target;
-
     if (
       mobileMenuToggleRef.current &&
       !mobileMenuToggleRef.current.contains(target) &&
@@ -81,37 +53,56 @@ const Navbar = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const renderServicesDropdown = () => (
+    <li
+      className={`${styles.navItem} ${styles.dropdown}`}
+      onMouseEnter={() => !isMobile && setShowServicesDropdown(true)}
+      onMouseLeave={() => !isMobile && setShowServicesDropdown(false)}
+    >
+      <div className={styles.navLink} onClick={isMobile ? toggleServicesDropdown : undefined}>
+        Services▾
+      </div>
+      <div className={`${styles.dropdownContent} ${showServicesDropdown ? styles.showDropdown : ""}`}>
+        {services.map((service) => (
+          <Link key={service._id} href={`/services/${service.slug}`}>
+            <span className={styles.dropdownItem}>{service.name}</span>
+          </Link>
+        ))}
+      </div>
+    </li>
+  );
+
+  const renderCatalogDropdown = () => (
+    <li
+      className={`${styles.navItem} ${styles.dropdown}`}
+      onMouseEnter={() => !isMobile && setShowCatalogDropdown(true)}
+      onMouseLeave={() => !isMobile && setShowCatalogDropdown(false)}
+    >
+      <div className={styles.navLink} onClick={isMobile ? toggleCatalogDropdown : undefined}>
+        Catalog▾
+      </div>
+      <div className={`${styles.dropdownContent} ${showCatalogDropdown ? styles.showDropdown : ""}`}>
+        <Link href="/catalog/garage doors" className={styles.dropdownItem}>Garage Doors</Link>
+        <Link href="/catalog/gates" className={styles.dropdownItem}>Gates</Link>
+      </div>
+    </li>
+  );
 
   const renderNavbarLinks = () => {
     if (isMobile) {
       return (
         <>
-          <div className={styles.navButtonContainer}>
-	              {renderCallButton()} {/* Button added here for mobile */}
-            {/*<ul>
-              <li>
-                <Link
-                  href="#home"
-                  className={styles.navbarMobileLabel}
-                  onClick={(e) => scrollToSection(e, 'home')}
-                  data-hover-text="Home"
-                >
-                  Capital Overhead
-                </Link>
-              </li>
-            </ul>*/}
-      </div>
+          <div className={styles.navButtonContainer}>{renderCallButton()}</div>
           <div
             ref={mobileMenuToggleRef}
             className={styles.mobileMenuToggle}
             onClick={toggleMobileMenu}
           >
             <div
-              className={`${styles.hamburgerMenu} ${
-                isMobileMenuOpen ? styles.open : ''
-              }`}
+              className={`${styles.hamburgerMenu} ${isMobileMenuOpen ? styles.open : ""}`}
             >
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
@@ -122,39 +113,39 @@ const Navbar = () => {
             <div ref={mobileMenuRef} className={styles.mobileMenu}>
               <ul className={styles.mobileNavList}>
                 <li className={styles.mobileNavItem}>
-                  <Link
-                    href="#home"
-                    className={styles.mobileNavLink}
-                    onClick={(e) => {
-                      scrollToSection(e, 'home');
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
+                  <Link href="/" className={styles.mobileNavLink}>
                     Home
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link
-                    href="#about"
-                    className={styles.mobileNavLink}
-                    onClick={(e) => {
-                      scrollToSection(e, 'about');
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
+                  <Link href="/about" className={styles.mobileNavLink}>
                     About
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link
-                    href="#services"
-                    className={styles.mobileNavLink}
-                    onClick={(e) => {
-                      scrollToSection(e, 'services');
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    Services
+                  <div className={styles.mobileNavLink} onClick={toggleServicesDropdown}>
+                    Services ▾
+                  </div>
+                  <div className={`${styles.mobileDropdown} ${showServicesDropdown ? styles.show : ""}`}>
+                    {services.map((service) => (
+                      <Link key={service._id} href={`/services/${service.slug}`} className={styles.mobileDropdownItem}>
+                        {service.name}
+                      </Link>
+                    ))}
+                  </div>
+                </li>
+                <li className={styles.mobileNavItem}>
+                  <div className={styles.mobileNavLink} onClick={toggleCatalogDropdown}>
+                    Catalog ▾
+                  </div>
+                  <div className={`${styles.mobileDropdown} ${showCatalogDropdown ? styles.show : ""}`}>
+                    <Link href="/catalog/garage doors" className={styles.mobileDropdownItem}>Garage Doors</Link>
+                    <Link href="/catalog/gates" className={styles.mobileDropdownItem}>Gates</Link>
+                  </div>
+                </li>
+                <li className={styles.navItem}>
+                  <Link href="/services/service-area" className={styles.navLink}>
+                    Service Area
                   </Link>
                 </li>
               </ul>
@@ -167,47 +158,31 @@ const Navbar = () => {
         <div className={styles.linksContainer}>
           <ul className={styles.navList}>
             <li className={styles.navItem}>
-              <Link
-                href="#home"
-                className={styles.navLink}
-                onClick={(e) => scrollToSection(e, 'home')}
-                data-hover-text="Home"
-              >
+              <Link href="/" className={styles.navLink}>
                 Home
               </Link>
             </li>
             <li className={styles.navItem}>
-              <Link
-                href="#about"
-                className={styles.navLink}
-                onClick={(e) => scrollToSection(e, 'about')}
-                data-hover-text="About"
-              >
+              <Link href="/about" className={styles.navLink}>
                 About
               </Link>
             </li>
+            {renderServicesDropdown()}
+            {renderCatalogDropdown()}
             <li className={styles.navItem}>
-              <Link
-                href="#services"
-                className={styles.navLink}
-                onClick={(e) => scrollToSection(e, 'services')}
-                data-hover-text="Services"
-              >
-                Services
+              <Link href="/services/service-area" className={styles.navLink}>
+                Service Area
               </Link>
             </li>
           </ul>
-          {renderCallButton()} {/* Button added here for desktop */}
+          {renderCallButton()}
         </div>
       );
     }
   };
 
   return (
-    <nav
-      id="navbar"
-      className={`${styles.navbar} ${isSticky ? styles.sticky : ''}`}
-    >
+    <nav id="navbar" className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
       <div className={styles.logoContainer}>
         <Image
           className={styles.logo}
@@ -217,7 +192,7 @@ const Navbar = () => {
           width={140}
           height={140}
         />
-  </div>
+      </div>
       {renderNavbarLinks()}
     </nav>
   );

@@ -4,9 +4,7 @@ import AboutDetail from '../components/AboutSection/AboutDetail';
 
 const LearnMore = () => {
   return (
-    <Layout>
       <AboutDetail />
-    </Layout>
   );
 };
 
