@@ -1,6 +1,6 @@
 // /pages/api/sitemap.js
 import { getServerSession } from "next-auth";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "../../lib/mongodb";
 
 export default async function handler(req, res) {
   const baseUrl = "https://dinodoors.net";
