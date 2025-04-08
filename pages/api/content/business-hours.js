@@ -21,4 +21,5 @@ export default async function handler(req, res) {
     console.error("Failed to load hours:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
+  
 }
