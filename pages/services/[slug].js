@@ -4,22 +4,25 @@ import Head from "next/head";
 import Image from "next/image";
 
 export async function getStaticPaths() {
-    const client = await clientPromise;
-    const db = client.db("garage_catalog");
+    try {
+      const client = await clientPromise;
+      const db = client.db("garage_catalog");
+      const services = await db.collection("services").find({}, { projection: { slug: 1 } }).toArray();
   
-    const services = await db
-      .collection("services")
-      .find({}, { projection: { slug: 1 } })
-      .toArray();
-  
-    const paths = services
-      .filter((s) => !!s.slug) // ✅ Skip entries without a slug
-      .map((service) => ({
+      const paths = services.map(service => ({
         params: { slug: service.slug },
       }));
   
-    return { paths, fallback: false };
+      return { paths, fallback: false };
+    } catch (error) {
+      console.error("MongoDB connection failed in getStaticPaths:", error);
+      return {
+        paths: [],
+        fallback: false
+      };
+    }
   }
+  
   
 
 export async function getStaticProps({ params }) {
