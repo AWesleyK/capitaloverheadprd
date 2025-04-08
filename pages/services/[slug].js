@@ -2,28 +2,24 @@
 import clientPromise from "../../lib/mongodb";
 import Head from "next/head";
 import Image from "next/image";
+import styles from "../../styles/pageStyles/ServicesSlug.module.scss";
 
 export async function getStaticPaths() {
-    try {
-      const client = await clientPromise;
-      const db = client.db("garage_catalog");
-      const services = await db.collection("services").find({}, { projection: { slug: 1 } }).toArray();
-  
-      const paths = services.map(service => ({
-        params: { slug: service.slug },
-      }));
-  
-      return { paths, fallback: false };
-    } catch (error) {
-      console.error("MongoDB connection failed in getStaticPaths:", error);
-      return {
-        paths: [],
-        fallback: false
-      };
-    }
+  try {
+    const client = await clientPromise;
+    const db = client.db("garage_catalog");
+    const services = await db.collection("services").find({}, { projection: { slug: 1 } }).toArray();
+
+    const paths = services.map(service => ({
+      params: { slug: service.slug },
+    }));
+
+    return { paths, fallback: false };
+  } catch (error) {
+    console.error("MongoDB connection failed in getStaticPaths:", error);
+    return { paths: [], fallback: false };
   }
-  
-  
+}
 
 export async function getStaticProps({ params }) {
   const client = await clientPromise;
@@ -45,18 +41,18 @@ export default function ServicePage({ service }) {
         <meta name="description" content={service.description} />
       </Head>
 
-      <main style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
-        <h1>{service.name}</h1>
+      <main className={styles.wrapper}>
+        <h1 className={styles.title}>{service.name}</h1>
         {service.imageUrl && (
           <Image
             src={service.imageUrl}
             alt={service.name}
             width={800}
             height={500}
-            style={{ objectFit: "cover", borderRadius: "8px" }}
+            className={styles.image}
           />
         )}
-        <p style={{ marginTop: "1rem", fontSize: "1.1rem" }}>{service.description}</p>
+        <p className={styles.description}>{service.description}</p>
       </main>
     </>
   );
