@@ -68,20 +68,19 @@ ul.serviceList {
   }
   
 
-.mapContainer {
-  height: 500px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  margin: 0 auto;
-
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+  .mapContainer {
+    max-width: 600px; // or whatever width you want to match the image
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  
+    img, iframe {
+      width: 100%;
+      height: auto;
+    }
   }
-
-}
+  
 
 .mapContentWrapper {
     border: 3px solid $primary-color;
@@ -100,3 +99,12 @@ ul.serviceList {
         width: 90%;
       }
   }
+
+  .mapEmbed {
+    width: 100%;
+    height: auto; // Let the height be auto so it scales proportionally
+    display: block;
+    object-fit: contain; // Or 'cover' if you want it to fill but crop slightly
+    margin: 0 auto;
+  }
+  
