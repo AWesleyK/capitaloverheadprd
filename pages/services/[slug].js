@@ -3,6 +3,7 @@ import clientPromise from "../../lib/mongodb";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/pageStyles/ServicesSlug.module.scss";
+import { FaCheckCircle } from "react-icons/fa";
 
 export async function getStaticPaths() {
   try {
@@ -42,17 +43,30 @@ export default function ServicePage({ service }) {
       </Head>
 
       <main className={styles.wrapper}>
-        <h1 className={styles.title}>{service.name}</h1>
+        <div className={styles.headerSection}>
+          <h1 className={styles.title}>{service.name}</h1>
+          <div className={styles.badge}><FaCheckCircle /> Trusted Experts in {service.name}</div>
+        </div>
+
         {service.imageUrl && (
-          <Image
-            src={service.imageUrl}
-            alt={service.name}
-            width={800}
-            height={500}
-            className={styles.image}
-          />
+          <div className={styles.imageWrapper}>
+            <Image
+              src={service.imageUrl}
+              alt={service.name}
+              width={800}
+              height={500}
+              className={styles.image}
+            />
+          </div>
         )}
+
         <p className={styles.description}>{service.description}</p>
+
+        <div className={styles.callToActionBox}>
+          <h2>Ready to upgrade your garage setup?</h2>
+          <p>Our team at Dino Doors is here to help. Whether it's a new installation or a quick repair, we've got your back.</p>
+          <a href="tel:4054560399" className={styles.ctaButton}>Call Now for a Free Quote</a>
+        </div>
       </main>
     </>
   );

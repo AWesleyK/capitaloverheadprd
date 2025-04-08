@@ -158,11 +158,12 @@
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: $primary-color;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobileNavList {
@@ -173,33 +174,39 @@
 }
 
 .mobileNavItem {
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   width: 100%;
 }
 
 .mobileNavLink {
   color: white;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   padding: 0.5rem 1rem;
   display: block;
   width: 100%;
+  border-radius: 8px;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    //background-color: rgba(255, 255, 255, 0.1);
+    background-color: $secondary-color;
   }
 }
 
 .mobileDropdownItem {
   padding-left: 2rem;
-  font-size: 1rem;
-  color: white;
+  font-size: 1.1rem;
+  margin: 0.3rem 0;
+  color: #ccc;
   display: block;
   text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    //background-color: rgba(255, 255, 255, 0.1);
+    background-color: $secondary-color;
   }
 }
 
@@ -207,6 +214,7 @@
   display: none;
   flex-direction: column;
   width: 100%;
+  padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
 .mobileDropdown.show {
@@ -226,7 +234,6 @@
     padding: 0.8rem 2rem;
     font-size: 1rem;
   }
-
 }
 
 @media screen and (max-width: 768px) {

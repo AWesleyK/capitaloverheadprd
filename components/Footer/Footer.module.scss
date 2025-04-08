@@ -136,8 +136,9 @@
   }
 
   .mapEmbed {
-    transform: scale(1.3);
-    height: 250px;
+    transform: scale(1);
+    //height: 250px;
+    max-width: 100%;
   }
 }
 

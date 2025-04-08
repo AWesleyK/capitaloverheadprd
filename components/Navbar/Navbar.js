@@ -25,9 +25,25 @@ const Navbar = ({ services = [] }) => {
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
-  const toggleServicesDropdown = () => setShowServicesDropdown(prev => !prev);
-  const toggleCatalogDropdown = () => setShowCatalogDropdown(prev => !prev);
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setShowCatalogDropdown(false);
+    setShowServicesDropdown(false);
+  };
+
+  const toggleServicesDropdown = () => {
+    setShowServicesDropdown((prev) => {
+      if (!prev) setShowCatalogDropdown(false);
+      return !prev;
+    });
+  };
+
+  const toggleCatalogDropdown = () => {
+    setShowCatalogDropdown((prev) => {
+      if (!prev) setShowServicesDropdown(false);
+      return !prev;
+    });
+  };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -67,7 +83,7 @@ const Navbar = ({ services = [] }) => {
       </div>
       <div className={`${styles.dropdownContent} ${showServicesDropdown ? styles.showDropdown : ""}`}>
         {services.map((service) => (
-          <Link key={service._id} href={`/services/${service.slug}`}>
+          <Link key={service._id} href={`/services/${service.slug}`} onClick={closeMobileMenu}>
             <span className={styles.dropdownItem}>{service.name}</span>
           </Link>
         ))}
@@ -85,8 +101,8 @@ const Navbar = ({ services = [] }) => {
         Catalog▾
       </div>
       <div className={`${styles.dropdownContent} ${showCatalogDropdown ? styles.showDropdown : ""}`}>
-        <Link href="/catalog/garage doors" className={styles.dropdownItem}>Garage Doors</Link>
-        <Link href="/catalog/gates" className={styles.dropdownItem}>Gates</Link>
+        <Link href="/catalog/garage doors" className={styles.dropdownItem} onClick={closeMobileMenu}>Garage Doors</Link>
+        <Link href="/catalog/gates" className={styles.dropdownItem} onClick={closeMobileMenu}>Gates</Link>
       </div>
     </li>
   );
@@ -113,12 +129,12 @@ const Navbar = ({ services = [] }) => {
             <div ref={mobileMenuRef} className={styles.mobileMenu}>
               <ul className={styles.mobileNavList}>
                 <li className={styles.mobileNavItem}>
-                  <Link href="/" className={styles.mobileNavLink}>
+                  <Link href="/" className={styles.mobileNavLink} onClick={closeMobileMenu}>
                     Home
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link href="/about" className={styles.mobileNavLink}>
+                  <Link href="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>
                     About
                   </Link>
                 </li>
@@ -128,7 +144,7 @@ const Navbar = ({ services = [] }) => {
                   </div>
                   <div className={`${styles.mobileDropdown} ${showServicesDropdown ? styles.show : ""}`}>
                     {services.map((service) => (
-                      <Link key={service._id} href={`/services/${service.slug}`} className={styles.mobileDropdownItem}>
+                      <Link key={service._id} href={`/services/${service.slug}`} className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
                         {service.name}
                       </Link>
                     ))}
@@ -139,12 +155,12 @@ const Navbar = ({ services = [] }) => {
                     Catalog ▾
                   </div>
                   <div className={`${styles.mobileDropdown} ${showCatalogDropdown ? styles.show : ""}`}>
-                    <Link href="/catalog/garage doors" className={styles.mobileDropdownItem}>Garage Doors</Link>
-                    <Link href="/catalog/gates" className={styles.mobileDropdownItem}>Gates</Link>
+                    <Link href="/catalog/garage doors" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Garage Doors</Link>
+                    <Link href="/catalog/gates" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Gates</Link>
                   </div>
                 </li>
                 <li className={styles.navItem}>
-                  <Link href="/services/service-area" className={styles.navLink}>
+                  <Link href="/services/service-area" className={styles.navLink} onClick={closeMobileMenu}>
                     Service Area
                   </Link>
                 </li>

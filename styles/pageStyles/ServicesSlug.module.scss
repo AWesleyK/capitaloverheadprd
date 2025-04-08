@@ -1,47 +1,105 @@
-/* /styles/ServiceSlug.module.scss */
+// /styles/pageStyles/ServicesSlug.module.scss
+@import '../variables.scss';
 
 .wrapper {
-    padding: 2rem;
-    max-width: 900px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #1a1a1a;
+}
+
+.headerSection {
+  text-align: center;
+  margin-bottom: 2rem;
+
   .title {
     font-size: 2.5rem;
-    font-weight: bold;
-    color: #001f3f;
-    text-align: center;
+    margin-bottom: 0.5rem;
+    color: $primary-color;
   }
-  
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: $secondary-color;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.imageWrapper {
+  text-align: center;
+  margin-bottom: 2rem;
+
   .image {
-    border-radius: 12px;
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    height: auto;
   }
-  
-  .description {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    color: #333;
-    text-align: justify;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.callToActionBox {
+  background-color: $background1-color;
+  border-left: 6px solid $primary-color;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: $primary-color;
   }
-  
-  @media (max-width: 768px) {
-    .wrapper {
-      padding: 1rem;
-    }
-  
-    .title {
-      font-size: 2rem;
-    }
-  
-    .description {
-      font-size: 1.05rem;
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ctaButton {
+    display: inline-block;
+    background-color: $primary-color;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
     }
   }
-  
+}
+
+@media (max-width: 768px) {
+  .headerSection .title {
+    font-size: 2rem;
+  }
+
+  .callToActionBox h2 {
+    font-size: 1.5rem;
+  }
+
+  .callToActionBox p {
+    font-size: 0.95rem;
+  }
+
+  .callToActionBox .ctaButton {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
