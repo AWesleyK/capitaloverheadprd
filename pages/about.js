@@ -42,7 +42,7 @@ const AboutPage = () => {
 
           <div className={styles.imageGrid}>
             <div className={styles.imagePlaceholder}>
-              <Image src="/images/shop.jpeg" alt="Elmore City Shop" width={400} height={250} />
+              <Image src="/images/shop.jpg" alt="Elmore City Shop" width={400} height={250} />
             </div>
             <div className={styles.imagePlaceholder}>
               <Image src="/images/jobsite.jpg" alt="Job Site" width={400} height={250} />
