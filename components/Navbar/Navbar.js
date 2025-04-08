@@ -3,8 +3,7 @@ import styles from "./Navbar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-const Navbar = () => {
-  const [services, setServices] = useState([]);
+const Navbar = ({ services = [] }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,16 +39,6 @@ const Navbar = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-  
-      const fetchServices = async () => {
-      try {
-        const res = await fetch('/api/services/menu');
-        const data = await res.json();
-        setServices(data);
-      } catch (err) {
-        console.error('Failed to fetch services:', err);
-      }
-    };
 
   const handleOutsideClick = (event) => {
     const target = event.target;
