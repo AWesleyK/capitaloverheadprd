@@ -106,5 +106,8 @@ ul.serviceList {
     display: block;
     object-fit: contain; // Or 'cover' if you want it to fill but crop slightly
     margin: 0 auto;
+    max-width: 800px;
   }
+
+  
   
