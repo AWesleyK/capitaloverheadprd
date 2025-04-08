@@ -21,6 +21,7 @@ async function generateSitemap() {
     "services",
     "services/service-area",
   ];
+  
 
   const serviceRoutes = services.map(s => `services/${s.slug}`);
   const catalogRoutes = catalog.map(c => `catalog/item/${c.slug}`);
