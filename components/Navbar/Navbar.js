@@ -82,6 +82,9 @@ const Navbar = ({ services = [] }) => {
         Services▾
       </div>
       <div className={`${styles.dropdownContent} ${showServicesDropdown ? styles.showDropdown : ""}`}>
+        <Link href={'/services-page'} onClick={closeMobileMenu}>
+        <span className={styles.dropdownItem}>All Services</span>
+        </Link>
         {services.map((service) => (
           <Link key={service._id} href={`/services/${service.slug}`} onClick={closeMobileMenu}>
             <span className={styles.dropdownItem}>{service.name}</span>

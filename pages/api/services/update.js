@@ -1,4 +1,3 @@
-// /pages/api/services/update.js
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
@@ -18,25 +17,41 @@ export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    const slug = slugify(name);
-    const path = `/services/${slug}`;
-    const parent = "Services Overview";
+    const servicesCollection = db.collection("services");
+    const quickLinksCollection = db.collection("quickLinks");
 
-    await db.collection("services").updateOne(
+    // 1. Fetch the current service before updating
+    const existingService = await servicesCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!existingService) {
+      return res.status(404).json({ error: "Service not found" });
+    }
+
+    const oldSlug = existingService.slug;
+    const oldPath = `/services/${oldSlug}`;
+
+    // 2. Create new slug/path
+    const newSlug = slugify(name);
+    const newPath = `/services/${newSlug}`;
+    const parent = "All Services";
+
+    // 3. Update the service
+    await servicesCollection.updateOne(
       { _id: new ObjectId(id) },
       {
         $set: {
           name,
           description,
           imageUrl,
-          slug,
+          slug: newSlug,
         },
       }
     );
 
-    await db.collection("quickLinks").updateOne(
-      { path },
-      { $set: { path, label: name, parent } },
+    // 4. Update the quick link by matching the OLD path
+    await quickLinksCollection.updateOne(
+      { path: oldPath },
+      { $set: { path: newPath, label: name, parent } },
       { upsert: true }
     );
 

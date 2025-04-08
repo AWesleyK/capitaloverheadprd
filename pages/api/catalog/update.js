@@ -19,8 +19,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid price values" });
   }
 
-  const slug = slugify(name, { lower: true, strict: true });
-  const path = `/catalog/item/${slug}`;
+  const newSlug = slugify(name, { lower: true, strict: true });
+  const newPath = `/catalog/item/${newSlug}`;
   const parent = type === "Garage Doors" ? "Garage Door Catalog"
               : type === "Gates" ? "Gate Catalog"
               : null;
@@ -29,7 +29,21 @@ export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    await db.collection("catalogItems").updateOne(
+    const catalogItems = db.collection("catalogItems");
+    const quickLinks = db.collection("quickLinks");
+
+    // 🟡 Step 1: Get the existing item to find the old path
+    const existingItem = await catalogItems.findOne({ _id: new ObjectId(id) });
+
+    if (!existingItem) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    const oldSlug = existingItem.slug;
+    const oldPath = `/catalog/item/${oldSlug}`;
+
+    // 🟢 Step 2: Update the item with the new data
+    await catalogItems.updateOne(
       { _id: new ObjectId(id) },
       {
         $set: {
@@ -41,15 +55,16 @@ export default async function handler(req, res) {
           priceMin: parsedPriceMin,
           priceMax: parsedPriceMax,
           imageUrl,
-          slug,
+          slug: newSlug,
           modifiedAt: new Date(),
         },
       }
     );
 
-    await db.collection("quickLinks").updateOne(
-      { path },
-      { $set: { path, label: name, parent } },
+    // 🔄 Step 3: Update the quick link based on the old path
+    await quickLinks.updateOne(
+      { path: oldPath },
+      { $set: { path: newPath, label: name, parent } },
       { upsert: true }
     );
 
@@ -59,3 +74,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
