@@ -159,8 +159,8 @@ const Navbar = ({ services = [] }) => {
                     <Link href="/catalog/gates" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Gates</Link>
                   </div>
                 </li>
-                <li className={styles.navItem}>
-                  <Link href="/services/service-area" className={styles.navLink} onClick={closeMobileMenu}>
+                <li className={styles.mobileNavItem}>
+                  <Link href="/services/service-area" className={styles.mobileNavLink} onClick={closeMobileMenu}>
                     Service Area
                   </Link>
                 </li>
