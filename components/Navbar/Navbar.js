@@ -200,14 +200,15 @@ const Navbar = ({ services = [] }) => {
   return (
     <nav id="navbar" className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
       <div className={styles.logoContainer}>
-        <Image
-          className={styles.logo}
-          src="/images/Dino_Doors_Logo_No_bg.png"
-          alt="Logo"
-          onClick={scrollToTop}
-          width={140}
-          height={140}
-        />
+      <Link href="/" passHref>
+    <Image
+      className={styles.logo}
+      src="/images/Dino_Doors_Logo_No_bg.png"
+      alt="Logo"
+      width={140}
+      height={140}
+    />
+</Link>
       </div>
       {renderNavbarLinks()}
     </nav>
