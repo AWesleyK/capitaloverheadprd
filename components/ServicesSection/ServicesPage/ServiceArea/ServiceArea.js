@@ -35,7 +35,7 @@ const ServiceArea = () => {
         <div className={styles.mapContainer}>
   <img
   className={styles.mapEmbed}
-  src={`https://maps.googleapis.com/maps/api/staticmap?size=600x300&sensor=false&language=en&scale=2&key=${process.env.GOOGLE_API_KEY}&center=34.75,-97.5&zoom=8&path=color:0x1F8EFF70|weight:2|fillcolor:0x1F8EFF40|34.289050,-98.142148|34.071020,-97.562616|34.071020,-96.933457|34.332638,-96.827288|34.637126,-96.827288|35.337508,-96.930586|35.337508,-97.671595|34.681344,-98.142148|34.289050,-98.142148`}
+  src={`https://maps.googleapis.com/maps/api/staticmap?size=600x300&sensor=false&language=en&scale=2&key=${process.env.GOOGLE_API_KEY}&center=34.75,-97.5&zoom=7&visible=Hobart,OK|Chickasha,OK|Norman,OK|Lawton,OK&path=color:0x1F8EFF70|weight:2|fillcolor:0x1F8EFF40|34.289050,-98.142148|34.071020,-97.562616|34.071020,-96.933457|34.332638,-96.827288|34.637126,-96.827288|35.337508,-96.930586|35.337508,-97.671595|34.681344,-98.142148|34.289050,-98.142148`}
 />
 </div>
 
