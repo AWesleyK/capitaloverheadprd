@@ -1,10 +1,11 @@
 // /pages/api/services/add.js
 import clientPromise from "../../../lib/mongodb";
+import { withAuth } from '../../../lib/middleware/withAuth';
 
 const slugify = (text) =>
   text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
   const { name, description, imageUrl } = req.body;
@@ -41,3 +42,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Something went wrong" });
   }
 }
+
+export default withAuth(handler);

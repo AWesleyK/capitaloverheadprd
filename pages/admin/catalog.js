@@ -1,7 +1,11 @@
 // /pages/admin/catalog.js
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
 import { useEffect, useState } from "react";
-import styles from "./AdminPage.module.scss";
+import styles from "./styles/AdminPage.module.scss";
+import { requireAuth } from "../api/auth/requireAuth";
+
+export const getServerSideProps = (ctx) => requireAuth(ctx, ["Admin"]);
+
+
 
 export default function CatalogPage() {
   const [form, setForm] = useState({
@@ -286,7 +290,6 @@ export default function CatalogPage() {
   };
 
   return (
-    <AdminLayout>
       <div className={styles.page}>
         <h1>Add Garage Door/Gate</h1>
 
@@ -337,6 +340,5 @@ export default function CatalogPage() {
         <h2>Catalog Items</h2>
         {Object.entries(groupedItems).map(([type, items]) => renderGroup(type, items))}
       </div>
-    </AdminLayout>
   );
 }

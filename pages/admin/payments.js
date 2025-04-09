@@ -1,6 +1,9 @@
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
+
+import { requireAuth } from "../api/auth/requireAuth";
+
+export const getServerSideProps = (ctx) => requireAuth(ctx, ["Admin"]);
 
 export default function PaymentsPage() {
-    return <AdminLayout><div style={{ padding: "2rem" }}><h1>Modify Payments</h1></div></AdminLayout>;
+    return <div style={{ padding: "2rem" }}><h1>Modify Payments</h1></div>;
   }
   

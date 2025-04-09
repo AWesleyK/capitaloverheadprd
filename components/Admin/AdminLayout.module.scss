@@ -6,6 +6,9 @@
   }
   
   .sidebar {
+    position: sticky;         // 👈 stick it on scroll
+    top: 0;
+    height: 100vh;            // 👈 make it full height
     width: 220px;
     background: #1f2937;
     color: #fff;
@@ -37,8 +40,38 @@
     background-color: #374151;
   }
   
+  .logoutButton {
+    margin-top: auto;
+    padding: 0.75rem 1rem;
+    background-color: #c53030;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+  
+    &:hover {
+      background-color: #a00000;
+    }
+  }
+  
   .main {
     flex: 1;
     padding: 2rem;
+  }
+  
+  .subheading {
+    margin: 1rem 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #9ca3af;
+    text-transform: uppercase;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #374151;
+    margin: 1.5rem 0 1rem;
   }
   

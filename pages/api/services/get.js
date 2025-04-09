@@ -8,3 +8,4 @@ export default async function handler(req, res) {
   const services = await db.collection("services").find({}).sort({ createdAt: -1 }).toArray();
   res.status(200).json(services);
 }
+

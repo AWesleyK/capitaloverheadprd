@@ -1,10 +1,11 @@
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+import { withAuth } from '../../../lib/middleware/withAuth';
 
 const slugify = (text) =>
   text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "PUT") return res.status(405).end("Method Not Allowed");
 
   const { id, name, description, imageUrl } = req.body;
@@ -61,3 +62,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Something went wrong" });
   }
 }
+
+export default withAuth(handler);

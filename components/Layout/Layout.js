@@ -1,10 +1,10 @@
 // /components/Layout/Layout.js
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import styles from './Layout.module.scss';
+import SiteBanner from './SiteBanner';
 
 const Layout = ({ children, services: initialServices = [] }) => {
   const [services, setServices] = useState(initialServices);
@@ -31,10 +31,14 @@ const Layout = ({ children, services: initialServices = [] }) => {
         <meta name="description" content="Dino Doors Garage Doors and More" />
         <title>Dino Doors</title>
       </Head>
+
       <div className={styles.stickyContainer}>
         <Navbar services={services} />
+        <SiteBanner />
       </div>
+
       <main className={styles.main}>{children}</main>
+
       <Footer />
     </>
   );

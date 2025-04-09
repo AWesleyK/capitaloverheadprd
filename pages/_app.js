@@ -1,11 +1,27 @@
 // /pages/_app.js
-import '../styles/globals.scss';
-import Layout from '../components/Layout/Layout';
+import "../styles/globals.scss";
+import Layout from "../components/Layout/Layout";
+import AdminLayout from "../components/Admin/AdminLayout";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps, services }) {
+  const router = useRouter();
+  const excludedAdminRoutes = ["/admin/login", "/admin/setup"];
+  const isAdminRoute =
+    router.pathname.startsWith("/admin") &&
+    !excludedAdminRoutes.includes(router.pathname);
+  
+  const WrappedPage = isAdminRoute ? (
+    <AdminLayout>
+      <Component {...pageProps} />
+    </AdminLayout>
+  ) : (
+    <Component {...pageProps} />
+  );
+
   return (
     <Layout services={services || []}>
-      <Component {...pageProps} />
+      {WrappedPage}
     </Layout>
   );
 }
@@ -18,9 +34,9 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  if (typeof window === 'undefined') {
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-    const host = ctx?.req?.headers?.host || 'localhost:3000';
+  if (typeof window === "undefined") {
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const host = ctx?.req?.headers?.host || "localhost:3000";
     const baseUrl = `${protocol}://${host}`;
 
     try {

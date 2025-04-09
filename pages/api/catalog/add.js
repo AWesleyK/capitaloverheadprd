@@ -1,8 +1,9 @@
 // /pages/api/catalog/add.js
 import clientPromise from "../../../lib/mongodb";
 import slugify from "slugify";
+import { withAuth } from '../../../lib/middleware/withAuth';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
   const { type, typeName, brand, name, description, priceMin, priceMax, imageUrl } = req.body;
@@ -53,3 +54,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Something went wrong" });
   }
 }
+
+export default withAuth(handler);

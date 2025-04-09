@@ -1,7 +1,8 @@
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+import { withAuth } from '../../../lib/middleware/withAuth';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const { id } = req.query;
 
   if (!id) return res.status(400).json({ error: "Missing service ID" });
@@ -17,3 +18,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Delete failed" });
   }
 }
+
+export default withAuth(handler);

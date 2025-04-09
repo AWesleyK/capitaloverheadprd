@@ -2,8 +2,9 @@
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import slugify from "slugify";
+import { withAuth } from '../../../lib/middleware/withAuth';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "PUT") return res.status(405).end("Method Not Allowed");
 
   const { id, brand, name, description, type, typeName, priceMin, priceMax, imageUrl } = req.body;
@@ -75,3 +76,4 @@ export default async function handler(req, res) {
   }
 }
 
+export default withAuth(handler);

@@ -1,6 +1,8 @@
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
 import { useEffect, useState } from "react";
-import styles from "./AdminPage.module.scss";
+import styles from "./styles/AdminPage.module.scss";
+import { requireAuth } from "../api/auth/requireAuth";
+
+export const getServerSideProps = (ctx) => requireAuth(ctx, ["Admin"]);
 
 export default function ServicesPage() {
   const [form, setForm] = useState({ name: "", description: "" });
@@ -100,7 +102,6 @@ export default function ServicesPage() {
   };
 
   return (
-    <AdminLayout>
       <div className={styles.page}>
         <h1>Add New Service</h1>
 
@@ -267,6 +268,5 @@ export default function ServicesPage() {
           })
         )}
       </div>
-    </AdminLayout>
   );
 }
