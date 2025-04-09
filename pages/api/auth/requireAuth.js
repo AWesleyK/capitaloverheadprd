@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export function requireAuth(context, allowedRoles = []) {
+export function requireAuth(context, { roles = [], minTier = 1 } = {}) {
   const { req } = context;
   const token = req.cookies.token;
 
@@ -16,19 +16,30 @@ export function requireAuth(context, allowedRoles = []) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // 🔒 Role check
     if (
-        allowedRoles.length > 0 &&
-        (!decoded.roles || !allowedRoles.some(role => decoded.roles.includes(role)))
-      ) {      
+      roles.length > 0 &&
+      (!decoded.roles || !roles.some(role => decoded.roles.includes(role)))
+    ) {
       return {
         redirect: {
-          destination: "/unauthorized", // Or a "no access" page
+          destination: "/unauthorized", // Or a more specific error page
           permanent: false,
         },
       };
     }
 
-    return { props: { user: decoded } }; // Can optionally pass the user to the page
+    // 🔒 Tier check
+    if (!decoded.tier || decoded.tier < minTier) {
+      return {
+        redirect: {
+          destination: "/admin", // Or somewhere safer
+          permanent: false,
+        },
+      };
+    }
+
+    return { props: { user: decoded } };
   } catch (err) {
     return {
       redirect: {

@@ -25,7 +25,7 @@ console.log("LOGIN RESPONSE:", data);
       if (data.setupRequired) {
         router.push(`/admin/setup?userId=${data.userId}`);
       } else {
-        router.push("/admin/catalog");
+        router.push("/admin/");
       }
     } else {
       setError(data.error || "Login failed");

@@ -1,0 +1,102 @@
+// /compenents/Admin/BusinessHoursControl/BusinessHoursControl.module.scss
+
+.control {
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  
+  .toggleButtons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .toggleButtons button {
+    flex: 1;
+    padding: 0.5rem;
+    background: #e5e7eb;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .toggleButtons .active {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .sameEveryDay {
+    margin: 0.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .hoursGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .dayRow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  @media (min-width: 480px) {
+    .dayRow {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .dayRow label {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+  
+  @media (min-width: 480px) {
+    .dayRow label {
+      //width: 90px;
+      margin-bottom: 0;
+    }
+  }
+  
+  
+  .dayRow input {
+    flex: 1;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .saveButton {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.6rem;
+    background: #10b981;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .saveMessage {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #10b981;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  

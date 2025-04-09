@@ -14,7 +14,7 @@ const Footer = () => {
       try {
         const [linksRes, hoursRes] = await Promise.all([
           fetch('/api/content/quicklinks'),
-          fetch('/api/content/business-hours')
+          fetch('/api/content/business-hours/public')
         ]);
 
         const linksData = await linksRes.json();

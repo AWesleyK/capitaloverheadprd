@@ -1,4 +1,5 @@
-import clientPromise from '../../../lib/mongodb';
+// /pages/api/content/business-hours/public.js
+import clientPromise from '../../../../lib/mongodb';
 
 export default async function handler(req, res) {
   try {

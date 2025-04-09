@@ -1,3 +1,5 @@
+// /pages/api/catalog/delete.js
+
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import { withAuth } from '../../../lib/middleware/withAuth';
@@ -20,4 +22,4 @@ async function handler(req, res) {
   }
 }
 
-export default withAuth(handler);
+export default withAuth(handler, { roles: ["Admin", "Owner"], minTier: 1 });

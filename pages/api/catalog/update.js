@@ -76,4 +76,4 @@ async function handler(req, res) {
   }
 }
 
-export default withAuth(handler);
+export default withAuth(handler, { roles: ["Admin", "Owner"], minTier: 1 });
