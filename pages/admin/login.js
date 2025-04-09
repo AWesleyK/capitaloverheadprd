@@ -7,11 +7,12 @@ export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 
   const handleLogin = async () => {
     setError("");
 
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch(`${baseUrl}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
