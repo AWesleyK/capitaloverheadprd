@@ -11,27 +11,34 @@ export default function AdminLogin() {
 
   const handleLogin = async () => {
     setError("");
-
-    const res = await fetch(`${baseUrl}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const data = await res.json();
-    
-console.log("LOGIN RESPONSE:", data);
-
-    if (res.ok) {
-      if (data.setupRequired) {
-        router.push(`/admin/setup?userId=${data.userId}`);
+  
+    const baseUrl =
+      typeof window !== "undefined" ? window.location.origin : "";
+  
+    try {
+      const res = await fetch(`${baseUrl}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        if (data.setupRequired) {
+          router.push(`/admin/setup?userId=${data.userId}`);
+        } else {
+          router.push("/admin/");
+        }
       } else {
-        router.push("/admin/");
+        setError(data.error || "Login failed");
       }
-    } else {
-      setError(data.error || "Login failed");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An unexpected error occurred.");
     }
   };
+  
 
   return (
     <div className={styles.container}>
