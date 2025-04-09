@@ -41,7 +41,7 @@
   }
   
   .logoutButton {
-    margin-top: auto;
+    margin-top: 4rem;
     padding: 0.75rem 1rem;
     background-color: #c53030;
     color: white;
@@ -75,20 +75,19 @@
     margin: 1.5rem 0 1rem;
   }
   
-
   .menuToggle {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 24px;
-    width: 30px;
+    height: 2rem;
+    width: 3rem;
     position: fixed;
     top: 11vh;
     left: 1rem;
     z-index: 1001;
     background: none;
-    border: none;
-    color: #1f2937; // default (dark)
+      border: none;
+      color: #1f2937; // default (dark)
     cursor: pointer;
   
     @media (min-width: 768px) {
@@ -97,26 +96,30 @@
   }
   
   .bar {
-    height: 3px;
+    height: .2rem;
     width: 100%;
     background: #1f2937;
     border-radius: 2px;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    transform-origin: center;
   }
   
-  .openToggle .bar:nth-child(1) {
+// Animate when menu is open
+.openToggle .bar:nth-child(1) {
+  transform: rotate(45deg) translate(0.7em, 0.7em);
   background: #3b82f6;
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  
-  .openToggle .bar:nth-child(2) {
-    opacity: 0;
-  }
-  
-  .openToggle .bar:nth-child(3) {
-    background: #3b82f6; 
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
+}
+
+.openToggle .bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.openToggle .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(0.7em, -0.7em);
+  background: #3b82f6;
+}
+
   
 
   
