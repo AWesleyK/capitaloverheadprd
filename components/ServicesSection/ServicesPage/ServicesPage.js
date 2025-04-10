@@ -7,6 +7,7 @@ const ServicesPage = () => {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [lastLoggedQuery, setLastLoggedQuery] = useState(null);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -23,14 +24,33 @@ const ServicesPage = () => {
     fetchServices();
   }, []);
 
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
+  useEffect(() => {
     const filtered = services.filter((service) =>
-      service.name.toLowerCase().includes(query)
+      service.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredServices(filtered);
-  };
+
+    const timer = setTimeout(() => {
+      const currentQuery = JSON.stringify({ search: searchQuery });
+
+      if (currentQuery !== lastLoggedQuery && searchQuery.length >= 2) {
+        fetch("/api/admin/dashboard/logs/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            page: "/services",
+            queryParams: {
+              search: searchQuery,
+            },
+          }),
+        }).catch((err) => console.error("Failed to log search (services):", err));
+
+        setLastLoggedQuery(currentQuery);
+      }
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [services, searchQuery]);
 
   return (
     <div className={styles.container}>
@@ -49,7 +69,7 @@ const ServicesPage = () => {
             className={styles.searchInput}
             placeholder="Search services..."
             value={searchQuery}
-            onChange={handleSearch}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
 
           <div className={styles.serviceItems}>
@@ -65,7 +85,6 @@ const ServicesPage = () => {
                     unoptimized
                   />
                   <h3 className={styles.serviceItemTitle}>{service.name}</h3>
-                  {/*<p className={styles.serviceItemText}>{service.description}</p>*/}
                 </div>
               </Link>
             ))}

@@ -1,0 +1,141 @@
+.quickNotes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: sans-serif;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    background: #f9f9f9;
+  }
+  
+  .textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background: #fff;
+  }
+  
+  .saveButton,
+  .toggleButton {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .saveButton:hover,
+  .toggleButton:hover {
+    background: #1d4ed8;
+  }
+  
+  .saveButton:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+  }
+  
+  .message {
+    margin-top: 0.5rem;
+    color: #10b981;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .noteCard {
+    background: #fffbe6;
+    border: 1px solid #e2d88d;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+    font-family: "Patrick Hand", cursive, sans-serif;
+  }
+  
+  .noteTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .noteDate {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .checkButton {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: #10b981;
+  }
+  
+  .noteContent {
+    font-size: 1.1rem;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+  
+  .navigation {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .navigation button {
+    background: #e5e7eb;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .navigation button:hover {
+    background: #d1d5db;
+  }
+  
+  .clearButton {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #ef4444; /* red-500 */
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, transform 0.1s ease;
+  }
+  
+  .clearButton:hover {
+    background: #dc2626; /* red-600 */
+    transform: scale(1.03);
+  }
+  
+  .clearButton:active {
+    transform: scale(0.97);
+  }
+  

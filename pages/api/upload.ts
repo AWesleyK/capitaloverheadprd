@@ -22,11 +22,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
 
+    // Use "uploads" as fallback if no folder is specified
+    const folder = fields.folder && typeof fields.folder === "string"
+      ? fields.folder.replace(/[^a-zA-Z0-9/_-]/g, "") // sanitize
+      : "uploads";
+
     try {
       const stream = fs.createReadStream(file.filepath);
 
       const result = await put(
-        `uploads/${Date.now()}_${file.originalFilename}`, // filename in blob storage
+        `${folder}/${Date.now()}_${file.originalFilename}`,
         stream,
         {
           access: "public",

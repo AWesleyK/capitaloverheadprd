@@ -16,6 +16,8 @@ const CatalogTypePage = () => {
   const [priceMinFilter, setPriceMinFilter] = useState('');
   const [priceMaxFilter, setPriceMaxFilter] = useState('');
   const [displayTypeName, setDisplayTypeName] = useState('');
+  const [lastLoggedQuery, setLastLoggedQuery] = useState(null);
+
 
   useEffect(() => {
     if (!type) return;
@@ -43,7 +45,7 @@ const CatalogTypePage = () => {
 
   useEffect(() => {
     let result = items;
-
+  
     if (search) {
       result = result.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     }
@@ -59,9 +61,36 @@ const CatalogTypePage = () => {
         return max >= filterMin && min <= filterMax;
       });
     }
-
+  
     setFilteredItems(result);
+  
+    // 🔁 Debounced logger
+    const timer = setTimeout(() => {
+      const currentQuery = JSON.stringify({ search, brandFilter, priceMinFilter, priceMaxFilter });
+  
+      if (currentQuery !== lastLoggedQuery && search.length >= 2) {
+        fetch("/api/admin/dashboard/logs/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            page: `/catalog/${type}`,
+            queryParams: {
+              search,
+              brandFilter,
+              priceMinFilter,
+              priceMaxFilter,
+            },
+          }),
+        }).catch(err => console.error("Failed to log search:", err));
+  
+        setLastLoggedQuery(currentQuery);
+      }
+    }, 1200); // wait 800ms of inactivity before logging
+  
+    return () => clearTimeout(timer);
   }, [items, search, brandFilter, priceMinFilter, priceMaxFilter]);
+  
+  
 
   const brands = [...new Set(items.map(item => item.brand))];
 

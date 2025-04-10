@@ -1,5 +1,5 @@
 .page {
-  max-width: 1200px; // (was 700px — can be 1000–1200 depending on your layout)
+  max-width: 1200px;
   margin: auto;
   background: #ffffff;
   padding: 2rem;
@@ -7,86 +7,86 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
-  
-  .page h1 {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .formGroup {
-    margin-bottom: 1.25rem;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .formGroup input,
-  .formGroup select,
-  .formGroup textarea {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-  
-  .textarea {
-    resize: vertical;
-  }
-  
-  .imagePreview {
-    max-width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    margin-top: 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
+.page h1 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
 
-  .imagePreview:hover {
-    transform: scale(1);
-  }
-  
-  .button {
-    margin-top: 1.5rem;
-    background: #1f2937;
-    color: white;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .button:hover {
-    background: #374151;
-  }
-  
-  .dashboardControls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 2rem;
-    padding: 0 1rem;
-    justify-content: center;
-  }
-  
-  .dashboardControls > * {
-    flex: 1 1 450px;
-    max-width: 600px;
-    //min-width: 300px;
-  }  
+.formGroup {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
 
-  @media (max-width: 768px) {
-    .dashboardControls > * {
-      flex: 1 1 100%;
-    }
+.formGroup label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.imagePreview {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin-top: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.imagePreview:hover {
+  transform: scale(1);
+}
+
+.button {
+  margin-top: 1.5rem;
+  background: #1f2937;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out;
+}
+
+.button:hover {
+  background: #374151;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1000px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
   }
-  
-  
+}
+
+
+
+.gridItem {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
