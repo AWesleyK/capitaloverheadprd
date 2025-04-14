@@ -7,7 +7,8 @@ import SearchLogs from "../../components/Admin/Widgets/SearchLogs/SearchLogs";
 import QuickNotes from "../../components/Admin/Widgets/QuickNotes/QuickNotes";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-export const getServerSideProps = (ctx) => requireAuth(ctx, ["Admin"]);
+export const getServerSideProps = (ctx) =>
+  requireAuth(ctx, { roles: ["Admin", "User", "Owner"], minTier: 1 });
 
 const CONTROL_COMPONENTS = {
   AnnouncementControl: <AnnouncementControl />,

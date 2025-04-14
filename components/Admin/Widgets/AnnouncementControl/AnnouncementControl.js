@@ -17,7 +17,7 @@ export default function AnnouncementControl() {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const res = await fetch("/api/admin/announcement");
+        const res = await fetch("/api/admin/dashboard/announcement");
         const data = await res.json();
 
         if (res.ok && data.banner) {

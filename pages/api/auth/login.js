@@ -1,4 +1,4 @@
-import dbConnect from "../../../lib/mongoose"; // use Mongoose!
+import dbConnect from "../../../lib/mongoose";
 import User from "../../../models/users";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -8,31 +8,12 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { username, password } = req.body;
-
-  if (!username) {
-    return res.status(400).json({ error: "Username is required" });
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and password are required" });
   }
-  
+
   await dbConnect();
   const user = await User.findOne({ username });
-  
-  if (!user) {
-    return res.status(401).json({ error: "Invalid username or password" });
-  }
-  
-  if (!user.password) {
-    // No password set — this is a first-time login
-    return res.status(200).json({
-      setupRequired: true,
-      userId: user._id,
-    });
-  }
-  
-  // Now check for password if it's expected
-  if (!password) {
-    return res.status(400).json({ error: "Password is required" });
-  }
-  
 
   if (!user) {
     return res.status(401).json({ error: "Invalid username or password" });
@@ -42,28 +23,18 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: "Account is locked. Contact support." });
   }
 
-  // First-time setup (no password yet)
-  if (!user.password) {
-    return res.status(200).json({
-      setupRequired: true,
-      userId: user._id,
-    });
-  }
-
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
     user.loginAttempts = (user.loginAttempts || 0) + 1;
 
     if (user.loginAttempts >= 3) {
-        user.accountLocked = true;
-        user.lockedBy = "System";
-        user.lockedAt = new Date();
-      }
-      
+      user.accountLocked = true;
+      user.lockedBy = "System";
+      user.lockedAt = new Date();
+    }
 
     await user.save();
-
     return res.status(401).json({
       error: user.accountLocked
         ? "Account is now locked due to multiple failed attempts."
@@ -71,10 +42,17 @@ export default async function handler(req, res) {
     });
   }
 
-  // ✅ Correct login
+  // ✅ Correct password
   user.loginAttempts = 0;
   user.lastLogin = new Date();
   await user.save();
+
+  if (user.setupComplete === false) {
+    return res.status(200).json({
+      setupRequired: true,
+      userId: user._id,
+    });
+  }
 
   const token = jwt.sign(
     {

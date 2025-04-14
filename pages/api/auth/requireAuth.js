@@ -23,7 +23,7 @@ export function requireAuth(context, { roles = [], minTier = 1 } = {}) {
     ) {
       return {
         redirect: {
-          destination: "/unauthorized", // Or a more specific error page
+          destination: "/admin", // Or a more specific error page
           permanent: false,
         },
       };

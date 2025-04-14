@@ -30,9 +30,15 @@ const Footer = () => {
     fetchData();
   }, []);
 
-  const parents = quickLinks
-    .filter(link => !link.parent)
-    .sort((a, b) => (a.order || 9999) - (b.order || 9999));
+  const regularParents = quickLinks
+  .filter(link => !link.parent && link.order !== 9999)
+  .sort((a, b) => (a.order || 9999) - (b.order || 9999));
+
+const blogParents = quickLinks
+  .filter(link => !link.parent && link.order === 9999)
+  .sort((a, b) => a.label.localeCompare(b.label));
+
+
 
   const groupedLinks = quickLinks.reduce((acc, link) => {
     if (!link.parent) return acc;
@@ -75,9 +81,12 @@ const Footer = () => {
         <div className={styles.contactInfo}>
           <h1>Contact Us</h1>
           <p>Email: services@capitaloverhead.com</p>
-          <Link className={styles.phoneNumber} href="tel:4054560399">
-            (405) 456-0399
-          </Link>
+          <p>
+  Phone Number:{" "}
+  <Link className={styles.phoneNumber} href="tel:4054560399">
+    (405) 456-0399
+  </Link>
+</p>
           <p>Address: 307 Main Street<br />
   Elmore City, OK 73433</p>
         </div>
@@ -123,22 +132,43 @@ const Footer = () => {
       </div>
 
       <div className={styles.quickLinksWrapper}>
-        <h2>Quick Links</h2>
-        <div className={styles.quickLinksGrid}>
-          {parents.map((parent) => (
-            <div key={parent.label} className={styles.linkColumn}>
-              <Link href={parent.path} className={styles.parentLink}>
-                {parent.label}
-              </Link>
-              {groupedLinks[parent.label]?.sort((a, b) => a.label.localeCompare(b.label)).map((child, idx) => (
-                <Link key={idx} href={child.path} className={styles.childLink}>
-                  {child.label}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
+  <h2>Quick Links</h2>
+  <div className={styles.quickLinksGrid}>
+    {regularParents.map((parent) => (
+      <div key={parent.label} className={styles.linkColumn}>
+        <Link href={parent.path} className={styles.parentLink}>
+          {parent.label}
+        </Link>
+        {groupedLinks[parent.label]?.sort((a, b) => a.label.localeCompare(b.label)).map((child, idx) => (
+          <Link key={idx} href={child.path} className={styles.childLink}>
+            {child.label}
+          </Link>
+        ))}
       </div>
+    ))}
+  </div>
+
+  {blogParents.length > 0 && (
+    <div className={styles.blogLinksSection}>
+      <h2>Blogs</h2>
+      <div className={styles.quickLinksGrid}>
+        {blogParents.map((parent) => (
+          <div key={parent.label} className={styles.linkColumn}>
+            <Link href={parent.path} className={styles.parentLink}>
+              {parent.label}
+            </Link>
+            {groupedLinks[parent.label]?.sort((a, b) => a.label.localeCompare(b.label)).map((child, idx) => (
+              <Link key={idx} href={child.path} className={styles.childLink}>
+                {child.label}
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
     </footer>
   );
 };

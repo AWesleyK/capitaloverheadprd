@@ -1,13 +1,14 @@
-import dbConnect from "../../../lib/mongoose";
-import User from "../../../models/users";
+import dbConnect from "../../../../lib/mongoose";
+import User from "../../../../models/users";
+import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { username } = req.body;
+  const { username, password } = req.body;
 
-  if (!username) {
-    return res.status(400).json({ error: "Username is required" });
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and temporary password are required" });
   }
 
   await dbConnect();
@@ -17,8 +18,11 @@ export default async function handler(req, res) {
     return res.status(409).json({ error: "Username already exists" });
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const user = await User.create({
     username,
+    password: hashedPassword,
     setupComplete: false,
   });
 

@@ -7,8 +7,14 @@ const UserSchema = new mongoose.Schema(
     password: { type: String },
     fName: { type: String },
     lName: { type: String },
+
+    address: { type: String },
+    city: { type: String },
+    state: { type: String },
+    zip: { type: String },
+
     roles: { type: [String], default: ["User"] },
-    tier: { type: String, default: "free" },
+    tier: { type: Number, default: 1 },
     subscriptionStatus: { type: String, default: "inactive" },
     setupComplete: { type: Boolean, default: false },
     accountLocked: { type: Boolean, default: false },

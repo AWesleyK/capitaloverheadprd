@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./styles/Users.module.scss";
 import { requireAuth } from "../api/auth/requireAuth";
 
-export const getServerSideProps = (ctx) => requireAuth(ctx, ["Owner"]);
+export const getServerSideProps = (ctx) =>
+  requireAuth(ctx, { roles: ["Owner"], minTier: 1 });
 
 export default function ManageUsersPage() {
   const [users, setUsers] = useState([]);

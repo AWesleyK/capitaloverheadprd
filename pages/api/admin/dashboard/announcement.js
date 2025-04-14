@@ -1,8 +1,8 @@
 // /pages/api/admin/announcement.js
 
-import { withAuth } from "../../../lib/middleware/withAuth";
-import dbConnect from "../../../lib/mongoose";
-import Announcement from "../../../models/settings/announcement";
+import { withAuth } from "../../../../lib/middleware/withAuth";
+import dbConnect from "../../../../lib/mongoose";
+import Announcement from "../../../../models/settings/announcement";
 
 async function handler(req, res) {
   await dbConnect();
@@ -35,4 +35,4 @@ async function handler(req, res) {
   return res.status(405).end();
 }
 
-export default withAuth(handler, { roles: ["Admin", "Owner"], minTier: 1 });
+export default withAuth(handler, { roles: ["Admin", "Owner", "User"], minTier: 1 });

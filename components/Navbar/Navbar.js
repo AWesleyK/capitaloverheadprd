@@ -9,52 +9,51 @@ const Navbar = ({ services = [] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [showCatalogDropdown, setShowCatalogDropdown] = useState(false);
+  const [showAboutDropdown, setShowAboutDropdown] = useState(false);
 
   const mobileMenuRef = useRef(null);
   const mobileMenuToggleRef = useRef(null);
 
-  const renderCallButton = () => (
-    <a href="tel:4054560399" className={styles.navButton}>
-      Call Now!
-    </a>
-  );
-
-  const handleResize = () => {
-    const isMobile = window.innerWidth <= 768;
-    setIsMobile(isMobile);
-  };
+  const handleResize = () => setIsMobile(window.innerWidth <= 768);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setShowCatalogDropdown(false);
     setShowServicesDropdown(false);
+    setShowAboutDropdown(false);
   };
 
   const toggleServicesDropdown = () => {
     setShowServicesDropdown((prev) => {
-      if (!prev) setShowCatalogDropdown(false);
+      if (!prev) {
+        setShowCatalogDropdown(false);
+        setShowAboutDropdown(false);
+      }
       return !prev;
     });
   };
 
   const toggleCatalogDropdown = () => {
     setShowCatalogDropdown((prev) => {
-      if (!prev) setShowServicesDropdown(false);
+      if (!prev) {
+        setShowServicesDropdown(false);
+        setShowAboutDropdown(false);
+      }
       return !prev;
     });
   };
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
+  const toggleAboutDropdown = () => {
+    setShowAboutDropdown((prev) => {
+      if (!prev) {
+        setShowServicesDropdown(false);
+        setShowCatalogDropdown(false);
+      }
+      return !prev;
+    });
+  };
 
   const handleOutsideClick = (event) => {
     const target = event.target;
@@ -71,6 +70,21 @@ const Navbar = ({ services = [] }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  const renderCallButton = () => (
+    <a href="tel:4054560399" className={styles.navButton}>
+      Call Now!
+    </a>
+  );
 
   const renderServicesDropdown = () => (
     <li
@@ -82,8 +96,8 @@ const Navbar = ({ services = [] }) => {
         Services▾
       </div>
       <div className={`${styles.dropdownContent} ${showServicesDropdown ? styles.showDropdown : ""}`}>
-        <Link href={'/services-page'} onClick={closeMobileMenu}>
-        <span className={styles.dropdownItem}>All Services</span>
+        <Link href="/services" onClick={closeMobileMenu}>
+          <span className={styles.dropdownItem}>All Services</span>
         </Link>
         {services.map((service) => (
           <Link key={service._id} href={`/services/${service.slug}`} onClick={closeMobileMenu}>
@@ -110,6 +124,23 @@ const Navbar = ({ services = [] }) => {
     </li>
   );
 
+  const renderAboutDropdown = () => (
+    <li
+  className={`${styles.navItem} ${styles.dropdown}`}
+  onMouseEnter={() => !isMobile && setShowAboutDropdown(true)}
+  onMouseLeave={() => !isMobile && setShowAboutDropdown(false)}
+>
+  <div className={styles.navLink} onClick={isMobile ? toggleAboutDropdown : undefined}>
+    About▾
+  </div>
+  <div className={`${styles.dropdownContent} ${showAboutDropdown ? styles.showDropdown : ""}`}>
+    <Link href="/about" className={styles.dropdownItem} onClick={closeMobileMenu}>Meet the Owner</Link>
+    <Link href="/about/learn-more" className={styles.dropdownItem} onClick={closeMobileMenu}>Core Values</Link>
+    <Link href="/about/blogs" className={styles.dropdownItem} onClick={closeMobileMenu}>Blog</Link>
+  </div>
+</li>
+  );
+
   const renderNavbarLinks = () => {
     if (isMobile) {
       return (
@@ -120,9 +151,7 @@ const Navbar = ({ services = [] }) => {
             className={styles.mobileMenuToggle}
             onClick={toggleMobileMenu}
           >
-            <div
-              className={`${styles.hamburgerMenu} ${isMobileMenuOpen ? styles.open : ""}`}
-            >
+            <div className={`${styles.hamburgerMenu} ${isMobileMenuOpen ? styles.open : ""}`}>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
@@ -137,9 +166,14 @@ const Navbar = ({ services = [] }) => {
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link href="/about" className={styles.mobileNavLink} onClick={closeMobileMenu}>
-                    About
-                  </Link>
+                  <div className={styles.mobileNavLink} onClick={toggleAboutDropdown}>
+                    About ▾
+                  </div>
+                  <div className={`${styles.mobileDropdown} ${showAboutDropdown ? styles.show : ""}`}>
+                    <Link href="/about" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Meet the Owner</Link>
+                    <Link href="/about/learn-more" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Core Values</Link>
+                    <Link href="/about/blogs" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Blog</Link>
+                  </div>
                 </li>
                 <li className={styles.mobileNavItem}>
                   <div className={styles.mobileNavLink} onClick={toggleServicesDropdown}>
@@ -177,21 +211,13 @@ const Navbar = ({ services = [] }) => {
         <div className={styles.linksContainer}>
           <ul className={styles.navList}>
             <li className={styles.navItem}>
-              <Link href="/" className={styles.navLink}>
-                Home
-              </Link>
+              <Link href="/" className={styles.navLink}>Home</Link>
             </li>
-            <li className={styles.navItem}>
-              <Link href="/about" className={styles.navLink}>
-                About
-              </Link>
-            </li>
+            {renderAboutDropdown()}
             {renderServicesDropdown()}
             {renderCatalogDropdown()}
             <li className={styles.navItem}>
-              <Link href="/services/service-area" className={styles.navLink}>
-                Service Area
-              </Link>
+              <Link href="/services/service-area" className={styles.navLink}>Service Area</Link>
             </li>
           </ul>
           {renderCallButton()}
@@ -203,15 +229,15 @@ const Navbar = ({ services = [] }) => {
   return (
     <nav id="navbar" className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
       <div className={styles.logoContainer}>
-      <Link href="/" passHref>
-    <Image
-      className={styles.logo}
-      src="/images/Dino_Doors_Logo_No_bg.png"
-      alt="Logo"
-      width={140}
-      height={140}
-    />
-</Link>
+        <Link href="/" passHref>
+          <Image
+            className={styles.logo}
+            src="/images/Dino_Doors_Logo_No_bg.png"
+            alt="Logo"
+            width={140}
+            height={140}
+          />
+        </Link>
       </div>
       {renderNavbarLinks()}
     </nav>
