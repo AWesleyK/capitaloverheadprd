@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     await dbConnect();
-    const users = await User.find({}, "-password"); // exclude password
+    const users = await User.find({ hidden: { $ne: true } }, "-password");
 
     res.status(200).json({ users });
   } catch (err) {

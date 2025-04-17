@@ -55,11 +55,19 @@ async function handler(req, res) {
     );
 
     const path = `/about/blogs/${slug}`;
-    await db.collection("quickLinks").updateOne(
-      { path },
-      { $set: { path, label: title, parent: "Blogs" } },
-      { upsert: true }
-    );
+
+    // Remove from quickLinks if it's now unpublished
+    if (!isPublished) {
+      await db.collection("quickLinks").deleteOne({ path });
+    } else {
+      // Otherwise, update or insert it
+      await db.collection("quickLinks").updateOne(
+        { path },
+        { $set: { path, label: title, parent: "Blogs" } },
+        { upsert: true }
+      );
+    }
+    
 
     res.status(200).json({ success: true, updated: result.modifiedCount });
   } catch (err) {

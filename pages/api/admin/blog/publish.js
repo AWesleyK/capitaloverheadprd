@@ -46,13 +46,16 @@ async function handler(req, res) {
 
     const result = await db.collection("blogs").insertOne(blogData);
 
-    // Create or update quickLink
+// Only create quicklink if blog is published
+if (isPublished) {
     const path = `/about/blogs/${slug}`;
     await db.collection("quickLinks").updateOne(
       { path },
       { $set: { path, label: title, parent: "Blogs" } },
       { upsert: true }
     );
+  }
+  
 
     return res.status(201).json({ message: "Blog published", id: result.insertedId });
   } catch (err) {

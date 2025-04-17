@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     username,
     password: hashedPassword,
     setupComplete: false,
+    hidden: false
   });
 
   res.status(200).json({ message: "User created", user });

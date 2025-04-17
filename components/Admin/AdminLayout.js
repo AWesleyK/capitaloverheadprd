@@ -4,10 +4,10 @@ import { useRef, useEffect, useState } from "react";
 import styles from "./AdminLayout.module.scss";
 
 const navItems = [
-  { label: "Catalog", path: "/admin/catalog", minTier: 1 },
-  { label: "Services", path: "/admin/services", minTier: 1 },
-  { label: "Settings", path: "/admin/settings", minTier: 2 },
-  { label: "Payments", path: "/admin/payments", minTier: 1 },
+  { label: "Catalog", path: "/admin/catalog", minTier: 1, requireAdmin: true },
+  { label: "Services", path: "/admin/services", minTier: 1, requireAdmin: true },
+  { label: "Settings", path: "/admin/settings", minTier: 2, requireAdmin: true },
+  { label: "Blogs", path: "/admin/blogs", minTier: 1, requireAdmin: false },
 ];
 
 export default function AdminLayout({ children }) {
@@ -87,8 +87,11 @@ export default function AdminLayout({ children }) {
         </Link>
 
         {navItems
-          .filter(({ minTier }) => !user || (user.tier ?? 0) >= minTier)
-          .map(({ label, path }) => (
+  .filter(({ minTier, requireAdmin }) =>
+    (!user || (user.tier ?? 0) >= minTier) &&
+    (!requireAdmin || user?.roles?.some(role => role.includes("Admin")))
+  )
+  .map(({ label, path }) => (
             <Link key={path} href={path} passHref>
               <div
                 className={`${styles.link} ${pathname === path ? styles.active : ""}`}
@@ -119,6 +122,15 @@ export default function AdminLayout({ children }) {
                 onClick={handleNavClick}
               >
                 Create Account
+              </div>
+            </Link>
+
+            <Link href="/admin/payments" passHref>
+              <div
+                className={`${styles.link} ${pathname === "/admin/payments" ? styles.active : ""}`}
+                onClick={handleNavClick}
+              >
+                Payments
               </div>
             </Link>
           </>

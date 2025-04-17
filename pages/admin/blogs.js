@@ -36,9 +36,13 @@ export default function BlogManagerPage() {
       </div>
 
       <div className={styles.tabContent}>
-        {activeTab === "editor" && <BlogEditor editingPost={editingPost} />}
-        {activeTab === "list" && <BlogList key={activeTab} onEdit={handleEdit} />}
-      </div>
+  <div className={`${styles.tabPane} ${activeTab === "editor" ? styles.active : ""}`}>
+    <BlogEditor editingPost={editingPost} />
+  </div>
+  <div className={`${styles.tabPane} ${activeTab === "list" ? styles.active : ""}`}>
+    <BlogList key={activeTab} onEdit={handleEdit} />
+  </div>
+</div>
     </div>
   );
 }
