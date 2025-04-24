@@ -1,5 +1,7 @@
 import { requireAuth } from "../api/auth/requireAuth";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import styles from "./styles/AdminPage.module.scss";
 import AnnouncementControl from "../../components/Admin/Widgets/AnnouncementControl/AnnouncementControl";
 import BusinessHoursControl from "../../components/Admin/Widgets/BusinessHoursControl/BusinessHoursControl";
@@ -25,36 +27,65 @@ const DEFAULT_LAYOUT = [
 ];
 
 export default function AdminHome() {
+  const router = useRouter();
   const [layout, setLayout] = useState(DEFAULT_LAYOUT);
   const [loading, setLoading] = useState(true);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+
+  const fetchLayoutAndStatus = async () => {
+    try {
+      const [statusRes, layoutRes] = await Promise.all([
+        fetch("/api/admin/payments/settings"),
+        fetch("/api/admin/dashboard/layout/get"),
+      ]);
+
+      if (statusRes.ok) {
+        const statusData = await statusRes.json();
+        setSubscriptionStatus(statusData.subscriptionStatus);
+      }
+
+      if (layoutRes.ok) {
+        const data = await layoutRes.json();
+        const current = new Set(data);
+        const completeLayout = [
+          ...data,
+          ...DEFAULT_LAYOUT.filter((widget) => !current.has(widget)),
+        ];
+        setLayout(completeLayout);
+      } else {
+        setLayout(DEFAULT_LAYOUT);
+      }
+    } catch (err) {
+      console.error("Dashboard load error:", err);
+      setLayout(DEFAULT_LAYOUT);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchLayout = async () => {
-      try {
-        const res = await fetch("/api/admin/dashboard/layout/get");
-        if (res.ok) {
-          const data = await res.json();
+    fetchLayoutAndStatus();
 
-          const current = new Set(data);
-          const completeLayout = [
-            ...data,
-            ...DEFAULT_LAYOUT.filter((widget) => !current.has(widget)),
-          ];
-
-          setLayout(completeLayout);
-        } else {
-          setLayout(DEFAULT_LAYOUT);
-        }
-      } catch (err) {
-        console.error("Failed to load layout:", err);
-        setLayout(DEFAULT_LAYOUT);
-      } finally {
-        setLoading(false);
-      }
+    const refreshOnFocus = () => {
+      fetch("/api/admin/payments/settings")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.subscriptionStatus) {
+            setSubscriptionStatus(data.subscriptionStatus);
+          }
+        });
     };
 
-    fetchLayout();
+    window.addEventListener("focus", refreshOnFocus);
+    return () => window.removeEventListener("focus", refreshOnFocus);
   }, []);
+
+  useEffect(() => {
+    if (router.query.status === "success") {
+      fetchLayoutAndStatus();
+      router.replace("/admin", undefined, { shallow: true });
+    }
+  }, [router.query]);
 
   const handleDragEnd = async (result) => {
     const { destination, source } = result;
@@ -77,6 +108,24 @@ export default function AdminHome() {
   };
 
   if (loading) return <p style={{ padding: "2rem" }}>Loading dashboard...</p>;
+
+  const isSubscribed = ["active", "trialing", "past_due"].includes(subscriptionStatus);
+
+  if (!isSubscribed) {
+    return (
+      <div className={styles.page}>
+        <h1>Your Subscription is Not Active</h1>
+        <p style={{ fontSize: "1.1rem", marginTop: "1rem" }}>
+          To access the admin dashboard, please continue to the payments page.
+        </p>
+        <Link href="/admin/payments">
+          <button className={styles.button} style={{ marginTop: "1rem" }}>
+            Continue to Payments
+          </button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>

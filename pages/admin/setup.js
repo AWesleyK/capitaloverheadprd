@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./styles/Setup.module.scss";
 
@@ -18,6 +18,11 @@ export default function Setup() {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    // Prevent browser autofill
+    document.querySelector("form")?.setAttribute("autocomplete", "off");
+  }, []);
 
   const handleSetup = async () => {
     setError("");
@@ -61,23 +66,105 @@ export default function Setup() {
     <div className={styles.container}>
       <h1 className={styles.title}>Finish Account Setup</h1>
 
-      <input type="text" placeholder="First Name" value={fName} onChange={(e) => setFName(e.target.value)} className={styles.input} />
-      <input type="text" placeholder="Last Name" value={lName} onChange={(e) => setLName(e.target.value)} className={styles.input} />
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} />
-      <input type="text" placeholder="Street Address" value={address} onChange={(e) => setAddress(e.target.value)} className={styles.input} />
-      <input type="text" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} className={styles.input} />
-      <input type="text" placeholder="State" value={state} onChange={(e) => setState(e.target.value)} className={styles.input} />
-      <input type="text" placeholder="ZIP Code" value={zip} onChange={(e) => setZip(e.target.value)} className={styles.input} />
+      <form className={styles.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+        <div className={styles.group}>
+          <input
+            type="text"
+            name="given-name"
+            autoComplete="off"
+            placeholder="First Name"
+            value={fName}
+            onChange={(e) => setFName(e.target.value)}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="family-name"
+            autoComplete="off"
+            placeholder="Last Name"
+            value={lName}
+            onChange={(e) => setLName(e.target.value)}
+            className={styles.input}
+          />
+        </div>
 
-      <input type="password" placeholder="New Password" value={password} onChange={(e) => setPassword(e.target.value)} className={styles.input} />
-      <input type="password" placeholder="Confirm Password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={styles.input} />
+        <input
+          type="email"
+          name="email"
+          autoComplete="off"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={styles.input}
+        />
 
-      {error && <p className={styles.error}>{error}</p>}
-      {success && <p className={styles.success}>{success}</p>}
+        <input
+          type="text"
+          name="address-line1"
+          autoComplete="off"
+          placeholder="Street Address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          className={styles.input}
+        />
 
-      <button onClick={handleSetup} className={styles.button}>
-        Complete Setup
-      </button>
+        <div className={styles.group}>
+          <input
+            type="text"
+            name="city"
+            autoComplete="off"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="state"
+            autoComplete="off"
+            placeholder="State"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="postal-code"
+            autoComplete="off"
+            placeholder="ZIP Code"
+            value={zip}
+            onChange={(e) => setZip(e.target.value)}
+            className={styles.input}
+          />
+        </div>
+
+        <input
+          type="password"
+          name="new-password"
+          autoComplete="new-password"
+          placeholder="New Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles.input}
+        />
+
+        <input
+          type="password"
+          name="confirm-password"
+          autoComplete="new-password"
+          placeholder="Confirm Password"
+          value={confirm}
+          onChange={(e) => setConfirm(e.target.value)}
+          className={styles.input}
+        />
+
+        {error && <p className={styles.error}>{error}</p>}
+        {success && <p className={styles.success}>{success}</p>}
+
+        <button type="submit" onClick={handleSetup} className={styles.button}>
+          Complete Setup
+        </button>
+      </form>
     </div>
   );
 }

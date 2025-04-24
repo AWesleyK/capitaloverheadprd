@@ -21,6 +21,17 @@ const UserSchema = new mongoose.Schema(
     loginAttempts: { type: Number, default: 0 },
     lastLogin: { type: Date },
     stripeCustomerId: { type: String },
+    subscriptionId: { type: String },
+paymentHistory: [
+  {
+    invoiceId: String,
+    amountPaid: Number,
+    paidAt: Date,
+    description: String,
+  }
+],
+setupFeePaid: { type: Boolean, default: false },
+setupFeeAmount: { type: Number, default: 0 },
     lockedBy: { type: String },
     lockedAt: { type: Date },
     dashboardLayout: {

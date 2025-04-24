@@ -1,0 +1,66 @@
+.container {
+    padding: 2rem;
+  }
+  
+  .header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .statusMessage {
+    margin-bottom: 1rem;
+    font-weight: 500;
+  
+    &.success {
+      color: green;
+    }
+  
+    &.cancelled {
+      color: red;
+    }
+  }
+  
+  .section {
+    margin: 2rem 0;
+  }
+  
+  .planInfo {
+    font-size: 1rem;
+  
+    strong {
+      color: #333;
+    }
+  }
+  
+  .button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  
+    &:hover {
+      background: #333;
+    }
+  }
+  
+  .invoiceList {
+    margin-top: 2rem;
+  
+    h4 {
+      margin-bottom: 0.5rem;
+    }
+  
+    li {
+      margin-bottom: 0.3rem;
+    }
+  
+    a {
+      color: #0066cc;
+    }
+  }
+  
