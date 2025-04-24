@@ -19,25 +19,29 @@ function MyApp({ Component, pageProps, services }) {
       <Component {...pageProps} />
     </AdminLayout>
   ) : (
-    <Component {...pageProps} />
+    <div className={fadeClass}>
+      <Component {...pageProps} />
+    </div>
   );
 
   useEffect(() => {
     const handleRouteChange = () => {
-      setFadeClass("");
-      requestAnimationFrame(() => {
-        setFadeClass("pageFade");
-      });
+      if (!isAdminRoute) {
+        setFadeClass(""); // reset
+        requestAnimationFrame(() => {
+          setFadeClass("pageFade");
+        });
+      }
     };
 
-    handleRouteChange();
+    handleRouteChange(); // initial load
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => router.events.off("routeChangeComplete", handleRouteChange);
-  }, [router]);
+  }, [router, isAdminRoute]);
 
   return (
     <Layout services={services || []}>
-      <div className={fadeClass}>{WrappedPage}</div>
+      {WrappedPage}
     </Layout>
   );
 }
