@@ -75,6 +75,12 @@
   margin-right: auto;
 }
 
+.disabledTile {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+
 @media (max-width: 1000px) {
   .dashboardGrid {
     grid-template-columns: 1fr;

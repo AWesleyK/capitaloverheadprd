@@ -81,6 +81,19 @@ export default function PaymentsPage() {
     }
   };
 
+  const handleManageBilling = async () => {
+    const res = await fetch("/api/admin/payments/customer-portal", {
+      method: "POST",
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Unable to open billing portal.");
+    }
+  };
+  
+
   if (loading) return <p style={{ padding: "2rem" }}>Loading billing details...</p>;
 
   return (
@@ -107,15 +120,19 @@ export default function PaymentsPage() {
         </p>
       </div>
 
-      {!setupPaid || !isSubscribed ? (
-        <button onClick={handleStripeCheckout} className={styles.button}>
-          {setupPaid ? "Start Subscription" : "Pay Setup Fee & Subscribe"}
-        </button>
-      ) : (
-        <button onClick={handleCancelSubscription} className={styles.button}>
-          Cancel Subscription
-        </button>
-      )}
+      {(!setupPaid || !isSubscribed) && (
+  <button onClick={handleStripeCheckout} className={styles.button}>
+    {setupPaid ? "Start Subscription" : "Pay Setup Fee & Subscribe"}
+  </button>
+)}
+
+{isSubscribed && (
+  <button onClick={handleManageBilling} className={styles.button}>
+    Manage Billing / Update Card
+  </button>
+)}
+
+
 
       {invoices.length > 0 && (
         <div className={styles.invoiceList}>

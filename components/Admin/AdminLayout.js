@@ -27,6 +27,7 @@ export default function AdminLayout({ children }) {
         ]);
 
         const userData = await userRes.json();
+        console.log("Auth /me response:", userData);
         const subData = await subRes.json();
 
         setUser(userData.user || null);
@@ -145,20 +146,35 @@ export default function AdminLayout({ children }) {
               </>
             )}
 
-            <Link href="/admin/payments" passHref>
+            {/*<Link href="/admin/payments" passHref>
               <div
                 className={`${styles.link} ${pathname === "/admin/payments" ? styles.active : ""}`}
                 onClick={handleNavClick}
               >
                 Payments
               </div>
-            </Link>
+          </Link>*/}
           </>
         )}
+{user && (
+  <div className={styles.userDisplay}>
+    <p className={styles.userLabel}>Logged in as:</p>
+    <p className={styles.userName}>
+      {user.fName || ""} {user.lName || ""} <br />
+      <span className={styles.username}>@{user.username}</span>
+      <span className={styles.userRole}>
+        {" "}
+        ({user.roles?.[user.roles.length - 1] || "User"})
+      </span>
+    </p>
+  </div>
+)}
 
-        <button className={styles.logoutButton} onClick={handleLogout}>
-          Logout
-        </button>
+
+<button className={styles.logoutButton} onClick={handleLogout}>
+  Logout
+</button>
+
       </aside>
 
       <main className={styles.main}>{children}</main>

@@ -73,13 +73,13 @@
   text-align: center;
   font-family: 'Shrikhand';
   font-size: 3rem;
-  //text-shadow: -1px -1px 0 $secondary-color, 2px -2px 0 $secondary-color, -2px 2px 0 $secondary-color, 2px 2px 0 $secondary-color;
-  text-shadow: -1px -1px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
+  text-shadow: -1px -1px 0 $secondary-color, 2px -2px 0 $secondary-color, -2px 2px 0 $secondary-color, 2px 2px 0 $secondary-color;
+  //text-shadow: -1px -1px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
   user-select: none;
   padding: 1rem;
   background-color: $primary-color;
-  color: $secondary-color;
-  //color: white;
+  //color: $secondary-color;
+  color: white;
   border-radius: 10px;
   border: 5px solid $secondary-color;
   max-width: 500px;
@@ -114,7 +114,7 @@
   font-size: 1.5rem;
   background-color: $background1-color;
   color: $secondary-color;
-  font-family: 'Shrikhand';
+  font-family: 'norwester';
   padding: 1rem;
   border-radius: 10px;
   max-width: 320px;

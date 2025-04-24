@@ -120,9 +120,37 @@
   background: #3b82f6;
 }
 
-  
+.userDisplay {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-align: center;
+}
 
-  
+.userLabel {
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.userName {
+  font-weight: 600;
+  color: #1e2129;
+  line-height: 1.4;
+}
+
+.username {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.userRole {
+  font-style: italic;
+  color: #4b5563;
+  font-weight: 400;
+  margin-left: 0.3rem;
+}
+
   
   @media (max-width: 768px) {
     .sidebar {

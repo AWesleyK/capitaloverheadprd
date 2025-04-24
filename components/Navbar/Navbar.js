@@ -172,7 +172,7 @@ const Navbar = ({ services = [] }) => {
                   <div className={`${styles.mobileDropdown} ${showAboutDropdown ? styles.show : ""}`}>
                     <Link href="/about" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Meet the Owner</Link>
                     <Link href="/about/learn-more" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Core Values</Link>
-                    <Link href="/about/blogs" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Blog</Link>
+                    <Link href="/about/blogs" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Blogs</Link>
                   </div>
                 </li>
                 <li className={styles.mobileNavItem}>

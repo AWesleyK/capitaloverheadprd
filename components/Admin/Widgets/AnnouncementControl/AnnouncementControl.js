@@ -60,7 +60,7 @@ export default function AnnouncementControl() {
     setSaving(true);
     setFeedback("");
 
-    const res = await fetch("/api/admin/announcement", {
+    const res = await fetch("/api/admin/dashboard/announcement", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

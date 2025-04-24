@@ -1,5 +1,6 @@
 import { requireAuth } from "../api/auth/requireAuth";
 import { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./styles/AdminPage.module.scss";
@@ -7,6 +8,7 @@ import AnnouncementControl from "../../components/Admin/Widgets/AnnouncementCont
 import BusinessHoursControl from "../../components/Admin/Widgets/BusinessHoursControl/BusinessHoursControl";
 import SearchLogs from "../../components/Admin/Widgets/SearchLogs/SearchLogs";
 import QuickNotes from "../../components/Admin/Widgets/QuickNotes/QuickNotes";
+import RebuildSite from "../../components/Admin/Widgets/RebuildSite/RebuildSite";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export const getServerSideProps = (ctx) =>
@@ -17,6 +19,11 @@ const CONTROL_COMPONENTS = {
   BusinessHoursControl: <BusinessHoursControl />,
   SearchLogs: <SearchLogs />,
   QuickNotes: <QuickNotes />,
+  RebuildSite: <RebuildSite />,
+};
+
+const WIDGET_ACCESS = {
+  RebuildSite: { roles: ["Admin", "Owner"] },
 };
 
 const DEFAULT_LAYOUT = [
@@ -24,6 +31,7 @@ const DEFAULT_LAYOUT = [
   "BusinessHoursControl",
   "SearchLogs",
   "QuickNotes",
+  "RebuildSite",
 ];
 
 export default function AdminHome() {
@@ -31,12 +39,14 @@ export default function AdminHome() {
   const [layout, setLayout] = useState(DEFAULT_LAYOUT);
   const [loading, setLoading] = useState(true);
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+  const [user, setUser] = useState(null);
 
   const fetchLayoutAndStatus = async () => {
     try {
-      const [statusRes, layoutRes] = await Promise.all([
+      const [statusRes, layoutRes, userRes] = await Promise.all([
         fetch("/api/admin/payments/settings"),
         fetch("/api/admin/dashboard/layout/get"),
+        fetch("/api/auth/me"),
       ]);
 
       if (statusRes.ok) {
@@ -54,6 +64,11 @@ export default function AdminHome() {
         setLayout(completeLayout);
       } else {
         setLayout(DEFAULT_LAYOUT);
+      }
+
+      if (userRes.ok) {
+        const userData = await userRes.json();
+        setUser(userData.user);
       }
     } catch (err) {
       console.error("Dashboard load error:", err);
@@ -138,20 +153,26 @@ export default function AdminHome() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {layout.map((key, index) => (
-                <Draggable key={key} draggableId={key} index={index}>
-                  {(provided) => (
-                    <div
-                      className={styles.gridItem}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      {CONTROL_COMPONENTS[key]}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
+              {layout.map((key, index) => {
+                const allowedRoles = user?.roles || [];
+                const allowed = (WIDGET_ACCESS[key]?.roles || []).some(role => allowedRoles.includes(role)) || !WIDGET_ACCESS[key];
+
+                const Component = CONTROL_COMPONENTS[key];
+                return (
+                  <Draggable key={key} draggableId={key} index={index}>
+                    {(provided) => (
+                      <div
+                        className={`${styles.gridItem} ${!allowed ? styles.disabledTile : ""}`}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        {Component && React.cloneElement(Component, { disabled: !allowed })}
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
               {provided.placeholder}
             </div>
           )}
