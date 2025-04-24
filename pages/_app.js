@@ -3,14 +3,17 @@ import "../styles/globals.scss";
 import Layout from "../components/Layout/Layout";
 import AdminLayout from "../components/Admin/AdminLayout";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 function MyApp({ Component, pageProps, services }) {
   const router = useRouter();
+  const [fadeClass, setFadeClass] = useState("");
+
   const excludedAdminRoutes = ["/admin/login", "/admin/setup"];
   const isAdminRoute =
     router.pathname.startsWith("/admin") &&
     !excludedAdminRoutes.includes(router.pathname);
-  
+
   const WrappedPage = isAdminRoute ? (
     <AdminLayout>
       <Component {...pageProps} />
@@ -19,9 +22,22 @@ function MyApp({ Component, pageProps, services }) {
     <Component {...pageProps} />
   );
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setFadeClass("");
+      requestAnimationFrame(() => {
+        setFadeClass("pageFade");
+      });
+    };
+
+    handleRouteChange();
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
+  }, [router]);
+
   return (
     <Layout services={services || []}>
-      {WrappedPage}
+      <div className={fadeClass}>{WrappedPage}</div>
     </Layout>
   );
 }

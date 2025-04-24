@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ServicesPage.module.scss';
-import Image from 'next/image';
+import Image from '../shared/SmartImage';
 import Link from 'next/link';
 
 const ServicesPage = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './NavbarSplit.module.scss';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '../shared/SmartImage';
 
 const Header = () => {
   return (

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/pageStyles/CatalogType.module.scss';
-import Image from 'next/image';
+import Image from '../../components/Shared/SmartImages';
 import Link from 'next/link';
 
 const CatalogTypePage = () => {
@@ -17,6 +17,7 @@ const CatalogTypePage = () => {
   const [priceMaxFilter, setPriceMaxFilter] = useState('');
   const [displayTypeName, setDisplayTypeName] = useState('');
   const [lastLoggedQuery, setLastLoggedQuery] = useState(null);
+  const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
     if (!type) return;
@@ -34,6 +35,8 @@ const CatalogTypePage = () => {
         if (brand) setBrandFilter(brand);
         if (min) setPriceMinFilter(min);
         if (max) setPriceMaxFilter(max);
+
+        setTimeout(() => setFadeIn(true), 50); // delay slight fade effect
       } catch (err) {
         console.error('Error fetching catalog:', err);
       }
@@ -72,12 +75,7 @@ const CatalogTypePage = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             page: `/catalog/${type}`,
-            queryParams: {
-              search,
-              brandFilter,
-              priceMinFilter,
-              priceMaxFilter,
-            },
+            queryParams: { search, brandFilter, priceMinFilter, priceMaxFilter },
           }),
         }).catch(err => console.error("Failed to log search:", err));
 
@@ -91,7 +89,7 @@ const CatalogTypePage = () => {
   const brands = [...new Set(items.map(item => item.brand))];
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${fadeIn ? styles.fadeIn : ''}`}>
       <h1 className={styles.heading}>{displayTypeName} Catalog</h1>
 
       <div className={styles.filters}>
@@ -130,12 +128,7 @@ const CatalogTypePage = () => {
             key={item._id}
             href={{
               pathname: `/catalog/item/${item.slug}`,
-              query: {
-                search,
-                brand: brandFilter,
-                min: priceMinFilter,
-                max: priceMaxFilter,
-              },
+              query: { search, brand: brandFilter, min: priceMinFilter, max: priceMaxFilter },
             }}
             className={styles.card}
           >

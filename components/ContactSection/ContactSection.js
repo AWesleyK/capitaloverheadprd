@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ContactSection.module.scss';
-import Image from 'next/image';
+import Image from '../Shared/SmartImages';
 
 const ContactSection = () => {
   const phoneNumber = '4054560399'; // Replace with your phone number

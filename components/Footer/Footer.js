@@ -1,7 +1,7 @@
 // /components/Footer/Footer.js
 import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.scss';
-import Image from 'next/image';
+import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 
 const Footer = () => {

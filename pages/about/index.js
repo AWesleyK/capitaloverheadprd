@@ -1,7 +1,7 @@
 // pages/about.js
 import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
+import Image from '../../components/Shared/SmartImages';
 import styles from '../../styles/pageStyles/About.module.scss';
 
 const AboutPage = () => {

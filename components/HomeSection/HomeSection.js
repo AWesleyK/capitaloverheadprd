@@ -1,7 +1,7 @@
 // /components/HomeSection/HomeSection.js
 import React, { useEffect, useState } from 'react';
 import styles from './HomeSection.module.scss';
-import Image from 'next/image';
+import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 
 const HomeSection = () => {
@@ -32,7 +32,7 @@ const HomeSection = () => {
         {/* Tagline */}
         <div className={styles.taglineBox}>
           <div className={styles.innerTaglineBox}>
-            <p>Where rural meets reliable!</p>
+            <p>Where Rural Meets Reliable!</p>
           </div>
         </div>
 

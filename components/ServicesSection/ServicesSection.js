@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './ServicesSection.module.scss';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Image from 'next/image';
+import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 
 const ServicesSection = () => {
