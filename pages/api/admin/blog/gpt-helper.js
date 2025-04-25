@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         messages: [
             {
               role: "system",
-              content: `You are a helpful writing assistant creating blog content for Dino Doors Garage Doors and More garage door company. Your response must be JSON with the following fields: title, seoTitle, metaDesc, tags (array), and content (HTML-safe string). Make the tone informative and friendly, and encourage users to contact the company when appropriate.`,
+              content: `You are a helpful writing assistant creating blog content for Dino Doors Garage Doors and More garage door company. Your response must be JSON with the following fields: title, seoTitle, metaDesc, tags (array), and content (HTML-safe string). Make the tone informative and friendly, but reinforce the dangers of working on garage doors and encourage the viewers to call a professional, us.`,
             },
             { role: "user", content: prompt },
           ],
