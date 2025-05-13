@@ -22,7 +22,7 @@ const AboutSection = () => {
             or your garage door opener stopped working and needs service. We have you covered with affordable and upfront pricing! 
             Serving the Garvin County and surrounding areas with a smile! 
           </p>
-          <Link href="/learn-more">
+          <Link href="/about/learn-more">
             <span className={styles.learnMore}>Learn More</span>
           </Link>
         </div>
