@@ -146,14 +146,14 @@ export default function AdminLayout({ children }) {
               </>
             )}
 
-            {/*<Link href="/admin/payments" passHref>
+            <Link href="/admin/payments" passHref>
               <div
                 className={`${styles.link} ${pathname === "/admin/payments" ? styles.active : ""}`}
                 onClick={handleNavClick}
               >
                 Payments
               </div>
-          </Link>*/}
+          </Link>
           </>
         )}
 {user && (
