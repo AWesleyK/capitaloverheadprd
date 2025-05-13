@@ -18,7 +18,7 @@ const ServicesSection = () => {
             Don&apos;t forget! We also repair and install automatic drive way gate operators, servicing brands like Liftmaster, DoorKing, Maximum Controls, 
             US Automatic, and even MightyMule! 
           </p>
-          <Link href="/services-page">
+          <Link href="/services">
             <span className={styles.learnMore}>More Services</span>
           </Link>
         </div>
