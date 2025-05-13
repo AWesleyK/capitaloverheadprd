@@ -12,7 +12,7 @@ export default function GptAssistant({ onAutoFill }) {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/admin/blog/gpt-helper", {
+      const res = await fetch("/api/admin/blog/gptHelper", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
