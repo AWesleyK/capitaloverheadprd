@@ -5,23 +5,29 @@ export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    // Fetch all quick links
-    const links = await db.collection("quickLinks").find().toArray();
+    const [quickLinks, catalogTypes] = await Promise.all([
+      db.collection("quickLinks").find().toArray(),
+      db.collection("catalogTypes").find().toArray(),
+    ]);
 
-    // Separate and sort parents by 'order', and sort children alphabetically under each parent
-    const parents = links
+    const catalogTypeNames = new Set(catalogTypes.map(t => t.typeName));
+
+    const parents = quickLinks
       .filter(l => !l.parent)
-      .sort((a, b) => (a.order || 9999) - (b.order || 9999)); // fallback to 9999 if no order
+      .sort((a, b) => (a.order || 9999) - (b.order || 9999));
 
-    const children = links.filter(l => l.parent);
+    const children = quickLinks.filter(l => l.parent);
 
     const ordered = [];
 
-    // Push parents into final array, followed by their children
     for (const parent of parents) {
+      const isCatalogGroup = catalogTypeNames.has(parent.label);
+
+      const labelWithSuffix = isCatalogGroup ? `${parent.label} Catalog` : parent.label;
+
       ordered.push({
         path: parent.path,
-        label: parent.label,
+        label: labelWithSuffix,
         parent: null,
       });
 
@@ -33,7 +39,7 @@ export default async function handler(req, res) {
         ordered.push({
           path: child.path,
           label: child.label,
-          parent: child.parent,
+          parent: labelWithSuffix, // match updated label
         });
       }
     }

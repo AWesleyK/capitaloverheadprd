@@ -1,7 +1,6 @@
-// /pages/api/catalog/add.js
 import clientPromise from "../../../lib/mongodb";
 import slugify from "slugify";
-import { withAuth } from '../../../lib/middleware/withAuth';
+import { withAuth } from "../../../lib/middleware/withAuth";
 
 async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
@@ -21,9 +20,11 @@ async function handler(req, res) {
 
   const slug = slugify(name, { lower: true, strict: true });
   const path = `/catalog/item/${slug}`;
-  const parent = type === "Garage Doors" ? "Garage Door Catalog"
-              : type === "Gates" ? "Gate Catalog"
-              : null;
+
+  // 🧠 Smart singularization
+  const singularTypeName =
+    typeName.endsWith("s") && typeName.length > 3 ? typeName.slice(0, -1) : typeName;
+  const parent = singularTypeName;
 
   try {
     const client = await clientPromise;
@@ -44,7 +45,13 @@ async function handler(req, res) {
 
     await db.collection("quickLinks").updateOne(
       { path },
-      { $set: { path, label: name, parent } },
+      {
+        $set: {
+          path,
+          label: `${brand} ${name}`,
+          parent,
+        },
+      },
       { upsert: true }
     );
 

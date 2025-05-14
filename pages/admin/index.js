@@ -9,6 +9,7 @@ import BusinessHoursControl from "../../components/Admin/Widgets/BusinessHoursCo
 import SearchLogs from "../../components/Admin/Widgets/SearchLogs/SearchLogs";
 import QuickNotes from "../../components/Admin/Widgets/QuickNotes/QuickNotes";
 import RebuildSite from "../../components/Admin/Widgets/RebuildSite/RebuildSite";
+import PromotionUploadControl from "../../components/Admin/Widgets/PromotionUploadControl/PromotionUploadControl";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export const getServerSideProps = (ctx) =>
@@ -16,6 +17,7 @@ export const getServerSideProps = (ctx) =>
 
 const CONTROL_COMPONENTS = {
   AnnouncementControl: <AnnouncementControl />,
+  PromotionUploadControl: <PromotionUploadControl />,
   BusinessHoursControl: <BusinessHoursControl />,
   SearchLogs: <SearchLogs />,
   QuickNotes: <QuickNotes />,
@@ -28,6 +30,7 @@ const WIDGET_ACCESS = {
 
 const DEFAULT_LAYOUT = [
   "AnnouncementControl",
+  "PromotionUploadControl",
   "BusinessHoursControl",
   "SearchLogs",
   "QuickNotes",

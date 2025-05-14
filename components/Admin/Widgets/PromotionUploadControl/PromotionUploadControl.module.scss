@@ -1,0 +1,62 @@
+.control {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  
+    input[type="file"] {
+      margin-top: 0.5rem;
+    }
+  
+    button {
+      margin-top: 0.5rem;
+      padding: 0.4rem 1rem;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    .message {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #059669;
+    }
+  
+    .previewList {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      max-height: 300px; // ✅ limit height
+      overflow-y: auto;  // ✅ enable vertical scroll
+      padding-right: 0.5rem;
+    }
+  
+    .previewItem {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  
+    .preview {
+      width: auto;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  
+    .deleteBtn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 0.3rem 0.6rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+  

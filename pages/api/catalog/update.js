@@ -23,7 +23,7 @@ async function handler(req, res) {
   const newSlug = slugify(name, { lower: true, strict: true });
   const newPath = `/catalog/item/${newSlug}`;
   const parent = type === "Garage Doors" ? "Garage Door Catalog"
-              : type === "Gates" ? "Gate Catalog"
+              : type === "Automatic Gate Operators" ? "Gate Catalog"
               : null;
 
   try {

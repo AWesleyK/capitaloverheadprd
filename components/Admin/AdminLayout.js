@@ -8,7 +8,9 @@ const navItems = [
   { label: "Services", path: "/admin/services", minTier: 1, requireAdmin: true },
   { label: "Settings", path: "/admin/settings", minTier: 2, requireAdmin: true },
   { label: "Blogs", path: "/admin/blogs", minTier: 1, requireAdmin: false },
+  { label: "Patch Notes", path: "/admin/patch-notes", minTier: 1, requireAdmin: true },
 ];
+
 
 export default function AdminLayout({ children }) {
   const { pathname, push } = useRouter();

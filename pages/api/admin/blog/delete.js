@@ -1,6 +1,7 @@
 import clientPromise from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import { withAuth } from "../../../../lib/middleware/withAuth";
+import { del } from "@vercel/blob";
 
 async function handler(req, res) {
   if (req.method !== "DELETE") return res.status(405).end("Method not allowed");
@@ -13,16 +14,27 @@ async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    // Find blog to delete
-    const blog = await db.collection("blogs").findOne({ _id: new ObjectId(id) });
+    const blogs = db.collection("blogs");
+    const quickLinks = db.collection("quickLinks");
+
+    // 🟡 Step 1: Fetch the blog to get image URL and slug
+    const blog = await blogs.findOne({ _id: new ObjectId(id) });
     if (!blog) return res.status(404).json({ error: "Blog not found" });
 
-    // Delete blog post
-    await db.collection("blogs").deleteOne({ _id: new ObjectId(id) });
+    // 🟠 Step 2: Delete image from Vercel Blob if exists
+    if (entry.url.includes("blob.vercel")) {
+      try {
+        await del(blog.imageUrl);
+      } catch (err) {
+        console.warn("Blob deletion failed:", err.message);
+      }
+    }
 
-    // Delete related quickLink
-    const path = `/about/blogs/${blog.slug}`;
-    await db.collection("quickLinks").deleteOne({ path });
+    // 🔴 Step 3: Delete the blog and the quick link
+    await blogs.deleteOne({ _id: new ObjectId(id) });
+
+    const path = `/about/blog/${blog.slug}`;
+    await quickLinks.deleteOne({ path });
 
     res.status(200).json({ success: true });
   } catch (err) {

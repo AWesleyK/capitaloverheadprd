@@ -5,6 +5,7 @@ import AboutSection from '../components/AboutSection/AboutSection';
 import ContactSection from '../components/ContactSection/ContactSection';
 import ApplySection from '../components/ApplySection/ApplySection';
 import ServicesSection from '../components/ServicesSection/ServicesSection';
+import PromotionSection from '../components/PromotionSection/PromotionSection';
 
 const HomePage = () => {
   return (
@@ -14,6 +15,9 @@ const HomePage = () => {
       </div>
       <div>
         <ContactSection />
+      </div>
+      <div>
+        <PromotionSection />
       </div>
       <div id="about">
         <AboutSection />

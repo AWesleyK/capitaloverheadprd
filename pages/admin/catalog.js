@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import styles from "./styles/AdminPage.module.scss";
 import { requireAuth } from "../api/auth/requireAuth";
 
-export const getServerSideProps = (ctx) => requireAuth(ctx, ["Admin"]);
+export const getServerSideProps = (ctx) =>
+  requireAuth(ctx, { roles: ["Admin"], minTier: 1 });
 
 
 
@@ -26,6 +27,11 @@ export default function CatalogPage() {
   const [editingFile, setEditingFile] = useState({});
   const [expandedTypes, setExpandedTypes] = useState({});
 
+  const [catalogTypes, setCatalogTypes] = useState([]);
+  const [newType, setNewType] = useState("");
+  const [newTypeName, setNewTypeName] = useState("");
+
+
   const fetchCatalog = async () => {
     const res = await fetch("/api/catalog/get");
     const data = await res.json();
@@ -33,6 +39,7 @@ export default function CatalogPage() {
   };
 
   useEffect(() => {
+    fetch("/api/catalog/types/get").then(res => res.json()).then(setCatalogTypes);
     fetchCatalog();
   }, []);
 
@@ -291,7 +298,7 @@ export default function CatalogPage() {
 
   return (
       <div className={styles.page}>
-        <h1>Add Garage Door/Gate</h1>
+        <h1>Add Catalog Item</h1>
 
         <div className={styles.formGroup}>
           <label>Image:</label>
@@ -301,13 +308,61 @@ export default function CatalogPage() {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Type:</label>
-          <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value, typeName: e.target.options[e.target.selectedIndex].text })}>
-            <option value="">Select Type</option>
-            <option value="Garage Doors">Garage Door</option>
-            <option value="Gates">Gate</option>
-          </select>
-        </div>
+  <label>Type:</label>
+  <select
+    value={form.type}
+    onChange={async (e) => {
+      const selected = e.target.value;
+
+      if (selected === "__new__") {
+        const input = prompt("Enter a name for the new catalog type:");
+        if (!input) return;
+
+        const newTypeName = input.trim();
+        const newType = newTypeName; // same as typeName
+
+        const res = await fetch("/api/catalog/types/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: newType, typeName: newTypeName }),
+        });
+
+        if (res.status === 409) {
+          alert("That catalog type already exists.");
+        }
+
+        if (res.ok) {
+          const updatedTypes = await fetch("/api/catalog/types/get").then((r) => r.json());
+          setCatalogTypes(updatedTypes);
+          setForm((prev) => ({
+            ...prev,
+            type: newType,
+            typeName: newTypeName,
+          }));
+          alert("Type added!");
+        } else {
+          alert("Failed to add type.");
+        }
+      } else {
+        const typeName = e.target.options[e.target.selectedIndex].text;
+        setForm((prev) => ({
+          ...prev,
+          type: selected,
+          typeName,
+        }));
+      }
+    }}
+  >
+    <option value="__new__">➕ Add New Type</option>
+    <option value="">Select Type</option>
+    {catalogTypes.map((t) => (
+      <option key={t.type} value={t.type}>
+        {t.typeName}
+      </option>
+    ))}
+  </select>
+</div>
+
 
         <div className={styles.formGroup}>
           <label>Brand:</label>

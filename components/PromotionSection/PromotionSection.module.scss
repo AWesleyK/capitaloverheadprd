@@ -1,0 +1,88 @@
+@import '../../styles/variables.scss';
+
+.promotionSection {
+  width: 100%;
+  background: linear-gradient(135deg, #0e2238, #1d2e3f); // Example background, customize as needed
+  padding: 4rem 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.sectionTitle {
+    font-size: 3rem;
+    font-weight: 900;
+    color: $secondary-color;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-shadow:
+      0 0 5px rgba(0, 0, 0, 0.5),
+      0 0 15px rgba(0, 0, 0, 0.3);
+  
+    animation: pulseGlow 1.5s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+  }
+  
+  @keyframes pulseGlow {
+    0% {
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba($secondary-color, 0.4),
+        0 0 25px rgba($secondary-color, 0.6);
+    }
+    50% {
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.3),
+        0 0 30px rgba($secondary-color, 0.8),
+        0 0 40px rgba($secondary-color, 1);
+    }
+    100% {
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba($secondary-color, 0.4),
+        0 0 25px rgba($secondary-color, 0.6);
+    }
+  }
+
+.sectionTitle::after {
+    content: "";
+    display: block;
+    margin: 0.5rem auto 0;
+    width: 80%;
+    height: 4px;
+    background: $secondary-color;
+    border-radius: 2px;
+  }
+  
+
+.carouselWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+
+.slide img {
+    width: 100%;
+    aspect-ratio: 16 / 7; // ✅ maintain 16:7 ratio
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+  
+
+.loader, .placeholder {
+  color: white;
+  font-size: 1.3rem;
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+  .slide img {
+    max-height: 180px;
+  }
+}

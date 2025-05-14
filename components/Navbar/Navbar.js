@@ -18,6 +18,15 @@ const Navbar = ({ services = [] }) => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
+  const [catalogTypes, setCatalogTypes] = useState([]);
+
+useEffect(() => {
+  fetch("/api/catalog/types/active")
+    .then((res) => res.json())
+    .then((data) => setCatalogTypes(data));
+}, []);
+
+
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setShowCatalogDropdown(false);
@@ -118,11 +127,20 @@ const Navbar = ({ services = [] }) => {
         Catalog▾
       </div>
       <div className={`${styles.dropdownContent} ${showCatalogDropdown ? styles.showDropdown : ""}`}>
-        <Link href="/catalog/garage doors" className={styles.dropdownItem} onClick={closeMobileMenu}>Garage Doors</Link>
-        <Link href="/catalog/gates" className={styles.dropdownItem} onClick={closeMobileMenu}>Gates</Link>
+        {catalogTypes.map((type) => (
+          <Link
+            key={type.type}
+            href={`/catalog/${type.type.toLowerCase().replace(/\s+/g, "%20")}`}
+            className={styles.dropdownItem}
+            onClick={closeMobileMenu}
+          >
+            {type.typeName}
+          </Link>
+        ))}
       </div>
     </li>
   );
+  
 
   const renderAboutDropdown = () => (
     <li
@@ -193,7 +211,7 @@ const Navbar = ({ services = [] }) => {
                   </div>
                   <div className={`${styles.mobileDropdown} ${showCatalogDropdown ? styles.show : ""}`}>
                     <Link href="/catalog/garage doors" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Garage Doors</Link>
-                    <Link href="/catalog/gates" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Gates</Link>
+                    <Link href="/catalog/automatic gate operators" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Automatic Gate Operators</Link>
                   </div>
                 </li>
                 <li className={styles.mobileNavItem}>
