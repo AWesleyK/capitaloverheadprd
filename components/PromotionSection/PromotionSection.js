@@ -3,6 +3,8 @@ import styles from './PromotionSection.module.scss';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+const PHONE_NUMBER = "4054560399";
+
 const PromotionSection = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,10 +26,9 @@ const PromotionSection = () => {
     fetchImages();
   }, []);
 
-  // Pause autoplay on manual interaction
   const handleInteraction = () => {
     setAutoplay(false);
-    setTimeout(() => setAutoplay(true), 8000); // resume after 8s
+    setTimeout(() => setAutoplay(true), 8000);
   };
 
   if (loading) {
@@ -62,17 +63,32 @@ const PromotionSection = () => {
           onClickItem={handleInteraction}
           onSwipeEnd={handleInteraction}
           onChange={handleInteraction}
+          renderArrowPrev={(onClickHandler, hasPrev, label) =>
+            hasPrev && (
+              <button onClick={onClickHandler} className={`${styles.arrow} ${styles.left}`} aria-label={label}>
+                ◀
+              </button>
+            )
+          }
+          renderArrowNext={(onClickHandler, hasNext, label) =>
+            hasNext && (
+              <button onClick={onClickHandler} className={`${styles.arrow} ${styles.right}`} aria-label={label}>
+                ▶
+              </button>
+            )
+          }
         >
           {images.map((src, index) => (
             <div key={index} className={styles.slide}>
-              <img src={src} alt={`Promotion ${index + 1}`} />
+              <a href={`tel:${PHONE_NUMBER}`}>
+                <img src={src} alt={`Promotion ${index + 1}`} />
+              </a>
             </div>
           ))}
         </Carousel>
       </div>
     </section>
   );
-  
 };
 
 export default PromotionSection;
