@@ -1,29 +1,33 @@
 // /components/Footer/Footer.js
-import React, { useEffect, useState } from 'react';
-import styles from './Footer.module.scss';
-import Image from '../Shared/SmartImages';
-import Link from 'next/link';
+import React, { useEffect, useState } from "react";
+import styles from "./Footer.module.scss";
+import Image from "../Shared/SmartImages";
+import Link from "next/link";
 
 const Footer = () => {
   const [quickLinks, setQuickLinks] = useState([]);
   const [hours, setHours] = useState({ store: [], operation: [] });
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const [contactInfo, setContactInfo] = useState(null);
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [linksRes, hoursRes] = await Promise.all([
-          fetch('/api/content/quicklinks'),
-          fetch('/api/content/business-hours/public')
+        const [linksRes, hoursRes, contactRes] = await Promise.all([
+          fetch("/api/content/quicklinks"),
+          fetch("/api/content/business-hours/public"),
+          fetch("/api/content/site-settings/public"),
         ]);
 
         const linksData = await linksRes.json();
         const hoursData = await hoursRes.json();
+        const contactData = await contactRes.json();
 
-        setQuickLinks(linksData);
-        setHours(hoursData);
+        setQuickLinks(linksData || []);
+        setHours(hoursData || { store: [], operation: [] });
+        setContactInfo(contactData); // can be null on first run
       } catch (err) {
-        console.error('Failed to load footer data:', err);
+        console.error("Failed to load footer data:", err);
       }
     };
 
@@ -31,14 +35,12 @@ const Footer = () => {
   }, []);
 
   const regularParents = quickLinks
-  .filter(link => !link.parent && link.order !== 9999)
-  .sort((a, b) => (a.order || 9999) - (b.order || 9999));
+    .filter((link) => !link.parent && link.order !== 9999)
+    .sort((a, b) => (a.order || 9999) - (b.order || 9999));
 
-const blogParents = quickLinks
-  .filter(link => !link.parent && link.order === 9999)
-  .sort((a, b) => a.label.localeCompare(b.label));
-
-
+  const blogParents = quickLinks
+    .filter((link) => !link.parent && link.order === 9999)
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const groupedLinks = quickLinks.reduce((acc, link) => {
     if (!link.parent) return acc;
@@ -47,12 +49,19 @@ const blogParents = quickLinks
     return acc;
   }, {});
 
+  // Fallbacks in case DB is empty or API returns null
+  const email = contactInfo?.email || "Jon@dinodoors.net";
+  const phone = contactInfo?.phone || "4054560399";
+  const phoneDisplay = contactInfo?.phoneDisplay || "(405) 456-0399";
+  const addressLine1 = contactInfo?.addressLine1 || "307 S Main Street";
+  const addressLine2 = contactInfo?.addressLine2 || "Elmore City, OK 73433";
+
   return (
     <footer className={styles.footer}>
       <div className={styles.topBar}>
-        Powered By{' '}
+        Powered By{" "}
         <a className={styles.awkward} href="http://scorchseo.com">
-          Scorch{' '}
+          Scorch{" "}
           {!isMobile && (
             <Image
               src="/images/logo192.png"
@@ -66,36 +75,77 @@ const blogParents = quickLinks
       </div>
 
       <div className={styles.socialMedia}>
-        <a href="https://www.facebook.com/DinoDoorsGarageDoors/" target="_blank" rel="noopener noreferrer">
-          <Image src="/images/link_images/f.png" alt="Facebook" className={styles.socialLink} width={30} height={30} />
+        <a
+          href="https://www.facebook.com/DinoDoorsGarageDoors/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/link_images/f.png"
+            alt="Facebook"
+            className={styles.socialLink}
+            width={30}
+            height={30}
+          />
         </a>
-        <a href="https://www.instagram.com/dinodoorsgaragedoors/" target="_blank" rel="noopener noreferrer">
-          <Image src="/images/link_images/IG.png" alt="Instagram" className={styles.socialLink} width={30} height={30} />
+        <a
+          href="https://www.instagram.com/dinodoorsgaragedoors/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/link_images/IG.png"
+            alt="Instagram"
+            className={styles.socialLink}
+            width={30}
+            height={30}
+          />
         </a>
-        <a href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/" target="_blank" rel="noopener noreferrer">
-          <Image src="/images/link_images/G.png" alt="Google" className={styles.socialLink} width={30} height={30} />
+        <a
+          href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/images/link_images/G.png"
+            alt="Google"
+            className={styles.socialLink}
+            width={30}
+            height={30}
+          />
         </a>
       </div>
 
       <div className={styles.bottomSection}>
         <div className={styles.contactInfo}>
           <h1>Contact Us</h1>
-          <p>Email: services@capitaloverhead.com</p>
+
           <p>
-  Phone Number:{" "}
-  <Link className={styles.phoneNumber} href="tel:4054560399">
-    (405) 456-0399
-  </Link>
-</p>
-          <p>Address: 307 Main Street<br />
-  Elmore City, OK 73433</p>
+            Email: <a href={`mailto:${email}`}>{email}</a>
+          </p>
+
+          <p>
+            Phone Number:{" "}
+            <Link className={styles.phoneNumber} href={`tel:${phone}`}>
+              {phoneDisplay}
+            </Link>
+          </p>
+
+          <p>
+            Address: {addressLine1}
+            <br />
+            {addressLine2}
+          </p>
         </div>
+
         <div className={styles.hoursWrap}>
           <div className={styles.hoursContainer}>
             <h2>Store Hours</h2>
             <ul>
               {hours.store.map((entry, idx) => (
-                <li key={idx}><strong>{entry.day}:</strong> {entry.hours}</li>
+                <li key={idx}>
+                  <strong>{entry.day}:</strong> {entry.hours}
+                </li>
               ))}
             </ul>
           </div>
@@ -104,7 +154,9 @@ const blogParents = quickLinks
             <h2>Hours of Operation</h2>
             <ul>
               {hours.operation.map((entry, idx) => (
-                <li key={idx}><strong>{entry.day}:</strong> {entry.hours}</li>
+                <li key={idx}>
+                  <strong>{entry.day}:</strong> {entry.hours}
+                </li>
               ))}
             </ul>
           </div>
@@ -132,43 +184,54 @@ const blogParents = quickLinks
       </div>
 
       <div className={styles.quickLinksWrapper}>
-  <h2>Quick Links</h2>
-  <div className={styles.quickLinksGrid}>
-    {regularParents.map((parent) => (
-      <div key={parent.label} className={styles.linkColumn}>
-        <Link href={parent.path} className={styles.parentLink}>
-          {parent.label}
-        </Link>
-        {groupedLinks[parent.label]?.sort((a, b) => a.label.localeCompare(b.label)).map((child, idx) => (
-          <Link key={idx} href={child.path} className={styles.childLink}>
-            {child.label}
-          </Link>
-        ))}
-      </div>
-    ))}
-  </div>
-
-  {blogParents.length > 0 && (
-    <div className={styles.blogLinksSection}>
-      <h2>Blogs</h2>
-      <div className={styles.quickLinksGrid}>
-        {blogParents.map((parent) => (
-          <div key={parent.label} className={styles.linkColumn}>
-            <Link href={parent.path} className={styles.parentLink}>
-              {parent.label}
-            </Link>
-            {groupedLinks[parent.label]?.sort((a, b) => a.label.localeCompare(b.label)).map((child, idx) => (
-              <Link key={idx} href={child.path} className={styles.childLink}>
-                {child.label}
+        <h2>Quick Links</h2>
+        <div className={styles.quickLinksGrid}>
+          {regularParents.map((parent) => (
+            <div key={parent.label} className={styles.linkColumn}>
+              <Link href={parent.path} className={styles.parentLink}>
+                {parent.label}
               </Link>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
-</div>
+              {groupedLinks[parent.label]
+                ?.sort((a, b) => a.label.localeCompare(b.label))
+                .map((child, idx) => (
+                  <Link
+                    key={idx}
+                    href={child.path}
+                    className={styles.childLink}
+                  >
+                    {child.label}
+                  </Link>
+                ))}
+            </div>
+          ))}
+        </div>
 
+        {blogParents.length > 0 && (
+          <div className={styles.blogLinksSection}>
+            <h2>Blogs</h2>
+            <div className={styles.quickLinksGrid}>
+              {blogParents.map((parent) => (
+                <div key={parent.label} className={styles.linkColumn}>
+                  <Link href={parent.path} className={styles.parentLink}>
+                    {parent.label}
+                  </Link>
+                  {groupedLinks[parent.label]
+                    ?.sort((a, b) => a.label.localeCompare(b.label))
+                    .map((child, idx) => (
+                      <Link
+                        key={idx}
+                        href={child.path}
+                        className={styles.childLink}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </footer>
   );
 };

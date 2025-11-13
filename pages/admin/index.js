@@ -11,6 +11,8 @@ import QuickNotes from "../../components/Admin/Widgets/QuickNotes/QuickNotes";
 import RebuildSite from "../../components/Admin/Widgets/RebuildSite/RebuildSite";
 import PromotionUploadControl from "../../components/Admin/Widgets/PromotionUploadControl/PromotionUploadControl";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import SiteSettingsControl from "../../components/Admin/Widgets/SiteSettingsControl/SiteSettingsControl";
+
 
 export const getServerSideProps = (ctx) =>
   requireAuth(ctx, { roles: ["Admin", "User", "Owner"], minTier: 1 });
@@ -22,6 +24,7 @@ const CONTROL_COMPONENTS = {
   SearchLogs: <SearchLogs />,
   QuickNotes: <QuickNotes />,
   RebuildSite: <RebuildSite />,
+  SiteSettingsControl: <SiteSettingsControl />,
 };
 
 const WIDGET_ACCESS = {
@@ -32,6 +35,7 @@ const DEFAULT_LAYOUT = [
   "AnnouncementControl",
   "PromotionUploadControl",
   "BusinessHoursControl",
+  "SiteSettingsControl",
   "SearchLogs",
   "QuickNotes",
   "RebuildSite",
