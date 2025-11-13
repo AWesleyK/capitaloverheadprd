@@ -1,4 +1,5 @@
-import Stripe from "stripe";
+// pages/api/admin/payments/checkout-session.js
+import Stripe from "stripe"; 
 import jwt from "jsonwebtoken";
 import dbConnect from "../../../../lib/mongoose";
 import User from "../../../../models/users";
@@ -38,31 +39,37 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid pricing tier" });
     }
 
-    let stripeCustomerId = settings.stripeCustomerId;
+    // ✅ Use a per-owner Stripe customer, stored on the user
+    let stripeCustomerId = user.stripeCustomerId;
+
     if (!stripeCustomerId) {
       const customer = await stripe.customers.create({
         email: user.email,
         name: `${user.fName} ${user.lName}`,
         metadata: { mongoUserId: user._id.toString() },
       });
+
       stripeCustomerId = customer.id;
-      settings.stripeCustomerId = stripeCustomerId;
-      await settings.save();
+      user.stripeCustomerId = stripeCustomerId;
+      await user.save(); // save it on the user, NOT on settings
     }
 
     // Optional: Add setup fee if not paid
-    const setupFeeAmount = !settings.setupFeePaid && settings.setupFeeAmount > 0
-      ? [{
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Setup Fee",
+    const setupFeeAmount =
+      !settings.setupFeePaid && settings.setupFeeAmount > 0
+        ? [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: "Setup Fee",
+                },
+                unit_amount: settings.setupFeeAmount,
+              },
+              quantity: 1,
             },
-            unit_amount: settings.setupFeeAmount,
-          },
-          quantity: 1,
-        }]
-      : [];
+          ]
+        : [];
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -83,9 +90,10 @@ export default async function handler(req, res) {
     });
 
     res.status(200).json({ url: session.url });
-
   } catch (err) {
     console.error("Checkout Session Error:", err);
-    res.status(500).json({ error: "Internal server error", details: err.message });
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: err.message });
   }
 }
