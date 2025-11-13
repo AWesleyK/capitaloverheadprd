@@ -76,25 +76,48 @@ function pingSearchEngines() {
   const targets = [
     {
       name: "Google",
-      url: `https://www.google.com/ping?sitemap=${sitemapUrl}`
+      url: `https://www.google.com/ping?sitemap=${sitemapUrl}`,
     },
     {
       name: "Bing (IndexNow)",
-      url: `https://www.bing.com/ping?sitemap=${sitemapUrl}`
-    }
+      url: `https://www.bing.com/ping?sitemap=${sitemapUrl}`,
+    },
   ];
 
-  return Promise.all(targets.map(target =>
-    new Promise((resolve) => {
-      https.get(target.url, (res) => {
-        console.log(`📡 Pinged ${target.name}: ${res.statusCode}`);
-        resolve();
-      }).on("error", (err) => {
-        console.error(`❌ Failed to ping ${target.name}:`, err.message);
-        resolve();
-      });
-    })
-  ));
+  return Promise.all(
+    targets.map((target) =>
+      new Promise((resolve) => {
+        https
+          .get(target.url, (res) => {
+            // IMPORTANT: consume or discard the response body so the socket can close
+            res.resume();
+
+            console.log(`📡 Pinged ${target.name}: ${res.statusCode}`);
+
+            // Don’t break the build on non-2xx status codes
+            if (res.statusCode === 404 && target.name === "Google") {
+              console.warn(
+                "Google sitemap ping endpoint is deprecated and returning 404 (expected)."
+              );
+            }
+
+            if (res.statusCode === 410 && target.name.includes("Bing")) {
+              console.warn(
+                "Bing sitemap ping endpoint returned 410 (deprecated). Consider switching to IndexNow API."
+              );
+            }
+
+            resolve();
+          })
+          .on("error", (err) => {
+            console.error(`❌ Failed to ping ${target.name}:`, err.message);
+            // Still resolve so the build continues
+            resolve();
+          });
+      })
+    )
+  );
 }
+
 
 generateSitemap();

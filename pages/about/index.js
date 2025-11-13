@@ -1,10 +1,21 @@
 // pages/about.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from '../../components/Shared/SmartImages';
 import styles from '../../styles/pageStyles/About.module.scss';
 
 const AboutPage = () => {
+  const [addressLine1, setAddressLine1] = useState("307 S Main Street"); // fallback
+
+useEffect(() => {
+  fetch("/api/content/site-settings/public")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data?.addressLine1) setAddressLine1(data.addressLine1);
+    })
+    .catch(() => {});
+}, []);
+
   return (
     <>
       <Head>
@@ -37,7 +48,8 @@ const AboutPage = () => {
           </p>
 
           <p className={styles.aboutText}>
-            In early 2025, we expanded our reach even further by opening our first physical location right in the heart of Elmore City at <strong>307 Main Street</strong>.
+            In early 2025, we expanded our reach even further by opening our first physical location right in the heart of Elmore City at{" "}
+            <strong>{addressLine1}</strong>.
           </p>
 
           <div className={styles.imageGrid}>
