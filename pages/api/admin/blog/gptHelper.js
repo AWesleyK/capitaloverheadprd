@@ -1,36 +1,40 @@
+// /pages/api/admin/blog/gptHelper.js
 import OpenAI from "openai";
 
-// Use Vercel AI Gateway via its OpenAI-compatible API
-// Docs: https://vercel.com/docs/ai-gateway/openai-compat
 const openai = new OpenAI({
   apiKey: process.env.AI_GATEWAY_API_KEY,
   baseURL: "https://ai-gateway.vercel.sh/v1",
 });
 
-// Simple timeout guard so we fail before Vercel kills the function
+// small timeout wrapper so we don’t hit Vercel’s hard limit
 function withTimeout(promise, ms, label = "operation") {
   return Promise.race([
     promise,
     new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+      setTimeout(
+        () => reject(new Error(`${label} timed out after ${ms}ms`)),
+        ms
+      )
     ),
   ]);
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end("Method Not Allowed");
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
 
   const { prompt } = req.body || {};
   if (!prompt || typeof prompt !== "string") {
-    return res.status(400).json({ error: "Prompt is required." });
+    return res.status(400).json({ error: "Prompt is required" });
   }
+
+  const model = process.env.AI_GATEWAY_MODEL || "openai/gpt-4.1-mini";
 
   try {
     const completion = await withTimeout(
       openai.chat.completions.create({
-        // 👇 model goes through AI Gateway; you configure routing in the Vercel UI
-        model: "openai/gpt-4.1",
-        response_format: { type: "json_object" }, // force pure JSON from the model
+        model,
         messages: [
           {
             role: "system",
@@ -46,25 +50,42 @@ export default async function handler(req, res) {
         temperature: 0.7,
         max_tokens: 800,
       }),
-      8000, // 8s so we bail before Vercel’s ~10s limit
-      "OpenAI completion"
+      8000,
+      "AI completion"
     );
 
     const raw = completion.choices?.[0]?.message?.content?.trim();
     if (!raw) {
-      console.error("gptHelper: OpenAI (via Gateway) returned empty content", completion);
-      return res.status(502).json({ error: "AI did not return any content." });
+      console.error("gptHelper: empty content from AI:", completion);
+      return res
+        .status(502)
+        .json({ error: "AI did not return any content." });
     }
 
+    // Try to parse JSON straight; if it fails, try to salvage
     let parsed;
     try {
       parsed = JSON.parse(raw);
-    } catch (e) {
-      console.error("gptHelper: JSON parse error. raw:", raw);
-      return res.status(502).json({
-        error: "AI returned invalid JSON.",
-        raw,
-      });
+    } catch {
+      // try to salvage JSON if the model sneaks text around it
+      const firstBrace = raw.indexOf("{");
+      const lastBrace = raw.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        const maybeJson = raw.slice(firstBrace, lastBrace + 1);
+        try {
+          parsed = JSON.parse(maybeJson);
+        } catch (e2) {
+          console.error("gptHelper: JSON parse error, raw:", raw);
+          return res.status(502).json({
+            error: "AI returned invalid JSON.",
+          });
+        }
+      } else {
+        console.error("gptHelper: JSON parse error, raw:", raw);
+        return res.status(502).json({
+          error: "AI returned invalid JSON.",
+        });
+      }
     }
 
     const {
@@ -78,14 +99,22 @@ export default async function handler(req, res) {
     if (!content) {
       return res.status(502).json({
         error: "AI did not include content field.",
-        raw: parsed,
       });
     }
 
     return res.status(200).json({ title, seoTitle, metaDesc, tags, content });
   } catch (err) {
     console.error("gptHelper via AI Gateway error:", err);
-    const msg = err.message || String(err);
+
+    const msg = err?.message || String(err);
+
+    // If OpenAI SDK gives us an HTTP response, surface it
+    if (err.status || err.code) {
+      return res.status(500).json({
+        error: "Failed to generate content.",
+        details: `${err.status || err.code} ${msg}`,
+      });
+    }
 
     if (msg.includes("timed out")) {
       return res
@@ -93,9 +122,9 @@ export default async function handler(req, res) {
         .json({ error: "AI took too long to respond. Please try again." });
     }
 
-    return res.status(500).json({
-      error: "Failed to generate content.",
-      details: msg,
-    });
+    return res
+      .status(500)
+      .json({ error: "Failed to generate content.", details: msg });
   }
 }
+
