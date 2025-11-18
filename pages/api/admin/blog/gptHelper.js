@@ -48,9 +48,9 @@ export default async function handler(req, res) {
           { role: "user", content: prompt },
         ],
         temperature: 0.7,
-        max_tokens: 800,
+        max_tokens: 1000,
       }),
-      8000,
+      20000,
       "AI completion"
     );
 
