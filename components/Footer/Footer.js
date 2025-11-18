@@ -161,17 +161,18 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-        <div className={styles.mapContainer}>
-          <h2>Visit Us</h2>
-          <iframe
-            className={styles.mapEmbed}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.3627813287135!2d-97.39932952377676!3d34.620271487523375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b2c0349438e529%3A0xb6943bc1ae39fc34!2s307%20S%20Main%20St%2C%20Elmore%20City%2C%20OK%2073433!5e0!3m2!1sen!2sus!4v1763048877439!5m2!1sen!2sus"
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
+{/*
+<div className={styles.mapContainer}>
+  <h2>Visit Us</h2>
+  <iframe
+    className={styles.mapEmbed}
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.3627813287135!2d-97.39932952377676!3d34.620271487523375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b2c0349438e529%3A0xb6943bc1ae39fc34!2s307%20S%20Main%20St%2C%20Elmore%20City%2C%20OK%2073433!5e0!3m2!1sen!2sus!4v1763048877439!5m2!1sen!2sus"
+    allowFullScreen=""
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  />
+</div>
+*/}
 
         <div className={styles.companyLogo}>
           <Image
