@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/api/services/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/services/add.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Footer/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Footer/Footer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1770075201979</updated>
       <workItem from="1770075203048" duration="5073000" />
-      <workItem from="1770095177134" duration="7384000" />
+      <workItem from="1770095177134" duration="8054000" />
     </task>
     <servers />
   </component>

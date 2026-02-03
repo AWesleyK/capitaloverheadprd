@@ -61,13 +61,13 @@ const Footer = () => {
   return (
       <footer className={styles.footer}>
         <div className={styles.topBar}>
-          Powered By{" "}
-          <a className={styles.awkward} href="http://scorchseo.com">
-            Scorch{" "}
+          Powered by{" "}
+          <a className={styles.awkward} href="https://www.infinitedev.co/">
+            Infinite Development{" "}
             {!isMobile && (
                 <Image
-                    src="/images/logo192.png"
-                    alt="Scorch"
+                    src="/transparent-icon.png"
+                    alt="Infinite Development"
                     className={styles.logo}
                     width={20}
                     height={20}
@@ -104,7 +104,7 @@ const Footer = () => {
             />
           </a>
           <a
-              href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/"
+              href="https://share.google/2QuDoeRfdBkV5nrvf"
               target="_blank"
               rel="noopener noreferrer"
           >
