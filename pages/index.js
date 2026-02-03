@@ -18,7 +18,7 @@ const HomePage = () => {
       </div>
       <div>
         <PromotionSection />
-      </div>
+      </div> 
       <div id="about">
         <AboutSection />
       </div>
