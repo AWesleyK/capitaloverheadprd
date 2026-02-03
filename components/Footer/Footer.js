@@ -114,7 +114,7 @@ const Footer = () => {
                 className={styles.socialLink}
                 width={30}
                 height={30}
-                
+
             />
           </a>
         </div>
