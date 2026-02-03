@@ -1,64 +1,96 @@
 import clientPromise from "../../../lib/mongodb";
-import slugify from "slugify";
 import { withAuth } from "../../../lib/middleware/withAuth";
 
+function slugify(str) {
+  return String(str || "")
+      .trim()
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+}
+
 async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end("Method not allowed");
+  if (req.method !== "POST") return res.status(405).end("Method Not Allowed");
 
-  const { type, typeName, brand, name, description, priceMin, priceMax, imageUrl } = req.body;
+  const {
+    type,
+    typeName,
+    brand,
+    name,
+    description,
+    priceMin,
+    priceMax,
+    imageUrl,
+  } = req.body || {};
 
-  if (!type || !typeName || !brand || !name || !description || !imageUrl) {
+  if (!type || !typeName || !name || !imageUrl) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-
-  const parsedPriceMin = priceMin !== "" ? parseFloat(priceMin) : null;
-  const parsedPriceMax = priceMax !== "" ? parseFloat(priceMax) : null;
-
-  if ((parsedPriceMin && isNaN(parsedPriceMin)) || (parsedPriceMax && isNaN(parsedPriceMax))) {
-    return res.status(400).json({ error: "Invalid price values" });
-  }
-
-  const slug = slugify(name, { lower: true, strict: true });
-  const path = `/catalog/item/${slug}`;
-
-  // 🧠 Smart singularization
-  const singularTypeName =
-    typeName.endsWith("s") && typeName.length > 3 ? typeName.slice(0, -1) : typeName;
-  const parent = singularTypeName;
 
   try {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    const result = await db.collection("catalogItems").insertOne({
+    const now = new Date();
+
+    const slug = slugify(`${brand || ""} ${name}`);
+    const itemPath = `/catalog/item/${slug}`;
+
+    // ✅ CHECK CORRECT COLLECTION
+    const existing = await db
+        .collection("catalogItems")
+        .findOne({ slug });
+
+    if (existing) {
+      return res.status(409).json({
+        error: "Item with this name already exists",
+        slug,
+      });
+    }
+
+    // ✅ INSERT INTO CORRECT COLLECTION
+    const doc = {
       type,
       typeName,
       brand,
       name,
       description,
-      priceMin: parsedPriceMin,
-      priceMax: parsedPriceMax,
+      priceMin: priceMin ? Number(priceMin) : null,
+      priceMax: priceMax ? Number(priceMax) : null,
       imageUrl,
       slug,
-      createdAt: new Date(),
-    });
+      createdAt: now,
+      updatedAt: now,
+    };
 
+    const result = await db
+        .collection("catalogItems")
+        .insertOne(doc);
+
+    // ✅ Update quickLinks child
     await db.collection("quickLinks").updateOne(
-      { path },
-      {
-        $set: {
-          path,
-          label: `${brand} ${name}`,
-          parent,
+        { path: itemPath },
+        {
+          $set: {
+            path: itemPath,
+            label: name,
+            parent: typeName,
+            updatedAt: now,
+          },
+          $setOnInsert: { createdAt: now },
         },
-      },
-      { upsert: true }
+        { upsert: true }
     );
 
-    res.status(201).json({ message: "Catalog item added", id: result.insertedId });
-  } catch (e) {
-    console.error("POST /catalog error:", e);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(201).json({
+      message: "Catalog item added",
+      id: result.insertedId,
+    });
+
+  } catch (err) {
+    console.error("POST /catalog/add error:", err);
+    res.status(500).json({ error: "Failed to add catalog item" });
   }
 }
 

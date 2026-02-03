@@ -34,13 +34,15 @@ const Footer = () => {
     fetchData();
   }, []);
 
+  // ✅ CHANGE: Defensive order handling to avoid undefined causing weird behavior
   const regularParents = quickLinks
-    .filter((link) => !link.parent && link.order !== 9999)
-    .sort((a, b) => (a.order || 9999) - (b.order || 9999));
+      .filter((link) => !link.parent && (link.order ?? 0) !== 9999)
+      .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
 
+  // ✅ CHANGE: Defensive order handling for blog grouping
   const blogParents = quickLinks
-    .filter((link) => !link.parent && link.order === 9999)
-    .sort((a, b) => a.label.localeCompare(b.label));
+      .filter((link) => !link.parent && (link.order ?? 0) === 9999)
+      .sort((a, b) => a.label.localeCompare(b.label));
 
   const groupedLinks = quickLinks.reduce((acc, link) => {
     if (!link.parent) return acc;
@@ -57,111 +59,112 @@ const Footer = () => {
   const addressLine2 = contactInfo?.addressLine2 || "Elmore City, OK 73433";
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.topBar}>
-        Powered By{" "}
-        <a className={styles.awkward} href="http://scorchseo.com">
-          Scorch{" "}
-          {!isMobile && (
+      <footer className={styles.footer}>
+        <div className={styles.topBar}>
+          Powered By{" "}
+          <a className={styles.awkward} href="http://scorchseo.com">
+            Scorch{" "}
+            {!isMobile && (
+                <Image
+                    src="/images/logo192.png"
+                    alt="Scorch"
+                    className={styles.logo}
+                    width={20}
+                    height={20}
+                />
+            )}
+          </a>
+        </div>
+
+        <div className={styles.socialMedia}>
+          <a
+              href="https://www.facebook.com/DinoDoorsGarageDoors/"
+              target="_blank"
+              rel="noopener noreferrer"
+          >
             <Image
-              src="/images/logo192.png"
-              alt="Scorch"
-              className={styles.logo}
-              width={20}
-              height={20}
+                src="/images/link_images/f.png"
+                alt="Facebook"
+                className={styles.socialLink}
+                width={30}
+                height={30}
             />
-          )}
-        </a>
-      </div>
-
-      <div className={styles.socialMedia}>
-        <a
-          href="https://www.facebook.com/DinoDoorsGarageDoors/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/link_images/f.png"
-            alt="Facebook"
-            className={styles.socialLink}
-            width={30}
-            height={30}
-          />
-        </a>
-        <a
-          href="https://www.instagram.com/dinodoorsgaragedoors/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/link_images/IG.png"
-            alt="Instagram"
-            className={styles.socialLink}
-            width={30}
-            height={30}
-          />
-        </a>
-        <a
-          href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/images/link_images/G.png"
-            alt="Google"
-            className={styles.socialLink}
-            width={30}
-            height={30}
-          />
-        </a>
-      </div>
-
-      <div className={styles.bottomSection}>
-        <div className={styles.contactInfo}>
-          <h1>Contact Us</h1>
-
-          <p>
-            Email: <a href={`mailto:${email}`}>{email}</a>
-          </p>
-
-          <p>
-            Phone Number:{" "}
-            <Link className={styles.phoneNumber} href={`tel:${phone}`}>
-              {phoneDisplay}
-            </Link>
-          </p>
-
-          <p>
-            Address: {addressLine1}
-            <br />
-            {addressLine2}
-          </p>
+          </a>
+          <a
+              href="https://www.instagram.com/dinodoorsgaragedoors/"
+              target="_blank"
+              rel="noopener noreferrer"
+          >
+            <Image
+                src="/images/link_images/IG.png"
+                alt="Instagram"
+                className={styles.socialLink}
+                width={30}
+                height={30}
+            />
+          </a>
+          <a
+              href="https://www.google.com/maps/place/Dino+Doors+Garage+Doors+and+More/"
+              target="_blank"
+              rel="noopener noreferrer"
+          >
+            <Image
+                src="/images/link_images/G.png"
+                alt="Google"
+                className={styles.socialLink}
+                width={30}
+                height={30}
+            />
+          </a>
         </div>
 
-        <div className={styles.hoursWrap}>
-          <div className={styles.hoursContainer}>
-            <h2>Store Hours</h2>
-            <ul>
-              {hours.store.map((entry, idx) => (
-                <li key={idx}>
-                  <strong>{entry.day}:</strong> {entry.hours}
-                </li>
-              ))}
-            </ul>
+        <div className={styles.bottomSection}>
+          <div className={styles.contactInfo}>
+            <h1>Contact Us</h1>
+
+            <p>
+              Email: <a href={`mailto:${email}`}>{email}</a>
+            </p>
+
+            <p>
+              Phone Number:{" "}
+              <Link className={styles.phoneNumber} href={`tel:${phone}`}>
+                {phoneDisplay}
+              </Link>
+            </p>
+
+            <p>
+              Address: {addressLine1}
+              <br />
+              {addressLine2}
+            </p>
           </div>
 
-          <div className={styles.hoursContainer}>
-            <h2>Hours of Operation</h2>
-            <ul>
-              {hours.operation.map((entry, idx) => (
-                <li key={idx}>
-                  <strong>{entry.day}:</strong> {entry.hours}
-                </li>
-              ))}
-            </ul>
+          <div className={styles.hoursWrap}>
+            <div className={styles.hoursContainer}>
+              <h2>Store Hours</h2>
+              <ul>
+                {hours.store.map((entry, idx) => (
+                    <li key={idx}>
+                      <strong>{entry.day}:</strong> {entry.hours}
+                    </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={styles.hoursContainer}>
+              <h2>Hours of Operation</h2>
+              <ul>
+                {hours.operation.map((entry, idx) => (
+                    <li key={idx}>
+                      <strong>{entry.day}:</strong> {entry.hours}
+                    </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-{/*
+
+          {/*
 <div className={styles.mapContainer}>
   <h2>Visit Us</h2>
   <iframe
@@ -174,66 +177,70 @@ const Footer = () => {
 </div>
 */}
 
-        <div className={styles.companyLogo}>
-          <Image
-            src="/images/Dino_Doors_Logo_Full.png"
-            alt="Dino Doors Logo"
-            layout="fill"
-            objectFit="contain"
-          />
-        </div>
-      </div>
-
-      <div className={styles.quickLinksWrapper}>
-        <h2>Quick Links</h2>
-        <div className={styles.quickLinksGrid}>
-          {regularParents.map((parent) => (
-            <div key={parent.label} className={styles.linkColumn}>
-              <Link href={parent.path} className={styles.parentLink}>
-                {parent.label}
-              </Link>
-              {groupedLinks[parent.label]
-                ?.sort((a, b) => a.label.localeCompare(b.label))
-                .map((child, idx) => (
-                  <Link
-                    key={idx}
-                    href={child.path}
-                    className={styles.childLink}
-                  >
-                    {child.label}
-                  </Link>
-                ))}
-            </div>
-          ))}
+          <div className={styles.companyLogo}>
+            <Image
+                src="/images/Dino_Doors_Logo_Full.png"
+                alt="Dino Doors Logo"
+                layout="fill"
+                objectFit="contain"
+            />
+          </div>
         </div>
 
-        {blogParents.length > 0 && (
-          <div className={styles.blogLinksSection}>
-            <h2>Blogs</h2>
-            <div className={styles.quickLinksGrid}>
-              {blogParents.map((parent) => (
-                <div key={parent.label} className={styles.linkColumn}>
+        <div className={styles.quickLinksWrapper}>
+          <h2>Quick Links</h2>
+
+          <div className={styles.quickLinksGrid}>
+            {regularParents.map((parent, idx) => (
+                // ✅ CHANGE: safer key (label can collide)
+                <div key={parent._id || `${parent.label}-${idx}`} className={styles.linkColumn}>
                   <Link href={parent.path} className={styles.parentLink}>
                     {parent.label}
                   </Link>
+
                   {groupedLinks[parent.label]
-                    ?.sort((a, b) => a.label.localeCompare(b.label))
-                    .map((child, idx) => (
-                      <Link
-                        key={idx}
-                        href={child.path}
-                        className={styles.childLink}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                      ?.sort((a, b) => a.label.localeCompare(b.label))
+                      .map((child, cIdx) => (
+                          <Link
+                              key={child._id || `${child.label}-${cIdx}`}
+                              href={child.path}
+                              className={styles.childLink}
+                          >
+                            {child.label}
+                          </Link>
+                      ))}
                 </div>
-              ))}
-            </div>
+            ))}
           </div>
-        )}
-      </div>
-    </footer>
+
+          {blogParents.length > 0 && (
+              <div className={styles.blogLinksSection}>
+                <h2>Blogs</h2>
+                <div className={styles.quickLinksGrid}>
+                  {blogParents.map((parent, idx) => (
+                      <div key={parent._id || `${parent.label}-${idx}`} className={styles.linkColumn}>
+                        <Link href={parent.path} className={styles.parentLink}>
+                          {parent.label}
+                        </Link>
+
+                        {groupedLinks[parent.label]
+                            ?.sort((a, b) => a.label.localeCompare(b.label))
+                            .map((child, cIdx) => (
+                                <Link
+                                    key={child._id || `${child.label}-${cIdx}`}
+                                    href={child.path}
+                                    className={styles.childLink}
+                                >
+                                  {child.label}
+                                </Link>
+                            ))}
+                      </div>
+                  ))}
+                </div>
+              </div>
+          )}
+        </div>
+      </footer>
   );
 };
 

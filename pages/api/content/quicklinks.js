@@ -1,7 +1,10 @@
-import clientPromise from '../../../lib/mongodb';
+import clientPromise from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
   try {
+    // Avoid stale responses (especially on Vercel/CDN)
+    res.setHeader("Cache-Control", "no-store, max-age=0");
+
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
@@ -10,36 +13,44 @@ export default async function handler(req, res) {
       db.collection("catalogTypes").find().toArray(),
     ]);
 
-    const catalogTypeNames = new Set(catalogTypes.map(t => t.typeName));
+    const catalogTypeNames = new Set(catalogTypes.map((t) => t.typeName));
 
     const parents = quickLinks
-      .filter(l => !l.parent)
-      .sort((a, b) => (a.order || 9999) - (b.order || 9999));
+        .filter((l) => !l.parent)
+        .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
 
-    const children = quickLinks.filter(l => l.parent);
+    const children = quickLinks.filter((l) => !!l.parent);
 
     const ordered = [];
 
     for (const parent of parents) {
-      const isCatalogGroup = catalogTypeNames.has(parent.label);
+      const parentKey = parent.label; // IMPORTANT: match children against DB key
+      const isCatalogGroup = catalogTypeNames.has(parentKey);
 
-      const labelWithSuffix = isCatalogGroup ? `${parent.label} Catalog` : parent.label;
+      // Display label can be prettified without breaking parent matching
+      const displayLabel = isCatalogGroup ? `${parentKey} Catalog` : parentKey;
 
       ordered.push({
         path: parent.path,
-        label: labelWithSuffix,
+        label: displayLabel,
         parent: null,
+        order: parent.order ?? null,
+        // optional: helps debugging and future-proofing
+        parentKey,
       });
 
+      // Match children by the DB parent value OR by display label (handles legacy data)
       const groupedChildren = children
-        .filter(c => c.parent === parent.label)
-        .sort((a, b) => a.label.localeCompare(b.label));
+          .filter(
+              (c) => c.parent === parentKey || c.parent === displayLabel
+          )
+          .sort((a, b) => a.label.localeCompare(b.label));
 
       for (const child of groupedChildren) {
         ordered.push({
           path: child.path,
           label: child.label,
-          parent: labelWithSuffix, // match updated label
+          parent: displayLabel, // Footer groups by this
         });
       }
     }
