@@ -11,26 +11,24 @@ function MyApp({ Component, pageProps, services }) {
 
   const excludedAdminRoutes = ["/admin/login", "/admin/setup"];
   const isAdminRoute =
-    router.pathname.startsWith("/admin") &&
-    !excludedAdminRoutes.includes(router.pathname);
+      router.pathname.startsWith("/admin") &&
+      !excludedAdminRoutes.includes(router.pathname);
 
   const WrappedPage = isAdminRoute ? (
-    <AdminLayout>
-      <Component {...pageProps} />
-    </AdminLayout>
+      <AdminLayout>
+        <Component {...pageProps} />
+      </AdminLayout>
   ) : (
-    <div className={fadeClass}>
-      <Component {...pageProps} />
-    </div>
+      <div className={fadeClass}>
+        <Component {...pageProps} />
+      </div>
   );
 
   useEffect(() => {
     const handleRouteChange = () => {
       if (!isAdminRoute) {
         setFadeClass(""); // reset
-        requestAnimationFrame(() => {
-          setFadeClass("pageFade");
-        });
+        requestAnimationFrame(() => setFadeClass("pageFade"));
       }
     };
 
@@ -39,11 +37,26 @@ function MyApp({ Component, pageProps, services }) {
     return () => router.events.off("routeChangeComplete", handleRouteChange);
   }, [router, isAdminRoute]);
 
-  return (
-    <Layout services={services || []}>
-      {WrappedPage}
-    </Layout>
-  );
+  return <Layout services={services || []}>{WrappedPage}</Layout>;
+}
+
+/**
+ * Resolve the "public base URL" safely:
+ * - Production: always use NEXT_PUBLIC_SITE_URL (recommended) or fallback to dinodoors.net
+ * - Preview/other: if VERCEL_URL exists, use it
+ * - Local dev: localhost
+ */
+function getPublicBaseUrl() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (siteUrl) return siteUrl.replace(/\/+$/, "");
+
+  // Vercel provides this for preview/prod deployments (not always present locally)
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+
+  // Fallback
+  return process.env.NODE_ENV === "production"
+      ? "https://dinodoors.net"
+      : "http://localhost:3000";
 }
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
@@ -54,16 +67,29 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
+  // Server-side only
   if (typeof window === "undefined") {
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-    const host = ctx?.req?.headers?.host || "localhost:3000";
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = getPublicBaseUrl();
 
     try {
-      const res = await fetch(`${baseUrl}/api/services/menu`);
+      const res = await fetch(`${baseUrl}/api/services/menu`, {
+        headers: {
+          // Helps avoid some edge cases where host-dependent logic exists
+          "x-forwarded-host": "dinodoors.net",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`Services menu fetch failed: ${res.status} ${res.statusText}`);
+      }
+
       services = await res.json();
+
+      // Optional: ensure array shape
+      if (!Array.isArray(services)) services = [];
     } catch (e) {
       console.error("Failed to fetch services:", e);
+      services = [];
     }
   }
 
