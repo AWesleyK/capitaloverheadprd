@@ -20,7 +20,7 @@ async function handler(req, res) {
 
     const slug = slugify(name);
     const path = `/services/${slug}`;
-    const parent = "Services Overview";
+    const parent = "All Services";
 
     const result = await db.collection("services").insertOne({
       name,
