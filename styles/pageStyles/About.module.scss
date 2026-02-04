@@ -43,12 +43,47 @@ ul.serviceList {
   padding: 0;
   margin-bottom: 2rem;
   color: #333;
+
+  li {
+    margin-bottom: 0.8rem;
+    break-inside: avoid;
+    display: flex;
+    align-items: center;
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      font-weight: 700;
+      cursor: pointer;
+
+      &::before {
+        content: '✔';
+        margin-right: 0.6rem;
+        color: $secondary-color;
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover {
+        color: $secondary-color;
+        transform: translateX(4px);
+        text-decoration: underline;
+        
+        &::before {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
 }
 
-.serviceList li::before {
-  content: '✔';
-  margin-right: 0.5rem;
-  color: $secondary-color;
+@media screen and (max-width: 600px) {
+  ul.serviceList {
+    columns: 1;
+  }
 }
 
 .imageGrid {

@@ -33,3 +33,20 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 # capitaloverheadprd
+
+## Service Area City Pages
+
+This project includes dynamic, SEO-optimized service-area pages for each city.
+
+- Source-of-truth city list: `lib/cities.js` (`CITY_LIST`)
+- Dynamic route: `pages/service-area/[city].js`
+- URL normalization: city labels like `Elmore City, OK` become `/service-area/elmore-city` (we omit the state in the URL for brevity and clarity). Display still includes `, OK` in titles and headings.
+- SSG: `getStaticPaths` is generated from `CITY_LIST`. Adding a city to `CITY_LIST` automatically generates its page at build time.
+- Sitemap: `scripts/generate-sitemap.js` automatically includes all cities from `CITY_LIST`.
+- Data fetching: City pages reuse the existing MongoDB helper `lib/mongodb.js` and query the `garage_catalog.services` collection to list/link available services.
+- Components: The service area landing uses the existing `ServiceArea` component with new props to render a responsive card/grid of city links.
+
+Assumptions:
+- All cities listed are in Oklahoma; therefore, we include `, OK` in on-page titles but do not append `-ok` in the slug.
+- “Major service pages” are the items in the `services` collection; city pages link to these for internal linking.
+- If Google/Bing sitemap pings are deprecated, the existing `scripts/generate-sitemap.js` behavior remains unchanged (informational logs only).

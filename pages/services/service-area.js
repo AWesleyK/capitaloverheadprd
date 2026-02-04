@@ -1,19 +1,25 @@
-// pages/service-area.js
+// pages/services/service-area.js
 import React from 'react';
 import Head from 'next/head';
 import ServiceArea from '../../components/ServicesSection/ServicesPage/ServiceArea/ServiceArea';
+import { CITY_LIST } from '../../lib/cities';
 
 const ServiceAreaPage = () => {
+  const introCopy =
+    "Find trusted, local garage door service across Southern and Central Oklahoma. From repairs and tune-ups to new installations, our team comes to you—fast, friendly, and done right.";
+
   return (
     <>
       <Head>
-        <title>Service Area | Dino Doors Garage Doors and More</title>
+        <title>Service Areas We Serve in Oklahoma | Dino Doors</title>
         <meta
           name="description"
-          content="Explore the service area of Dino Doors. We proudly serve homes and businesses across southern and central Oklahoma from our home base in Elmore City."
+          content="Browse our Oklahoma service areas. Dino Doors provides reliable garage door repair, installation, and maintenance across local cities including Elmore City, Duncan, Ardmore, and more."
         />
       </Head>
-      <ServiceArea />
+      <main>
+        <ServiceArea cities={CITY_LIST} intro={introCopy} />
+      </main>
     </>
   );
 };

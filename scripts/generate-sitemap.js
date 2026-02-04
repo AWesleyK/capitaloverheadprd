@@ -12,6 +12,7 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 const { MongoClient } = require("mongodb");
+const { CITY_LIST, normalizeCity } = require("../lib/cities");
 
 // Prefer env-driven base URL, fall back to your real domain.
 const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://dinodoors.net").replace(/\/+$/, "");
@@ -56,6 +57,7 @@ async function generateSitemap() {
 
   // Dynamic routes
   const serviceRoutes = services.map((s) => `services/${s.slug}`);
+  const serviceAreaRoutes = CITY_LIST.map((city) => `service-area/${normalizeCity(city)}`);
   const catalogItemRoutes = catalogItems.map((c) => `catalog/item/${c.slug}`);
   const blogRoutes = blogs.map((b) => `about/blogs/${b.slug}`);
 
@@ -67,6 +69,7 @@ async function generateSitemap() {
   const allRoutes = [
     ...staticRoutes,
     ...serviceRoutes,
+    ...serviceAreaRoutes,
     ...catalogTypeRoutes,
     ...catalogItemRoutes,
     ...blogRoutes,

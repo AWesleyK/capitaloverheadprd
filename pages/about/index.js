@@ -1,8 +1,10 @@
 // pages/about.js
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from '../../components/Shared/SmartImages';
 import styles from '../../styles/pageStyles/About.module.scss';
+import { CITY_LIST, normalizeCity } from '../../lib/cities';
 
 const AboutPage = () => {
   const [addressLine1, setAddressLine1] = useState("307 S Main Street"); // fallback
@@ -70,25 +72,13 @@ useEffect(() => {
           </p>
 
           <ul className={styles.serviceList}>
-            <li>Duncan, OK</li>
-            <li>Foster, OK</li>
-            <li>Norman, OK</li>
-            <li>Purcell, OK</li>
-            <li>Springer, OK</li>
-            <li>Davis, OK</li>
-            <li>Katie, OK</li>
-            <li>Velma, OK</li>
-            <li>Wayne, OK</li>
-            <li>Marlow, OK</li>
-            <li>Pauls Valley, OK</li>
-            <li>Ardmore, OK</li>
-            <li>Bradley, OK</li>
-            <li>Lindsay, OK</li>
-            <li>Maysville, OK</li>
-            <li>Stratford, OK</li>
-            <li>Wynnewood, OK</li>
-            <li>Elmore City, OK</li>
-            <li>Ratliff City, OK</li>
+            {CITY_LIST.map((city, idx) => (
+              <li key={idx}>
+                <Link href={`/service-area/${normalizeCity(city)}`}>
+                  {city}
+                </Link>
+              </li>
+            ))}
           </ul>
 
           <p className={styles.aboutText}>
