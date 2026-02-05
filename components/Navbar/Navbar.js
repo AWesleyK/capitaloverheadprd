@@ -153,7 +153,7 @@ useEffect(() => {
   </div>
   <div className={`${styles.dropdownContent} ${showAboutDropdown ? styles.showDropdown : ""}`}>
     <Link href="/about" className={styles.dropdownItem} onClick={closeMobileMenu}>Meet the Owner</Link>
-    <Link href="/about/learn-more" className={styles.dropdownItem} onClick={closeMobileMenu}>Core Values</Link>
+    <Link href="/about/core-values" className={styles.dropdownItem} onClick={closeMobileMenu}>Core Values</Link>
     <Link href="/about/blogs" className={styles.dropdownItem} onClick={closeMobileMenu}>Blog</Link>
   </div>
 </li>
@@ -189,7 +189,7 @@ useEffect(() => {
                   </div>
                   <div className={`${styles.mobileDropdown} ${showAboutDropdown ? styles.show : ""}`}>
                     <Link href="/about" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Meet the Owner</Link>
-                    <Link href="/about/learn-more" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Core Values</Link>
+                    <Link href="/about/core-values" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Core Values</Link>
                     <Link href="/about/blogs" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Blogs</Link>
                   </div>
                 </li>

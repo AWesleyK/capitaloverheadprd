@@ -1,10 +1,10 @@
 import React from 'react';
 import AboutDetail from '../../components/AboutSection/AboutDetail';
 
-const LearnMore = () => {
+const CoreValues = () => {
   return (
       <AboutDetail />
   );
 };
 
-export default LearnMore;
+export default CoreValues;

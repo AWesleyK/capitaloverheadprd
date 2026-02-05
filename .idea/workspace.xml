@@ -6,14 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/services/service-area.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/service-area.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/blogs/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/[slug].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/blogs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/learn-more.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/core-values.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/learn-more.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/services/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/generate-sitemap.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/generate-sitemap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/pageStyles/About.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/About.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +54,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;adding-city-pages&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
     &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
     &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,

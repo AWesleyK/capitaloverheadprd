@@ -52,7 +52,7 @@ async function generateSitemap() {
     "services",
     "services/service-area",
     "about/blogs",
-    "about/learn-more",
+    "about/core-values",
   ];
 
   // Dynamic routes

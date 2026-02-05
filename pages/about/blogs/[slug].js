@@ -1,27 +1,31 @@
 // ./pages/about/blogs/[slug].js
 
-import { useRouter } from "next/router";
 import Head from "next/head";
+import clientPromise from "../../../lib/mongodb";
 import styles from "../../../styles/pageStyles/Blogs/BlogPost.module.scss";
 
 export async function getServerSideProps({ params }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/content/blogs/get-by-slug?slug=${params.slug}`);
-  const blog = await res.json();
+  try {
+    const client = await clientPromise;
+    const db = client.db("garage_catalog");
+    const blog = await db
+      .collection("blogs")
+      .findOne({ slug: params.slug, isPublished: true });
 
-  if (!blog || !blog._id) {
+    if (!blog) {
+      return { notFound: true };
+    }
+
     return {
-      notFound: true,
+      props: { blog: JSON.parse(JSON.stringify(blog)) },
     };
+  } catch (err) {
+    console.error("Failed to SSR blog post:", err);
+    return { notFound: true };
   }
-
-  return {
-    props: { blog },
-  };
 }
 
 export default function BlogPostPage({ blog }) {
-  const router = useRouter();
-
   return (
     <div className={styles.blogPostPage}>
       <Head>
@@ -39,7 +43,6 @@ export default function BlogPostPage({ blog }) {
         />
       </article>
 
-      {/* Fixed Call Button */}
       <a href="tel:4054560399" className={styles.callButton}>
         Call Now to Learn More
       </a>

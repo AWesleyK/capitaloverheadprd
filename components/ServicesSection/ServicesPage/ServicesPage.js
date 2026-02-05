@@ -3,26 +3,34 @@ import styles from './ServicesPage.module.scss';
 import Image from '../../Shared/SmartImages';
 import Link from 'next/link';
 
-const ServicesPage = () => {
-  const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+const ServicesPage = ({ initialServices = [] }) => {
+  const [services, setServices] = useState(initialServices);
+  const [filteredServices, setFilteredServices] = useState(initialServices);
   const [searchQuery, setSearchQuery] = useState('');
   const [lastLoggedQuery, setLastLoggedQuery] = useState(null);
 
   useEffect(() => {
+    // Optionally refetch if needed, but since it's SSR we might not need to.
+    // However, keeping it for search functionality if it depends on fresh data.
     const fetchServices = async () => {
       try {
         const res = await fetch('/api/services/get');
         const data = await res.json();
         setServices(data);
-        setFilteredServices(data);
+        // Only update filtered if there's no search query
+        if (!searchQuery) {
+          setFilteredServices(data);
+        }
       } catch (err) {
         console.error('Failed to load services:', err);
       }
     };
 
-    fetchServices();
-  }, []);
+    // If initialServices is empty, fetch them
+    if (initialServices.length === 0) {
+      fetchServices();
+    }
+  }, [initialServices, searchQuery]);
 
   useEffect(() => {
     const filtered = services.filter((service) =>
