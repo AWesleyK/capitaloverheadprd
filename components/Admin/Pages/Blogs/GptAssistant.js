@@ -39,16 +39,19 @@ export default function GptAssistant({ onAutoFill }) {
 
       setStatus("Generating blog content (this may take 10-15s)...");
 
-      // PHASE 2: Content
-      const resContent = await fetch("/api/admin/blog/gptHelper", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          prompt, 
-          phase: "content", 
-          title: dataMeta.title 
+      // PHASE 2: Content + Recent Links (Parallel)
+      const [resContent, resLinks] = await Promise.all([
+        fetch("/api/admin/blog/gptHelper", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            prompt, 
+            phase: "content", 
+            title: dataMeta.title 
+          }),
         }),
-      });
+        fetch("/api/admin/blog/recentLinks")
+      ]);
 
       if (!resContent.ok) {
         const errorData = await resContent.json().catch(() => ({}));
@@ -56,9 +59,14 @@ export default function GptAssistant({ onAutoFill }) {
       }
 
       const dataContent = await resContent.json();
+      let recentLinksHtml = "";
+      if (resLinks.ok) {
+        const linksData = await resLinks.json().catch(() => ({}));
+        recentLinksHtml = linksData.html || "";
+      }
 
       if (dataContent && dataContent.content) {
-        const html = marked.parse(dataContent.content);
+        const html = marked.parse(dataContent.content) + recentLinksHtml;
         onAutoFill({
           ...dataMeta,
           content: html,

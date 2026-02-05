@@ -1,6 +1,7 @@
 // /pages/api/admin/blog/gptHelper.js
 import OpenAI from "openai";
 import clientPromise from "../../../../lib/mongodb";
+import { withAuth } from "../../../../lib/middleware/withAuth";
 
 const useGateway = !!process.env.AI_GATEWAY_BASE_URL && !!process.env.AI_GATEWAY_API_KEY;
 
@@ -45,38 +46,6 @@ export default async function handler(req, res) {
     : (process.env.OPENAI_MODEL || "gpt-4o-mini");
 
   try {
-    let backlinkHtml = "";
-    if (phase === "all" || phase === "content") {
-      const dbStartTime = Date.now();
-      console.log("gptHelper: Fetching recent blogs...");
-      // Fetch recent blogs for internal linking context
-      const client = await clientPromise;
-      const db = client.db("garage_catalog");
-      const recentBlogs = await db
-        .collection("blogs")
-        .find({ isPublished: true })
-        .sort({ publishDate: -1 })
-        .limit(5)
-        .project({ title: 1, slug: 1, metaDesc: 1 })
-        .toArray();
-
-      const dbDuration = Date.now() - dbStartTime;
-      console.log(`gptHelper: Found ${recentBlogs.length} recent blogs in ${dbDuration}ms.`);
-
-      if (recentBlogs.length > 0) {
-        const links = recentBlogs
-          .map(
-            (b) =>
-              `<div class="linkCard"><h5><a href="/about/blogs/${b.slug}">${b.title}</a></h5><p>${b.metaDesc || "Read more about this topic..."}</p></div>`
-          )
-          .join("\n");
-        backlinkHtml = `\n\n<h3>Check out our other blogs:</h3>\n<div class="linkGrid">\n${links}\n</div>`;
-      }
-    }
-
-    console.log(`gptHelper: Requesting completion for phase: ${phase}...`);
-    const aiStartTime = Date.now();
-
     let systemPrompt = "";
     if (phase === "meta") {
       systemPrompt = 
@@ -94,7 +63,7 @@ export default async function handler(req, res) {
         '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
         '2. <h2> and <h3> for hierarchy.\n' +
         '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
-        "Do NOT add internal links; I will handle that. Be concise (approx 500 words).";
+        "Do NOT add internal links. Be concise (approx 500 words).";
     } else {
       systemPrompt = 
         "You are an expert copywriter for Dino Doors Garage Doors. " +
@@ -105,7 +74,7 @@ export default async function handler(req, res) {
         '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
         '2. <h2> and <h3> for hierarchy.\n' +
         '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
-        "Include exactly 10 SEO tags. Do NOT add internal links; I will handle that.";
+        "Include exactly 10 SEO tags. Do NOT add internal links.";
     }
 
     const completion = await withTimeout(
@@ -116,9 +85,9 @@ export default async function handler(req, res) {
           { role: "user", content: prompt },
         ],
         temperature: 0.5,
-        max_tokens: phase === "meta" ? 300 : 800,
+        max_tokens: phase === "meta" ? 300 : 700,
       }),
-      9500, // 9.5 seconds limit for Vercel Hobby
+      9000, // 9 seconds limit for Vercel Hobby
       "AI completion"
     );
 
@@ -181,9 +150,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Append backlinks manually
-    const finalContent = content.trim() + backlinkHtml;
-
     const totalDuration = Date.now() - overallStart;
     console.log(`gptHelper: Success! Total execution time: ${totalDuration}ms.`);
 
@@ -192,7 +158,7 @@ export default async function handler(req, res) {
       seoTitle, 
       metaDesc, 
       tags, 
-      content: finalContent || content 
+      content: content 
     });
   } catch (err) {
     const totalDuration = Date.now() - overallStart;
@@ -219,4 +185,6 @@ export default async function handler(req, res) {
       .json({ error: "Failed to generate content.", details: msg, stack: err?.stack });
   }
 }
+
+export default withAuth(handler, { roles: ["Admin", "Owner"], minTier: 1 });
 
