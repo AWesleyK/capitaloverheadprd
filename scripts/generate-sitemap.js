@@ -10,7 +10,6 @@ if (process.env.NODE_ENV !== "production") {
 
 const fs = require("fs");
 const path = require("path");
-const https = require("https");
 const { MongoClient } = require("mongodb");
 const { CITY_LIST, normalizeCity } = require("../lib/cities");
 
@@ -126,45 +125,7 @@ ${allRoutes
   fs.writeFileSync(outPath, sitemap);
   console.log(`✅ Sitemap generated at ${outPath}`);
 
-  await pingSearchEngines();
   await client.close();
-}
-
-function pingSearchEngines() {
-  const sitemapUrl = encodeURIComponent(`${baseUrl}/sitemap.xml`);
-
-  const targets = [
-    { name: "Google", url: `https://www.google.com/ping?sitemap=${sitemapUrl}` },
-    { name: "Bing", url: `https://www.bing.com/ping?sitemap=${sitemapUrl}` },
-  ];
-
-  return Promise.all(
-      targets.map(
-          (target) =>
-              new Promise((resolve) => {
-                https
-                    .get(target.url, (res) => {
-                      res.resume(); // allow socket to close
-
-                      console.log(`📡 Pinged ${target.name}: ${res.statusCode}`);
-
-                      // Don’t break the build on deprecated endpoints
-                      if (res.statusCode === 404 && target.name === "Google") {
-                        console.warn("Google sitemap ping endpoint returned 404 (common/deprecated behavior).");
-                      }
-                      if (res.statusCode === 410 && target.name === "Bing") {
-                        console.warn("Bing sitemap ping endpoint returned 410 (deprecated). Consider IndexNow API later.");
-                      }
-
-                      resolve();
-                    })
-                    .on("error", (err) => {
-                      console.error(`❌ Failed to ping ${target.name}:`, err.message);
-                      resolve();
-                    });
-              })
-      )
-  );
 }
 
 generateSitemap().catch((err) => {
