@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/GptAssistant.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/GptAssistant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/GptAssistant.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/GptAssistant.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +60,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>

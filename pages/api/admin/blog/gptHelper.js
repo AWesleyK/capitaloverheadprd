@@ -52,13 +52,14 @@ async function handler(req, res) {
         "You are an expert SEO copywriter for Dino Doors. " +
         "Goal: Generate blog metadata based on the topic. " +
         'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [] }. ' +
-        "Include exactly 10 SEO tags.";
+        "IMPORTANT: Use valid JSON. Include exactly 10 SEO tags.";
     } else if (phase === "content") {
       systemPrompt = 
         `You are an expert copywriter for Dino Doors. Write content for a blog post titled: "${passedTitle}". ` +
         "Goal: Create high-quality, modern, visually engaging HTML content. " +
         "Tone: Informative, friendly, authoritative. " +
         'Response: JSON { "content" }. ' +
+        'IMPORTANT: Use valid JSON. In the "content" HTML field, use single quotes for attributes OR escape double quotes with backslashes.\n' +
         'The "content" field MUST use rich HTML:\n' +
         '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
         '2. <h2> and <h3> for hierarchy.\n' +
@@ -70,6 +71,7 @@ async function handler(req, res) {
         "Goal: Create a high-quality, modern, visually engaging blog post. " +
         "Tone: Informative, friendly, authoritative. " +
         'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [], "content" }. ' +
+        'IMPORTANT: Use valid JSON. In the "content" HTML field, use single quotes for attributes OR escape double quotes with backslashes.\n' +
         'The "content" field MUST use rich HTML:\n' +
         '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
         '2. <h2> and <h3> for hierarchy.\n' +
@@ -116,10 +118,31 @@ async function handler(req, res) {
         try {
           parsed = JSON.parse(maybeJson);
         } catch (e2) {
-          console.error("gptHelper: JSON parse error, raw:", raw);
-          return res.status(502).json({
-            error: "AI returned invalid JSON.",
-          });
+          // Final attempt: regex extraction for malformed JSON (unescaped quotes in HTML)
+          console.warn("gptHelper: Standard parse failed, trying regex salvage...");
+          const title = (maybeJson.match(/"title"\s*:\s*"([\s\S]*?)"(?=\s*,|\s*})/i) || [])[1];
+          const seoTitle = (maybeJson.match(/"seoTitle"\s*:\s*"([\s\S]*?)"(?=\s*,|\s*})/i) || [])[1];
+          const metaDesc = (maybeJson.match(/"metaDesc"\s*:\s*"([\s\S]*?)"(?=\s*,|\s*})/i) || [])[1];
+          const tagsMatch = maybeJson.match(/"tags"\s*:\s*\[([\s\S]*?)\]/i);
+          const tags = tagsMatch ? (tagsMatch[1].match(/"([^"]*)"/g) || []).map(t => t.replace(/"/g, "")) : [];
+          const contentStartMatch = maybeJson.match(/"content"\s*:\s*"/i);
+          let content = null;
+          if (contentStartMatch) {
+            const startIdx = maybeJson.indexOf(contentStartMatch[0]) + contentStartMatch[0].length;
+            const endIdx = maybeJson.lastIndexOf('"');
+            if (endIdx > startIdx) {
+              content = maybeJson.slice(startIdx, endIdx);
+            }
+          }
+
+          if (content || title) {
+            parsed = { title, seoTitle, metaDesc, tags, content };
+          } else {
+            console.error("gptHelper: JSON parse error, raw:", raw);
+            return res.status(502).json({
+              error: "AI returned invalid JSON.",
+            });
+          }
         }
       } else {
         console.error("gptHelper: JSON parse error, raw:", raw);
