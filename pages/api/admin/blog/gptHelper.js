@@ -167,9 +167,17 @@ export default async function handler(req, res) {
       content = "",
     } = parsed;
 
-    if (!content) {
+    // Validation: Require content only if we are in a phase that generates it
+    if ((phase === "all" || phase === "content") && !content) {
       return res.status(502).json({
         error: "AI did not include content field.",
+      });
+    }
+
+    // Validation: Require basic metadata if we are in a phase that generates it
+    if ((phase === "all" || phase === "meta") && !title && !parsed.title) {
+      return res.status(502).json({
+        error: "AI did not include title field.",
       });
     }
 
