@@ -2,6 +2,8 @@
 import clientPromise from "../../../lib/mongodb";
 import styles from "../../../styles/pageStyles/CatalogItem.module.scss";
 import { useRouter } from "next/router";
+import dbConnect from "../../../lib/mongoose";
+import CatalogSettings from "../../../models/settings/catalogSettings";
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -15,23 +17,36 @@ export async function getServerSideProps(context) {
     };
   }
 
+  // Load catalog settings
+  await dbConnect();
+  const settingsDoc = await CatalogSettings.findOne({ key: "catalogSettings" }).lean();
+  const settings = {
+    showPriceMin: settingsDoc?.showPriceMin ?? true,
+    showPriceMax: settingsDoc?.showPriceMax ?? true,
+  };
+
   item._id = item._id.toString();
   if (item.createdAt) item.createdAt = item.createdAt.toString();
   if (item.modifiedAt) item.modifiedAt = item.modifiedAt.toString();
 
   return {
-    props: { item },
+    props: { item, settings },
   };
 }
 
-export default function CatalogItemPage({ item }) {
+export default function CatalogItemPage({ item, settings }) {
   const router = useRouter();
 
   const handleBack = () => {
     const { search, brand, min, max } = router.query;
     router.push({
       pathname: `/catalog/${item.type.toLowerCase()}`,
-      query: { search, brand, min, max },
+      query: {
+        search,
+        brand,
+        ...(settings?.showPriceMin ? { min } : {}),
+        ...(settings?.showPriceMax ? { max } : {}),
+      },
     });
   };
 
@@ -41,11 +56,14 @@ export default function CatalogItemPage({ item }) {
     <div className={styles.catalogItemContainer}>
       <h1 className={styles.title}>{item.name}</h1>
       <p className={styles.brand}>Brand: {item.brand}</p>
-      <p className={styles.price}>
-        Price: {item.priceMin ? `$${item.priceMin}` : ""}
-        {item.priceMin && item.priceMax ? " - " : ""}
-        {item.priceMax ? `$${item.priceMax}` : ""}
-      </p>
+      {(() => {
+        const parts = [];
+        if (settings?.showPriceMin && item.priceMin) parts.push(`$${item.priceMin}`);
+        if (settings?.showPriceMax && item.priceMax) parts.push(`$${item.priceMax}`);
+        return parts.length ? (
+          <p className={styles.price}>Price: {parts.join(" - ")}</p>
+        ) : null;
+      })()}
       <div className={styles.imageWrapper}>
         <img src={item.imageUrl} alt={item.name} className={styles.image} />
       </div>

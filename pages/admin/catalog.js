@@ -31,6 +31,11 @@ export default function CatalogPage() {
   const [newType, setNewType] = useState("");
   const [newTypeName, setNewTypeName] = useState("");
 
+  const [displaySettings, setDisplaySettings] = useState({
+    showPriceMin: true,
+    showPriceMax: true,
+  });
+
 
   const fetchCatalog = async () => {
     const res = await fetch("/api/catalog/get");
@@ -38,9 +43,40 @@ export default function CatalogPage() {
     setCatalogItems(data);
   };
 
+  const fetchDisplaySettings = async () => {
+    try {
+      const res = await fetch("/api/admin/catalog/settings/get");
+      if (res.ok) {
+        const data = await res.json();
+        if (data) setDisplaySettings(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch display settings", err);
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    try {
+      const res = await fetch("/api/admin/catalog/settings/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(displaySettings),
+      });
+      if (res.ok) {
+        alert("Settings saved!");
+      } else {
+        alert("Failed to save settings.");
+      }
+    } catch (err) {
+      console.error("Failed to save display settings", err);
+      alert("Error saving settings.");
+    }
+  };
+
   useEffect(() => {
     fetch("/api/catalog/types/get").then(res => res.json()).then(setCatalogTypes);
     fetchCatalog();
+    fetchDisplaySettings();
   }, []);
 
   const handleUpload = async () => {
@@ -390,6 +426,33 @@ export default function CatalogPage() {
         </div>
 
         <button onClick={handleSubmit} className={styles.button}>Save Catalog Item</button>
+
+        <hr style={{ margin: "2rem 0" }} />
+
+        <h2>Catalog Display Settings</h2>
+        <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+          <input
+            type="checkbox"
+            id="showPriceMin"
+            checked={displaySettings.showPriceMin}
+            onChange={(e) => setDisplaySettings({ ...displaySettings, showPriceMin: e.target.checked })}
+            style={{ width: 'auto' }}
+          />
+          <label htmlFor="showPriceMin" style={{ marginBottom: 0 }}>Show Minimum Price on Front-end</label>
+        </div>
+        <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+          <input
+            type="checkbox"
+            id="showPriceMax"
+            checked={displaySettings.showPriceMax}
+            onChange={(e) => setDisplaySettings({ ...displaySettings, showPriceMax: e.target.checked })}
+            style={{ width: 'auto' }}
+          />
+          <label htmlFor="showPriceMax" style={{ marginBottom: 0 }}>Show Maximum Price on Front-end</label>
+        </div>
+        <button onClick={handleSaveSettings} className={styles.button} style={{ marginTop: '10px' }}>
+          Save Display Settings
+        </button>
 
         <hr style={{ margin: "2rem 0" }} />
         <h2>Catalog Items</h2>

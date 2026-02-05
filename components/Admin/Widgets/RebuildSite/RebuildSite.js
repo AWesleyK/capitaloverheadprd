@@ -30,7 +30,7 @@ export default function RebuildSite({ disabled }) {
     setMessage("");
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_DEPLOY_HOOK_URL, {
+      const res = await fetch("/api/admin/rebuild-site", {
         method: "POST",
       });
 

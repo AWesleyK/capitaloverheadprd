@@ -2,8 +2,23 @@ import { useEffect, useState } from "react";
 import styles from "./PatchNotes.module.scss";
 
 export default function PatchNotes({ user }) {
-  const [patches, setPatches] = useState([]);
-  const [selectedVersion, setSelectedVersion] = useState(null);
+  const [patches, setPatches] = useState([
+    {
+      version: "3.0",
+      notes: `Dino Doors – Version 3.0
+Released: February 5, 2026
+
+- Fix sitemap rebuild
+- Added catalog element visibility for prices
+- Improved responsive design on admin panel for mobile use
+- Reworked Blog AI
+- Add backlinks and beautify blogs
+- Redesign the core values page
+- Added City pages to service Area page`,
+      createdAt: new Date("2026-02-05")
+    }
+  ]);
+  const [selectedVersion, setSelectedVersion] = useState("3.0");
   const [newNotes, setNewNotes] = useState("");
   const [newVersion, setNewVersion] = useState("");
   const [message, setMessage] = useState("");
