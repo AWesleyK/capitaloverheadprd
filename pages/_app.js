@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps, services }) {
     return () => router.events.off("routeChangeComplete", handleRouteChange);
   }, [router, isAdminRoute]);
 
-  return <Layout services={services || []}>{WrappedPage}</Layout>;
+  return isAdminRoute ? WrappedPage : <Layout services={services || []}>{WrappedPage}</Layout>;
 }
 
 /**

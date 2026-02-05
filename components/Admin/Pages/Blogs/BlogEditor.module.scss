@@ -8,6 +8,12 @@
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   cursor: text !important;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
 }
 
 .editorPage h1 {
@@ -66,6 +72,11 @@
   transition: background 0.2s ease-in-out;
   margin-right: 1rem;
   margin-top: 1rem;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 
 .button:hover {
@@ -111,14 +122,18 @@
 }
 
 .editorBox {
-border: 1px solid #ddd;
-border-radius: 6px;
-min-height: 400px;
-padding-top: 1rem;
-background-color: #fefefe;
-font-family: inherit;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-height: 400px;
+  padding-top: 1rem;
+  background-color: #fefefe;
+  font-family: inherit;
 
-img:hover {
+  @media (max-width: 600px) {
+    min-height: 300px;
+  }
+
+  img:hover {
   transform: scale(1); // Adjust scale as needed for subtlety
 }
 img {

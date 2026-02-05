@@ -130,56 +130,58 @@ export default function ManageUsersPage() {
           ) : error ? (
             <p className={styles.error}>{error}</p>
           ) : (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Role</th>
-                  <th>Last Login</th>
-                  <th>Locked</th>
-                  <th>Locked By</th>
-                  <th>Last Locked</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user._id}>
-                    <td>
-                      <button onClick={() => setSelectedUser(user)} className={styles.linkButton}>
-                        {user.username}
-                      </button>
-                      {user.accountLocked && <span className={styles.badge}>Locked</span>}
-                    </td>
-                    <td>
-                      <select
-                        value={getHighestRole(user.roles)}
-                        onChange={(e) => handleUpdateRoles(user._id, e.target.value)}
-                      >
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Owner">Owner</option>
-                      </select>
-                    </td>
-                    <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : "Never"}</td>
-                    <td>{user.accountLocked ? "Yes" : "No"}</td>
-                    <td>{user.lockedBy || "-"}</td>
-                    <td>{user.lockedAt ? new Date(user.lockedAt).toLocaleString() : "Never"}</td>
-                    <td className={styles.actions}>
-                      {!user.accountLocked && <button onClick={() => handleLock(user._id)}>Lock</button>}
-                      {user.accountLocked && <button onClick={() => handleUnlock(user._id)}>Unlock</button>}
-                      <button onClick={() => {
-                        const pw = prompt("Enter temporary password:");
-                        if (pw) handleResetPassword(user._id, pw);
-                      }}>
-                        Reset PW
-                      </button>
-                      <button onClick={() => handleDelete(user._id)}>Delete</button>
-                    </td>
+            <div className={styles.tableWrapper}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Last Login</th>
+                    <th>Locked</th>
+                    <th>Locked By</th>
+                    <th>Last Locked</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredUsers.map((user) => (
+                    <tr key={user._id}>
+                      <td>
+                        <button onClick={() => setSelectedUser(user)} className={styles.linkButton}>
+                          {user.username}
+                        </button>
+                        {user.accountLocked && <span className={styles.badge}>Locked</span>}
+                      </td>
+                      <td>
+                        <select
+                          value={getHighestRole(user.roles)}
+                          onChange={(e) => handleUpdateRoles(user._id, e.target.value)}
+                        >
+                          <option value="User">User</option>
+                          <option value="Admin">Admin</option>
+                          <option value="Owner">Owner</option>
+                        </select>
+                      </td>
+                      <td>{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : "Never"}</td>
+                      <td>{user.accountLocked ? "Yes" : "No"}</td>
+                      <td>{user.lockedBy || "-"}</td>
+                      <td>{user.lockedAt ? new Date(user.lockedAt).toLocaleString() : "Never"}</td>
+                      <td className={styles.actions}>
+                        {!user.accountLocked && <button onClick={() => handleLock(user._id)}>Lock</button>}
+                        {user.accountLocked && <button onClick={() => handleUnlock(user._id)}>Unlock</button>}
+                        <button onClick={() => {
+                          const pw = prompt("Enter temporary password:");
+                          if (pw) handleResetPassword(user._id, pw);
+                        }}>
+                          Reset PW
+                        </button>
+                        <button onClick={() => handleDelete(user._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       ) : (

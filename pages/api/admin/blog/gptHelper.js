@@ -9,6 +9,10 @@ const openai = new OpenAI({
   ...(useGateway ? { baseURL: process.env.AI_GATEWAY_BASE_URL } : {}),
 });
 
+export const config = {
+  maxDuration: 60, // Increase timeout for long-running AI generations (Pro/Enterprise)
+};
+
 // small timeout wrapper so we don’t hit Vercel’s hard limit
 function withTimeout(promise, ms, label = "operation") {
   return Promise.race([
@@ -63,6 +67,7 @@ export default async function handler(req, res) {
     }
 
     console.log("gptHelper: Requesting completion from AI...");
+    const startTime = Date.now();
     const completion = await withTimeout(
       openai.chat.completions.create({
         model,
@@ -89,11 +94,12 @@ export default async function handler(req, res) {
         temperature: 0.7,
         max_tokens: 1500,
       }),
-      25000,
+      55000,
       "AI completion"
     );
 
-    console.log("gptHelper: AI response received.");
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    console.log(`gptHelper: AI response received in ${duration}s.`);
 
     const raw = completion.choices?.[0]?.message?.content?.trim();
     if (!raw) {

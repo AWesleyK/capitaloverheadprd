@@ -79,17 +79,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 2rem;
-    width: 3rem;
+    height: 1.5rem;
+    width: 2rem;
     position: fixed;
-    top: 11vh;
+    top: 1rem;
     left: 1rem;
-    z-index: 1001;
+    z-index: 1100;
     background: none;
-      border: none;
-      color: #1f2937; // default (dark)
+    border: none;
     cursor: pointer;
-  
+
     @media (min-width: 768px) {
       display: none;
     }
@@ -105,9 +104,12 @@
   }
   
 // Animate when menu is open
+.openToggle .bar {
+  background: #fff !important;
+}
+
 .openToggle .bar:nth-child(1) {
-  transform: rotate(45deg) translate(1em, 1em);
-  background: #3b82f6;
+  transform: translateY(0.6rem) rotate(45deg);
 }
 
 .openToggle .bar:nth-child(2) {
@@ -116,74 +118,87 @@
 }
 
 .openToggle .bar:nth-child(3) {
-  transform: rotate(-45deg) translate(1em, -1em);
-  background: #3b82f6;
+  transform: translateY(-0.6rem) rotate(-45deg);
 }
 
 .userDisplay {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #6b7280;
-  text-align: center;
+  margin-top: auto;
+  padding: 1.5rem 0;
+  border-top: 1px solid #374151;
+  font-size: 0.85rem;
+  color: #9ca3af;
 }
 
 .userLabel {
   font-weight: 500;
-  font-size: 0.85rem;
   margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .userName {
   font-weight: 600;
-  color: #1e2129;
+  color: #fff;
   line-height: 1.4;
 }
 
 .username {
-  font-size: 0.85rem;
-  color: #4b5563;
+  font-size: 0.8rem;
+  color: #9ca3af;
 }
 
 .userRole {
   font-style: italic;
-  color: #4b5563;
-  font-weight: 400;
-  margin-left: 0.3rem;
+  color: #3b82f6;
+  font-weight: 500;
+  margin-left: 0.2rem;
 }
 
+.logoutButton {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: #ef4444;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #dc2626;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -240px;
+    width: 240px;
+    height: 100vh;
+    background: #1f2937;
+    color: #fff;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s ease;
+    z-index: 1050;
+  }
   
+  .sidebar.open {
+    left: 0;
+  }
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+
   @media (max-width: 768px) {
-    .sidebar {
-      position: fixed;
-      top: 10vh;
-      left: -220px;
-      width: 220px;
-      height: 100vh;
-      background: #1f2937;
-      color: #fff;
-      padding: 2rem 1rem;
-      display: flex;
-      flex-direction: column;
-      transition: left 0.3s ease;
-      z-index: 1000;
-    
-      @media (min-width: 768px) {
-        position: sticky;
-        left: 0;
-      }
-    }
-    
-    .sidebar.open {
-      left: 0;
-    }
-    
+    padding: 1rem;
+    padding-top: 4rem;
   }
-  .main {
-    flex: 1;
-    padding: 2rem;
-  
-    @media (max-width: 768px) {
-      padding-top: 4rem;
-    }
-  }
+}
   

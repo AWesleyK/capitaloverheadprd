@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState } from "react";
+import Head from "next/head";
 import styles from "./AdminLayout.module.scss";
 
 const navItems = [
@@ -81,6 +82,11 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Admin Panel | Capital Overhead</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/Dino_Doors_Logo_No_bg.ico" />
+      </Head>
       <button
         ref={toggleButtonRef}
         className={`${styles.menuToggle} ${menuOpen ? styles.openToggle : ""}`}

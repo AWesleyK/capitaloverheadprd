@@ -18,6 +18,16 @@ export default function GptAssistant({ onAutoFill }) {
         body: JSON.stringify({ prompt }),
       });
 
+      if (!res.ok) {
+        let errorData;
+        try {
+          errorData = await res.json();
+        } catch (e) {
+          errorData = { error: `Server error: ${res.status} ${res.statusText}` };
+        }
+        throw new Error(errorData.error || errorData.details || "Failed to generate");
+      }
+
       const data = await res.json();
 
       if (data && data.content) {
@@ -38,7 +48,7 @@ export default function GptAssistant({ onAutoFill }) {
       }
     } catch (err) {
       console.error("GPT fetch failed:", err);
-      alert("Failed to generate. Try again.");
+      alert(err.message || "Failed to generate. Try again.");
     } finally {
       setLoading(false);
     }

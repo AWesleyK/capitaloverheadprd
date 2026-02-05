@@ -5,6 +5,12 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
 }
 
 .page h1 {
@@ -73,6 +79,14 @@
   max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 1100px) {
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .disabledTile {
@@ -81,11 +95,6 @@
 }
 
 
-@media (max-width: 1000px) {
-  .dashboardGrid {
-    grid-template-columns: 1fr;
-  }
-}
 
 
 
@@ -95,4 +104,8 @@
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 }
