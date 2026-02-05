@@ -30,6 +30,45 @@ export default function BlogEditorToolbar({ editor }) {
     setLinkUrl("");
     setShowLinkFields(false);
   };
+
+  const insertTakeaways = () => {
+    editor.chain().focus().insertContent(`
+      <div class="takeaways">
+        <h4>Key Takeaways</h4>
+        <ul>
+          <li>Point 1</li>
+          <li>Point 2</li>
+          <li>Point 3</li>
+        </ul>
+      </div>
+      <p></p>
+    `).run();
+  };
+
+  const insertInfoBox = () => {
+    editor.chain().focus().insertContent(`
+      <div class="infoBox">
+        <p>Enter your helpful tip or additional information here...</p>
+      </div>
+      <p></p>
+    `).run();
+  };
+
+  const insertLinkGrid = () => {
+    editor.chain().focus().insertContent(`
+      <div class="linkGrid">
+        <div class="linkCard">
+          <h5><a href="#">Related Post Title</a></h5>
+          <p>Short description of the related post to engage readers.</p>
+        </div>
+        <div class="linkCard">
+          <h5><a href="#">Another Post Title</a></h5>
+          <p>Short description of the related post to engage readers.</p>
+        </div>
+      </div>
+      <p></p>
+    `).run();
+  };
   
 
   return (
@@ -60,6 +99,18 @@ export default function BlogEditorToolbar({ editor }) {
       </button>
       <button onClick={() => setShowLinkFields(!showLinkFields)}>
         Add Link
+      </button>
+
+      <div style={{ width: "100%", height: "1px", background: "#eee", margin: "0.25rem 0" }} />
+
+      <button onClick={insertTakeaways}>
+        + Takeaways Box
+      </button>
+      <button onClick={insertInfoBox}>
+        + Info Tip
+      </button>
+      <button onClick={insertLinkGrid}>
+        + Link Cards
       </button>
 
       {showLinkFields && (

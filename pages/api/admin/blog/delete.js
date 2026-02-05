@@ -22,7 +22,7 @@ async function handler(req, res) {
     if (!blog) return res.status(404).json({ error: "Blog not found" });
 
     // 🟠 Step 2: Delete image from Vercel Blob if exists
-    if (entry.url.includes("blob.vercel")) {
+    if (blog.imageUrl?.includes("blob.vercel")) {
       try {
         await del(blog.imageUrl);
       } catch (err) {
@@ -33,7 +33,7 @@ async function handler(req, res) {
     // 🔴 Step 3: Delete the blog and the quick link
     await blogs.deleteOne({ _id: new ObjectId(id) });
 
-    const path = `/about/blog/${blog.slug}`;
+    const path = `/about/blogs/${blog.slug}`;
     await quickLinks.deleteOne({ path });
 
     res.status(200).json({ success: true });

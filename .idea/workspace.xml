@@ -6,21 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditorToolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditorToolbar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/about/blogs/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/[slug].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/blogs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/learn-more.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/core-values.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/learn-more.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/services/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/delete.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/delete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/list.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/update.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/update.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/services/update.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/services/update.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/generate-sitemap.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/generate-sitemap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/pageStyles/Blogs/BlogPost.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/Blogs/BlogPost.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

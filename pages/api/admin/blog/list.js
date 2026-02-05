@@ -1,7 +1,8 @@
 // pages/api/admin/blog/list.js
 import clientPromise from "../../../../lib/mongodb";
+import { withAuth } from "../../../../lib/middleware/withAuth";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).end("Method Not Allowed");
 
   try {
@@ -15,3 +16,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+export default withAuth(handler, { roles: ["Admin", "Owner"], minTier: 1 });

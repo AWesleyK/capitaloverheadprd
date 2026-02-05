@@ -15,6 +15,7 @@ async function handler(req, res) {
     metaDesc,
     imageUrl,
     isPublished,
+    slug: slugFromRequest,
     tags,
     publishDate,
     content,
@@ -28,12 +29,18 @@ async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
-    const slug = slugify(title);
+    // Fetch old record to handle slug changes in quickLinks
+    const oldBlog = await db.collection("blogs").findOne({ _id: new ObjectId(id) });
+    if (!oldBlog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    const slug = slugFromRequest ? slugify(slugFromRequest) : slugify(title);
 
     // Check if the new slug is used by another blog
     const existing = await db.collection("blogs").findOne({ slug, _id: { $ne: new ObjectId(id) } });
     if (existing) {
-      return res.status(409).json({ error: "A blog with this title already exists." });
+      return res.status(409).json({ error: "A blog with this slug already exists." });
     }
 
     const result = await db.collection("blogs").updateOne(
@@ -54,16 +61,22 @@ async function handler(req, res) {
       }
     );
 
-    const path = `/about/blogs/${slug}`;
+    const oldPath = `/about/blogs/${oldBlog.slug}`;
+    const newPath = `/about/blogs/${slug}`;
 
-    // Remove from quickLinks if it's now unpublished
+    // Remove OLD quickLink if slug changed
+    if (oldPath !== newPath) {
+      await db.collection("quickLinks").deleteOne({ path: oldPath });
+    }
+
+    // Handle current quickLink status
     if (!isPublished) {
-      await db.collection("quickLinks").deleteOne({ path });
+      await db.collection("quickLinks").deleteOne({ path: newPath });
     } else {
       // Otherwise, update or insert it
       await db.collection("quickLinks").updateOne(
-        { path },
-        { $set: { path, label: title, parent: "Blogs" } },
+        { path: newPath },
+        { $set: { path: newPath, label: title, parent: "Blogs" } },
         { upsert: true }
       );
     }

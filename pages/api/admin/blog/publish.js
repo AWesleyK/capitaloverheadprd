@@ -1,6 +1,9 @@
 import clientPromise from "../../../../lib/mongodb";
 import { withAuth } from "../../../../lib/middleware/withAuth";
 
+const slugify = (text) =>
+  text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
+
 async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
@@ -24,17 +27,19 @@ async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
 
+    const finalSlug = slugify(slug || title);
+
     // Enforce unique slug
-    const existing = await db.collection("blogs").findOne({ slug });
+    const existing = await db.collection("blogs").findOne({ slug: finalSlug });
     if (existing) {
-      return res.status(409).json({ error: "A blog with this title already exists." });
+      return res.status(409).json({ error: "A blog with this slug already exists." });
     }
 
     const blogData = {
       title,
       seoTitle: seoTitle || title,
       metaDesc,
-      slug,
+      slug: finalSlug,
       imageUrl,
       tags: tags || [],
       isPublished,
@@ -48,7 +53,7 @@ async function handler(req, res) {
 
 // Only create quicklink if blog is published
 if (isPublished) {
-    const path = `/about/blogs/${slug}`;
+    const path = `/about/blogs/${finalSlug}`;
     await db.collection("quickLinks").updateOne(
       { path },
       { $set: { path, label: title, parent: "Blogs" } },

@@ -17,6 +17,19 @@ const { CITY_LIST, normalizeCity } = require("../lib/cities");
 // Prefer env-driven base URL, fall back to your real domain.
 const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://dinodoors.net").replace(/\/+$/, "");
 
+const today = new Date().toISOString().split("T")[0];
+
+function getNewestDate(dates) {
+  const validDates = dates
+    .map((d) => (d instanceof Date ? d : d ? new Date(d) : null))
+    .filter((d) => d && !isNaN(d.getTime()));
+
+  if (validDates.length === 0) return today;
+
+  const newest = new Date(Math.max(...validDates));
+  return newest.toISOString().split("T")[0];
+}
+
 async function generateSitemap() {
   const mongoUri = process.env.MONGODB_URI;
 
@@ -31,15 +44,15 @@ async function generateSitemap() {
 
   // Collect all content
   const [services, catalogItems, blogs, catalogTypes] = await Promise.all([
-    db.collection("services").find({}, { projection: { slug: 1 } }).toArray(),
-    db.collection("catalogItems").find({}, { projection: { slug: 1, type: 1 } }).toArray(),
+    db.collection("services").find({}, { projection: { slug: 1, createdAt: 1, modifiedAt: 1 } }).toArray(),
+    db.collection("catalogItems").find({}, { projection: { slug: 1, type: 1, createdAt: 1, updatedAt: 1, modifiedAt: 1 } }).toArray(),
     db.collection("blogs")
         .find(
             { isPublished: true, publishDate: { $lte: new Date() } },
-            { projection: { slug: 1 } }
+            { projection: { slug: 1, createdAt: 1, updatedAt: 1 } }
         )
         .toArray(),
-    db.collection("catalogTypes").find({}, { projection: { type: 1 } }).toArray(),
+    db.collection("catalogTypes").find({}, { projection: { type: 1, createdAt: 1, updatedAt: 1 } }).toArray(),
   ]);
 
   // Determine which catalog types are used
@@ -53,18 +66,36 @@ async function generateSitemap() {
     "services/service-area",
     "about/blogs",
     "about/core-values",
-  ];
+  ].map(route => ({ route, lastmod: today }));
 
   // Dynamic routes
-  const serviceRoutes = services.map((s) => `services/${s.slug}`);
-  const serviceAreaRoutes = CITY_LIST.map((city) => `service-area/${normalizeCity(city)}`);
-  const catalogItemRoutes = catalogItems.map((c) => `catalog/item/${c.slug}`);
-  const blogRoutes = blogs.map((b) => `about/blogs/${b.slug}`);
+  const serviceRoutes = services.map((s) => ({
+    route: `services/${s.slug}`,
+    lastmod: getNewestDate([s.createdAt, s.modifiedAt])
+  }));
+
+  const serviceAreaRoutes = CITY_LIST.map((city) => ({
+    route: `service-area/${normalizeCity(city)}`,
+    lastmod: today
+  }));
+
+  const catalogItemRoutes = catalogItems.map((c) => ({
+    route: `catalog/item/${c.slug}`,
+    lastmod: getNewestDate([c.createdAt, c.updatedAt, c.modifiedAt])
+  }));
+
+  const blogRoutes = blogs.map((b) => ({
+    route: `about/blogs/${b.slug}`,
+    lastmod: getNewestDate([b.createdAt, b.updatedAt])
+  }));
 
   // Use encodeURIComponent for safety (spaces, special chars, etc.)
   const catalogTypeRoutes = catalogTypes
       .filter((t) => usedTypes.has(t.type))
-      .map((t) => `catalog/${encodeURIComponent(String(t.type).toLowerCase())}`);
+      .map((t) => ({
+        route: `catalog/${encodeURIComponent(String(t.type).toLowerCase())}`,
+        lastmod: getNewestDate([t.createdAt, t.updatedAt])
+      }));
 
   const allRoutes = [
     ...staticRoutes,
@@ -80,9 +111,10 @@ async function generateSitemap() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allRoutes
       .map(
-          (route) => `
+          (item) => `
   <url>
-    <loc>${baseUrl}/${route}</loc>
+    <loc>${baseUrl}/${item.route}</loc>
+    <lastmod>${item.lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`

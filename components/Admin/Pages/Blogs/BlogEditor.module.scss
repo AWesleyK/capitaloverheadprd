@@ -142,3 +142,13 @@ img {
   cursor: move;
 }
 
+.invalid {
+  label {
+    color: #ef4444 !important;
+  }
+  input, textarea, .editorBox, select {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2 !important;
+  }
+}
+

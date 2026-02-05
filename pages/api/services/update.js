@@ -47,6 +47,7 @@ async function handler(req, res) {
           description,
           imageUrl,
           slug: newSlug,
+          modifiedAt: new Date(),
         },
       }
     );

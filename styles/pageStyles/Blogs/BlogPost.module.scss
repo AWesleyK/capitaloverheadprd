@@ -27,7 +27,29 @@
   .date {
     color: #6b7280;
     font-size: 0.95rem;
+  }
+
+  .metaInfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
     margin-top: -1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 500;
   }
   
   .heroImage {
@@ -39,44 +61,188 @@
   }
   
   .content {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.1rem;
+    line-height: 1.8;
     color: #374151;
+
+    & > :first-child {
+      margin-top: 0 !important;
+    }
   
     h2, h3, h4 {
-      margin-top: 2rem;
-      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1.25rem;
       color: #111827;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 1.85rem;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
     }
   
     p {
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
   
     ul, ol {
-      margin: 1rem 0 1rem 1.5rem;
+      margin: 1.5rem 0 1.5rem 1.5rem;
       padding-left: 1rem;
     }
   
     li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    blockquote {
+      margin: 2rem 0;
+      padding: 1.5rem 2rem;
+      background-color: #f9fafb;
+      border-left: 4px solid $primary-color;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #4b5563;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    hr {
+      margin: 3rem 0;
+      border: 0;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    strong {
+      color: #111827;
+      font-weight: 600;
     }
   
     img {
       max-width: 100%;
       height: auto;
-      margin: 1.5rem 0;
-      border-radius: 6px;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    a {
-        color: #2563eb;
-        text-decoration: underline;
-        cursor: pointer;
-      
-        &:hover {
-          text-decoration: underline dotted;
+    :global {
+      .takeaways {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-left: 4px solid $secondary-color;
+        padding: 1.5rem;
+        margin: 2.5rem 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+        h4 {
+          margin-top: 0;
+          margin-bottom: 1rem;
+          color: $secondary-color;
+          font-size: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
+
+        ul {
+          margin: 0;
+          padding-left: 1.25rem;
+          list-style-type: "✓ ";
+        }
+
+        li {
+          margin-bottom: 0.5rem;
+          color: #374151;
+        }
+      }
+
+      .linkGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2.5rem 0;
+      }
+
+      .linkCard {
+        position: relative;
+        padding: 1.5rem;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          border-color: $secondary-color;
+          background-color: #fffafa;
+        }
+
+        h5 {
+          margin: 0 0 0.5rem 0;
+          color: $primary-color;
+          font-size: 1.15rem;
+          font-weight: 700;
+          line-height: 1.3;
+
+          a {
+            color: inherit !important;
+            text-decoration: none !important;
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+            }
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 0.95rem;
+          color: #4b5563;
+          line-height: 1.5;
+        }
+      }
+
+      .infoBox {
+        margin: 2.5rem 0;
+        padding: 1.5rem;
+        background-color: #f0f7ff;
+        border-radius: 12px;
+        border-left: 4px solid #2563eb;
+        color: #1e40af;
+        font-weight: 500;
+
+        &::before {
+          content: "💡 Tip:";
+          display: block;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          text-transform: uppercase;
+          font-size: 0.85rem;
+          letter-spacing: 0.05em;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
     }
 }
   

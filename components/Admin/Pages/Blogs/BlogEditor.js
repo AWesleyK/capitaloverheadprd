@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "./BlogEditor.module.scss";
 import { EditorContent, useEditor } from "@tiptap/react";
+import { Node, mergeAttributes } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
@@ -12,8 +13,30 @@ import BlogEditorToolbar from "./BlogEditorToolbar";
 const slugify = (text) =>
   text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
 
+const Div = Node.create({
+  name: 'div',
+  group: 'block',
+  content: 'block*',
+  addAttributes() {
+    return {
+      class: {
+        default: null,
+      },
+    }
+  },
+  parseHTML() {
+    return [
+      { tag: 'div' },
+    ]
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(HTMLAttributes), 0]
+  },
+})
+
 export default function BlogEditor({ editingPost }) {
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [seoTitle, setSeoTitle] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
   const [image, setImage] = useState(null);
@@ -23,10 +46,17 @@ export default function BlogEditor({ editingPost }) {
   const [publishDate, setPublishDate] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [errors, setErrors] = useState({});
+  const [uploading, setUploading] = useState(false);
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3, 4, 5],
+        },
+      }),
+      Div,
       Image.configure({
         inline: false,
         allowBase64: true,
@@ -45,6 +75,9 @@ export default function BlogEditor({ editingPost }) {
       }),
     ],
     content: "",
+    onUpdate: ({ editor }) => {
+      setErrors((prev) => ({ ...prev, content: !editor || editor.isEmpty ? true : false }));
+    },
     editorProps: {
       attributes: {
         class: styles.editorContent,
@@ -58,6 +91,7 @@ export default function BlogEditor({ editingPost }) {
   useEffect(() => {
     if (editingPost) {
       setTitle(editingPost.title || "");
+      setSlug(editingPost.slug || "");
       setSeoTitle(editingPost.seoTitle || "");
       setMetaDesc(editingPost.metaDesc || "");
       setImageUrl(editingPost.imageUrl || "");
@@ -72,36 +106,52 @@ export default function BlogEditor({ editingPost }) {
     }
   }, [editingPost, editor]);
 
-  const handleUpload = async () => {
-    if (!image) return alert("Select an image");
+  const handleUpload = async (file) => {
+    if (!file) return;
+    setUploading(true);
     const formData = new FormData();
-    formData.append("file", image);
+    formData.append("file", file);
     formData.append("folder", "blog");
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
-    setImageUrl(data.url);
+      const data = await res.json();
+      setImageUrl(data.url);
+      setErrors((prev) => ({ ...prev, imageUrl: false }));
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Image upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
-  const handleInsertBodyImage = async () => {
-    if (!bodyImage) return alert("Choose an image to insert into the blog body");
+  const handleInsertBodyImage = async (file) => {
+    if (!file) return;
+    setUploading(true);
     const formData = new FormData();
-    formData.append("file", bodyImage);
+    formData.append("file", file);
     formData.append("folder", "blog/body");
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
-    editor?.commands.insertContent(`<img src="${data.url}" alt="" class="blog-image" />`);
-    setBodyImage(null);
-    alert("Image inserted into blog body!");
+      const data = await res.json();
+      editor?.commands.insertContent(`<img src="${data.url}" alt="" class="blog-image" />`);
+      setBodyImage(null);
+    } catch (err) {
+      console.error("Body image upload failed:", err);
+      alert("Failed to insert image");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleAddTag = () => {
@@ -116,16 +166,26 @@ export default function BlogEditor({ editingPost }) {
   };
 
   const saveBlog = async (publish = false) => {
-    if (!title || !editor || !imageUrl) return alert("Missing fields");
+    const newErrors = {
+      title: !title,
+      slug: !slug,
+      imageUrl: !imageUrl,
+      content: !editor || editor.isEmpty,
+    };
 
-    const slug = slugify(title);
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some(Boolean)) {
+      return alert("Please fill in all required fields (marked in red).");
+    }
+
     const payload = {
       title,
       seoTitle,
       metaDesc,
       imageUrl,
       isPublished: publish,
-      slug,
+      slug: slugify(slug), // ensure it's still URL-safe
       tags,
       publishDate: publish ? publishDate || new Date().toISOString() : null,
       content: editor.getHTML(),
@@ -161,7 +221,10 @@ export default function BlogEditor({ editingPost }) {
 
   const handleAutoFill = (data) => {
     if (!data) return;
-    if (data.title) setTitle(data.title);
+    if (data.title) {
+      setTitle(data.title);
+      if (!slug) setSlug(slugify(data.title));
+    }
     if (data.seoTitle) setSeoTitle(data.seoTitle);
     if (data.metaDesc) setMetaDesc(data.metaDesc);
     if (data.tags) setTags(data.tags);
@@ -172,9 +235,28 @@ export default function BlogEditor({ editingPost }) {
     <div className={styles.editorPage}>
       <h1>{editingPost ? "Edit Blog Post" : "Create Blog Post"}</h1>
 
-      <div className={styles.formGroup}>
+      <div className={`${styles.formGroup} ${errors.title ? styles.invalid : ""}`}>
         <label>Post Title:</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input 
+          value={title} 
+          onChange={(e) => {
+            setTitle(e.target.value);
+            setErrors((prev) => ({ ...prev, title: false }));
+            if (!editingPost) setSlug(slugify(e.target.value));
+          }} 
+        />
+      </div>
+
+      <div className={`${styles.formGroup} ${errors.slug ? styles.invalid : ""}`}>
+        <label>Slug (URL segment):</label>
+        <input 
+          value={slug} 
+          onChange={(e) => {
+            setSlug(e.target.value);
+            setErrors((prev) => ({ ...prev, slug: false }));
+          }} 
+          placeholder="e.g. garage-door-repair-tips"
+        />
       </div>
 
       <div className={styles.formGroup}>
@@ -187,10 +269,17 @@ export default function BlogEditor({ editingPost }) {
         <textarea value={metaDesc} rows={3} onChange={(e) => setMetaDesc(e.target.value)} placeholder="A short summary for search engines" />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={`${styles.formGroup} ${errors.imageUrl ? styles.invalid : ""}`}>
         <label>Feature Image:</label>
-        <input type="file" onChange={(e) => setImage(e.target.files?.[0])} />
-        <button className={styles.button} onClick={handleUpload}>Upload Image</button>
+        <input 
+          type="file" 
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            setImage(file);
+            handleUpload(file);
+          }} 
+        />
+        {uploading && <p>Uploading...</p>}
         {imageUrl && <img src={imageUrl} className={styles.uploadPreview} />}
       </div>
 
@@ -211,18 +300,27 @@ export default function BlogEditor({ editingPost }) {
         <input type="datetime-local" value={publishDate} onChange={(e) => setPublishDate(e.target.value)} />
           </div>*/}
 
-      <div className={styles.formGroup}>
+      <div className={`${styles.formGroup} ${errors.content ? styles.invalid : ""}`}>
         <label>Blog Body:</label>
         <div className={styles.editorBox}>
           <BlogEditorToolbar editor={editor} />
-          <EditorContent editor={editor} className={styles.editorContent} />
+          <EditorContent 
+            editor={editor} 
+            className={styles.editorContent} 
+          />
         </div>
       </div>
 
       <div className={styles.formGroup}>
         <label>Insert Image into Blog Body:</label>
-        <input type="file" onChange={(e) => setBodyImage(e.target.files?.[0])} />
-        <button className={styles.button} onClick={handleInsertBodyImage}>Upload and Insert</button>
+        <input 
+          type="file" 
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            setBodyImage(file);
+            handleInsertBodyImage(file);
+          }} 
+        />
       </div>
 
       <div className={styles.publishToggle}>
@@ -233,7 +331,9 @@ export default function BlogEditor({ editingPost }) {
       <div className={styles.seoPreview}>
         <strong>SEO Preview</strong>
         <p>{seoTitle || title}</p>
-        <p style={{ color: "#2563eb" }}>https://dinodoors.net/about/blog/{slugify(title)}</p>
+        <p style={{ color: "#2563eb" }}>
+          {(process.env.NEXT_PUBLIC_SITE_URL || "https://dinodoors.net").replace(/\/+$/, "")}/about/blogs/{slug || slugify(title)}
+        </p>
         <p>{metaDesc}</p>
       </div>
 
