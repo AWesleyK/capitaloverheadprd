@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { prompt } = req.body || {};
+  const { prompt, phase = "all", title: passedTitle } = req.body || {};
   if (!prompt || typeof prompt !== "string") {
     return res.status(400).json({ error: "Prompt is required" });
   }
@@ -45,58 +45,80 @@ export default async function handler(req, res) {
     : (process.env.OPENAI_MODEL || "gpt-4o-mini");
 
   try {
-    const dbStartTime = Date.now();
-    console.log("gptHelper: Fetching recent blogs...");
-    // Fetch recent blogs for internal linking context
-    const client = await clientPromise;
-    const db = client.db("garage_catalog");
-    const recentBlogs = await db
-      .collection("blogs")
-      .find({ isPublished: true })
-      .sort({ publishDate: -1 })
-      .limit(5)
-      .project({ title: 1, slug: 1, metaDesc: 1 })
-      .toArray();
-
-    const dbDuration = Date.now() - dbStartTime;
-    console.log(`gptHelper: Found ${recentBlogs.length} recent blogs in ${dbDuration}ms.`);
-
     let backlinkHtml = "";
-    if (recentBlogs.length > 0) {
-      const links = recentBlogs
-        .map(
-          (b) =>
-            `<div class="linkCard"><h5><a href="/about/blogs/${b.slug}">${b.title}</a></h5><p>${b.metaDesc || "Read more about this topic..."}</p></div>`
-        )
-        .join("\n");
-      backlinkHtml = `\n\n<h3>Check out our other blogs:</h3>\n<div class="linkGrid">\n${links}\n</div>`;
+    if (phase === "all" || phase === "content") {
+      const dbStartTime = Date.now();
+      console.log("gptHelper: Fetching recent blogs...");
+      // Fetch recent blogs for internal linking context
+      const client = await clientPromise;
+      const db = client.db("garage_catalog");
+      const recentBlogs = await db
+        .collection("blogs")
+        .find({ isPublished: true })
+        .sort({ publishDate: -1 })
+        .limit(5)
+        .project({ title: 1, slug: 1, metaDesc: 1 })
+        .toArray();
+
+      const dbDuration = Date.now() - dbStartTime;
+      console.log(`gptHelper: Found ${recentBlogs.length} recent blogs in ${dbDuration}ms.`);
+
+      if (recentBlogs.length > 0) {
+        const links = recentBlogs
+          .map(
+            (b) =>
+              `<div class="linkCard"><h5><a href="/about/blogs/${b.slug}">${b.title}</a></h5><p>${b.metaDesc || "Read more about this topic..."}</p></div>`
+          )
+          .join("\n");
+        backlinkHtml = `\n\n<h3>Check out our other blogs:</h3>\n<div class="linkGrid">\n${links}\n</div>`;
+      }
     }
 
-    console.log("gptHelper: Requesting completion from AI...");
+    console.log(`gptHelper: Requesting completion for phase: ${phase}...`);
     const aiStartTime = Date.now();
+
+    let systemPrompt = "";
+    if (phase === "meta") {
+      systemPrompt = 
+        "You are an expert SEO copywriter for Dino Doors. " +
+        "Goal: Generate blog metadata based on the topic. " +
+        'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [] }. ' +
+        "Include exactly 10 SEO tags.";
+    } else if (phase === "content") {
+      systemPrompt = 
+        `You are an expert copywriter for Dino Doors. Write content for a blog post titled: "${passedTitle}". ` +
+        "Goal: Create high-quality, modern, visually engaging HTML content. " +
+        "Tone: Informative, friendly, authoritative. " +
+        'Response: JSON { "content" }. ' +
+        'The "content" field MUST use rich HTML:\n' +
+        '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
+        '2. <h2> and <h3> for hierarchy.\n' +
+        '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
+        "Do NOT add internal links; I will handle that. Be concise (approx 500 words).";
+    } else {
+      systemPrompt = 
+        "You are an expert copywriter for Dino Doors Garage Doors. " +
+        "Goal: Create a high-quality, modern, visually engaging blog post. " +
+        "Tone: Informative, friendly, authoritative. " +
+        'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [], "content" }. ' +
+        'The "content" field MUST use rich HTML:\n' +
+        '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
+        '2. <h2> and <h3> for hierarchy.\n' +
+        '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
+        "Include exactly 10 SEO tags. Do NOT add internal links; I will handle that.";
+    }
+
     const completion = await withTimeout(
       openai.chat.completions.create({
         model,
         messages: [
-          {
-            role: "system",
-            content:
-              "You are an expert copywriter for Dino Doors Garage Doors. " +
-              "Goal: Create a high-quality, modern, visually engaging blog post. " +
-              "Tone: Informative, friendly, authoritative. " +
-              'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [], "content" }. ' +
-              'The "content" field MUST use rich HTML:\n' +
-              '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
-              '2. <h2> and <h3> for hierarchy.\n' +
-              '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
-              "Include exactly 10 SEO tags. Do NOT add internal links or a 'other blogs' section; I will handle that."
-          },
+          { role: "system", content: systemPrompt },
           { role: "user", content: prompt },
         ],
-        temperature: 0.7,
-        max_tokens: 1000, // Reduced for faster response within Vercel limits
+        temperature: 0.5,
+        max_tokens: phase === "meta" ? 300 : 800,
       }),
-      50000,
+      9500, // 9.5 seconds limit for Vercel Hobby
       "AI completion"
     );
 
@@ -157,7 +179,13 @@ export default async function handler(req, res) {
     const totalDuration = Date.now() - overallStart;
     console.log(`gptHelper: Success! Total execution time: ${totalDuration}ms.`);
 
-    return res.status(200).json({ title, seoTitle, metaDesc, tags, content: finalContent });
+    return res.status(200).json({ 
+      title, 
+      seoTitle, 
+      metaDesc, 
+      tags, 
+      content: finalContent || content 
+    });
   } catch (err) {
     const totalDuration = Date.now() - overallStart;
     console.error(`gptHelper: Error after ${totalDuration}ms:`, err);
