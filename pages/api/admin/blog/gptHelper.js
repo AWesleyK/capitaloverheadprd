@@ -77,6 +77,7 @@ async function handler(req, res) {
         "Include exactly 10 SEO tags. Do NOT add internal links.";
     }
 
+    const aiStartTime = Date.now();
     const completion = await withTimeout(
       openai.chat.completions.create({
         model,
