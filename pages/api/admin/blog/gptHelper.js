@@ -30,7 +30,7 @@ function withTimeout(promise, ms, label = "operation") {
   ]);
 }
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const overallStart = Date.now();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
