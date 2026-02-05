@@ -10,6 +10,9 @@ const openai = new OpenAI({
 });
 
 export const config = {
+  api: {
+    responseLimit: false,
+  },
   maxDuration: 60, // Increase timeout for long-running AI generations (Pro/Enterprise)
 };
 
@@ -27,6 +30,7 @@ function withTimeout(promise, ms, label = "operation") {
 }
 
 export default async function handler(req, res) {
+  const overallStart = Date.now();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
@@ -41,6 +45,7 @@ export default async function handler(req, res) {
     : (process.env.OPENAI_MODEL || "gpt-4o-mini");
 
   try {
+    const dbStartTime = Date.now();
     console.log("gptHelper: Fetching recent blogs...");
     // Fetch recent blogs for internal linking context
     const client = await clientPromise;
@@ -53,9 +58,10 @@ export default async function handler(req, res) {
       .project({ title: 1, slug: 1, metaDesc: 1 })
       .toArray();
 
-    console.log(`gptHelper: Found ${recentBlogs.length} recent blogs.`);
+    const dbDuration = Date.now() - dbStartTime;
+    console.log(`gptHelper: Found ${recentBlogs.length} recent blogs in ${dbDuration}ms.`);
 
-    let backlinkInstruction = "";
+    let backlinkHtml = "";
     if (recentBlogs.length > 0) {
       const links = recentBlogs
         .map(
@@ -63,11 +69,11 @@ export default async function handler(req, res) {
             `<div class="linkCard"><h5><a href="/about/blogs/${b.slug}">${b.title}</a></h5><p>${b.metaDesc || "Read more about this topic..."}</p></div>`
         )
         .join("\n");
-      backlinkInstruction = `\n\nAt the very end of the "content" field, you MUST include a section titled "Check out our other blogs:" using an <h2> or <h3> tag, followed by a div with class "linkGrid" containing these cards:\n<div class="linkGrid">\n${links}\n</div>`;
+      backlinkHtml = `\n\n<h3>Check out our other blogs:</h3>\n<div class="linkGrid">\n${links}\n</div>`;
     }
 
     console.log("gptHelper: Requesting completion from AI...");
-    const startTime = Date.now();
+    const aiStartTime = Date.now();
     const completion = await withTimeout(
       openai.chat.completions.create({
         model,
@@ -75,31 +81,27 @@ export default async function handler(req, res) {
           {
             role: "system",
             content:
-              "You are an expert content strategist and copywriter for Dino Doors Garage Doors and More, a professional garage door company. " +
-              "Your goal is to create high-quality, modern, and visually engaging blog posts. " +
-              "Tone: Informative, friendly, and authoritative. Emphasize safety and why professional service is crucial. " +
-              'Response format: A single JSON object: { "title": string, "seoTitle": string, "metaDesc": string, "tags": string[], "content": string }. ' +
-              'The "content" field MUST use rich HTML for a modern look. Follow these structural rules:\n' +
-              '1. Start with a "Key Takeaways" box using: <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div>\n' +
-              '2. Use <h2> for major sections and <h3> for sub-sections to create a clear hierarchy.\n' +
-              '3. Use <strong> to highlight important terms and <p> for readable paragraphs.\n' +
-              '4. Use <blockquote> for expert tips, safety warnings, or customer advice. You can also use <div class="infoBox"> for helpful side-tips.\n' +
-              '5. Use <hr> to separate major thematic shifts.\n' +
-              '6. Use <ul> and <li> for lists to break up text.\n' +
-              "Include at least 10 SEO-relevant tags in the array. Do NOT include any extra fields." +
-              backlinkInstruction,
+              "You are an expert copywriter for Dino Doors Garage Doors. " +
+              "Goal: Create a high-quality, modern, visually engaging blog post. " +
+              "Tone: Informative, friendly, authoritative. " +
+              'Response: JSON { "title", "seoTitle", "metaDesc", "tags": [], "content" }. ' +
+              'The "content" field MUST use rich HTML:\n' +
+              '1. <div class="takeaways"><h4>Key Takeaways</h4><ul><li>...</li></ul></div> at start.\n' +
+              '2. <h2> and <h3> for hierarchy.\n' +
+              '3. <strong> for terms, <p> for paragraphs, <blockquote> for tips, <hr> for breaks.\n' +
+              "Include exactly 10 SEO tags. Do NOT add internal links or a 'other blogs' section; I will handle that."
           },
           { role: "user", content: prompt },
         ],
         temperature: 0.7,
-        max_tokens: 1500,
+        max_tokens: 1000, // Reduced for faster response within Vercel limits
       }),
-      55000,
+      50000,
       "AI completion"
     );
 
-    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-    console.log(`gptHelper: AI response received in ${duration}s.`);
+    const aiDuration = ((Date.now() - aiStartTime) / 1000).toFixed(2);
+    console.log(`gptHelper: AI response received in ${aiDuration}s.`);
 
     const raw = completion.choices?.[0]?.message?.content?.trim();
     if (!raw) {
@@ -149,9 +151,16 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ title, seoTitle, metaDesc, tags, content });
+    // Append backlinks manually
+    const finalContent = content.trim() + backlinkHtml;
+
+    const totalDuration = Date.now() - overallStart;
+    console.log(`gptHelper: Success! Total execution time: ${totalDuration}ms.`);
+
+    return res.status(200).json({ title, seoTitle, metaDesc, tags, content: finalContent });
   } catch (err) {
-    console.error("gptHelper via AI Gateway error:", err);
+    const totalDuration = Date.now() - overallStart;
+    console.error(`gptHelper: Error after ${totalDuration}ms:`, err);
 
     const msg = err?.message || String(err);
 

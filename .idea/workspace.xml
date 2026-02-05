@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Admin/AdminLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/AdminLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Admin/AdminLayout.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/AdminLayout.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditor.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditor.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditorToolbar.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Pages/Blogs/BlogEditorToolbar.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/styles/AdminPage.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/styles/AdminPage.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/styles/Login.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/styles/Login.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/styles/PaymentsPage.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/styles/PaymentsPage.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/styles/Setup.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/styles/Setup.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/styles/Users.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/styles/Users.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/admin/blog/gptHelper.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
