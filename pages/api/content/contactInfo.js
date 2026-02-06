@@ -1,5 +1,5 @@
 // pages/api/content/contact-info.js
-import dbConnect from '../../../lib/mongodb';   // adjust path if yours is different
+import dbConnect from '../../../lib/mongoose';   // adjust path if yours is different
 import Setting from '../../../models/settings/siteSettings';
 
 export default async function handler(req, res) {

@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Admin/Widgets/RebuildSite/RebuildSite.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Admin/Widgets/RebuildSite/RebuildSite.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/catalog.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/catalog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/catalog/[type].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/catalog/[type].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/catalog/item/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/catalog/item/[slug].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/content/contactInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/content/contactInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/sitemap.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/sitemap.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +59,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.Next.js: server-side">
+  <component name="RunManager" selected="npm.build">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>

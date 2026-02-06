@@ -1,5 +1,5 @@
-import clientPromise from "../../../lib/mongodb";
-import { CITY_LIST, normalizeCity } from "../../../lib/cities";
+import clientPromise from "../../lib/mongodb";
+import { CITY_LIST, normalizeCity } from "../../lib/cities";
 
 const DOMAIN = process.env.NEXT_PUBLIC_SITE_URL || "https://dinodoors.net";
 
