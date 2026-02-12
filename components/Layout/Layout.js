@@ -1,27 +1,15 @@
 // /components/Layout/Layout.js
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import navData from '../../data/nav-data.json';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import styles from './Layout.module.scss';
 import SiteBanner from './SiteBanner';
 
-const Layout = ({ children, services: initialServices = [] }) => {
-  const [services, setServices] = useState(initialServices);
-
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        const res = await fetch('/api/services/menu');
-        const data = await res.json();
-        setServices(data);
-      } catch (err) {
-        console.error('Failed to fetch services:', err);
-      }
-    }
-
-    fetchServices();
-  }, []);
+const Layout = ({ children }) => {
+  const services = navData.services;
+  const catalogTypes = navData.catalogTypes;
 
   return (
     <>
@@ -33,7 +21,7 @@ const Layout = ({ children, services: initialServices = [] }) => {
       </Head>
 
       <div className={styles.stickyContainer}>
-        <Navbar services={services} />
+        <Navbar services={services} catalogTypes={catalogTypes} />
         <SiteBanner />
       </div>
 

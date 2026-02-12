@@ -37,3 +37,4 @@ next-env.d.ts
 # .gitignore
 public/sitemap.xml
 sitemap.xml
+data/nav-data.json

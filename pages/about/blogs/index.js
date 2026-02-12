@@ -1,39 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
-import clientPromise from "../../../lib/mongodb";
 import styles from "../../../styles/pageStyles/Blogs/BlogIndex.module.scss";
+import navData from "../../../data/nav-data.json";
 
-export async function getServerSideProps() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("garage_catalog");
-
-    const blogs = await db
-      .collection("blogs")
-      .find({ isPublished: true, publishDate: { $lte: new Date() } })
-      .sort({ publishDate: -1 })
-      .project({
-        title: 1,
-        slug: 1,
-        imageUrl: 1,
-        metaDesc: 1,
-        publishDate: 1,
-      })
-      .toArray();
-
-    return {
-      props: {
-        blogs: JSON.parse(JSON.stringify(blogs)),
-      },
-    };
-  } catch (err) {
-    console.error("Failed to fetch visible blogs for SSR:", err);
-    return {
-      props: {
-        blogs: [],
-      },
-    };
-  }
+export async function getStaticProps() {
+  const blogs = navData.blogs;
+  return {
+    props: {
+      blogs,
+    },
+  };
 }
 
 export default function BlogIndexPage({ blogs }) {

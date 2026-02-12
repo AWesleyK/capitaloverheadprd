@@ -1,10 +1,10 @@
 // pages/service-area/[city].js
 import Head from 'next/head';
 import Link from 'next/link';
-import clientPromise from '../../lib/mongodb';
 import styles from '../../styles/pageStyles/ServiceAreaCity.module.scss';
 import { CITY_LIST, normalizeCity } from '../../lib/cities';
 import { FaWrench, FaShieldAlt, FaQuestionCircle, FaClock, FaCheckCircle, FaTools } from 'react-icons/fa';
+import navData from '../../data/nav-data.json';
 
 // Build a map for quick lookup from slug -> display name
 const CITY_MAP = CITY_LIST.reduce((acc, label) => {
@@ -24,22 +24,14 @@ export async function getStaticProps({ params }) {
     return { notFound: true };
   }
 
-  // Fetch list of services for internal linking
-  let services = [];
-  try {
-    const client = await clientPromise;
-    const db = client.db('garage_catalog');
-    const cursor = db.collection('services').find({}, { projection: { slug: 1, name: 1 } });
-    services = await cursor.toArray();
-  } catch (err) {
-    console.error('Error fetching services for city page', err);
-  }
+  // Use pre-generated services for internal linking
+  const services = navData.services;
 
   return {
     props: {
       citySlug: slug,
       cityName: label, // keep original casing like "Elmore City, OK"
-      services: JSON.parse(JSON.stringify(services)),
+      services,
     },
   };
 }

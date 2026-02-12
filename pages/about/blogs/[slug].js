@@ -3,8 +3,17 @@
 import Head from "next/head";
 import clientPromise from "../../../lib/mongodb";
 import styles from "../../../styles/pageStyles/Blogs/BlogPost.module.scss";
+import navData from "../../../data/nav-data.json";
 
-export async function getServerSideProps({ params }) {
+export async function getStaticPaths() {
+  const paths = navData.blogs.map(blog => ({
+    params: { slug: blog.slug },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
   try {
     const client = await clientPromise;
     const db = client.db("garage_catalog");
@@ -23,7 +32,7 @@ export async function getServerSideProps({ params }) {
       },
     };
   } catch (err) {
-    console.error("Failed to SSR blog post:", err);
+    console.error("Failed to static blog post:", err);
     return { notFound: true };
   }
 }

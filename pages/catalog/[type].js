@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/pageStyles/CatalogType.module.scss';
 import Image from '../../components/Shared/SmartImages';
 import Link from 'next/link';
+import navData from '../../data/nav-data.json';
 
 const CatalogTypePage = () => {
   const router = useRouter();
@@ -18,43 +19,24 @@ const CatalogTypePage = () => {
   const [displayTypeName, setDisplayTypeName] = useState('');
   const [lastLoggedQuery, setLastLoggedQuery] = useState(null);
   const [fadeIn, setFadeIn] = useState(false);
-  const [settings, setSettings] = useState({ showPriceMin: true, showPriceMax: true });
+  const [settings, setSettings] = useState(navData.catalogSettings || { showPriceMin: true, showPriceMax: true });
 
   useEffect(() => {
     if (!type) return;
 
-    const fetchItems = async () => {
-      try {
-        const res = await fetch('/api/catalog/get');
-        const data = await res.json();
-        const typeFiltered = data.filter(item => item.type.toLowerCase() === type.toLowerCase());
-        setItems(typeFiltered);
-        setDisplayTypeName(typeFiltered[0]?.typeName || type);
+    const data = navData.catalogItems;
+    const typeFiltered = data.filter(item => item.type.toLowerCase() === type.toLowerCase());
+    setItems(typeFiltered);
+    setDisplayTypeName(typeFiltered[0]?.typeName || type);
 
-        const { search: qSearch, brand, min, max } = router.query;
-        if (qSearch) setSearch(qSearch);
-        if (brand) setBrandFilter(brand);
-        if (min) setPriceMinFilter(min);
-        if (max) setPriceMaxFilter(max);
+    const { search: qSearch, brand, min, max } = router.query;
+    if (qSearch) setSearch(qSearch);
+    if (brand) setBrandFilter(brand);
+    if (min) setPriceMinFilter(min);
+    if (max) setPriceMaxFilter(max);
 
-        setTimeout(() => setFadeIn(true), 50); // delay slight fade effect
-      } catch (err) {
-        console.error('Error fetching catalog:', err);
-      }
-    };
-
-    fetchItems();
-  }, [type]);
-
-  useEffect(() => {
-    // fetch display settings (public)
-    fetch('/api/catalog/settings/public')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data) setSettings(data);
-      })
-      .catch((e) => console.error('Failed to load catalog settings', e));
-  }, []);
+    setTimeout(() => setFadeIn(true), 50); // delay slight fade effect
+  }, [type, router.query]);
 
   useEffect(() => {
     let result = items;

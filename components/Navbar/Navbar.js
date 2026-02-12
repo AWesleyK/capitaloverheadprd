@@ -3,7 +3,7 @@ import styles from "./Navbar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-const Navbar = ({ services = [] }) => {
+const Navbar = ({ services = [], catalogTypes = [] }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,14 +17,6 @@ const Navbar = ({ services = [] }) => {
   const handleResize = () => setIsMobile(window.innerWidth <= 768);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
-  const [catalogTypes, setCatalogTypes] = useState([]);
-
-useEffect(() => {
-  fetch("/api/catalog/types/active")
-    .then((res) => res.json())
-    .then((data) => setCatalogTypes(data));
-}, []);
 
 
   const closeMobileMenu = () => {
@@ -166,18 +158,17 @@ useEffect(() => {
           <div className={styles.navButtonContainer}>{renderCallButton()}</div>
           <div
             ref={mobileMenuToggleRef}
-            className={styles.mobileMenuToggle}
+            className={`${styles.mobileMenuToggle} ${isMobileMenuOpen ? styles.open : ""}`}
             onClick={toggleMobileMenu}
           >
-            <div className={`${styles.hamburgerMenu} ${isMobileMenuOpen ? styles.open : ""}`}>
+            <div className={styles.hamburgerMenu}>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
             </div>
           </div>
-          {isMobileMenuOpen && (
-            <div ref={mobileMenuRef} className={styles.mobileMenu}>
-              <ul className={styles.mobileNavList}>
+          <div ref={mobileMenuRef} className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ""}`}>
+            <ul className={styles.mobileNavList}>
                 <li className={styles.mobileNavItem}>
                   <Link href="/" className={styles.mobileNavLink} onClick={closeMobileMenu}>
                     Home
@@ -210,8 +201,16 @@ useEffect(() => {
                     Catalog ▾
                   </div>
                   <div className={`${styles.mobileDropdown} ${showCatalogDropdown ? styles.show : ""}`}>
-                    <Link href="/catalog/garage doors" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Garage Doors</Link>
-                    <Link href="/catalog/automatic gate operators" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>Automatic Gate Operators</Link>
+                    {catalogTypes.map((type) => (
+                      <Link 
+                        key={type._id} 
+                        href={`/catalog/${type.type.toLowerCase().replace(/\s+/g, "%20")}`} 
+                        className={styles.mobileDropdownItem} 
+                        onClick={closeMobileMenu}
+                      >
+                        {type.typeName}
+                      </Link>
+                    ))}
                   </div>
                 </li>
                 <li className={styles.mobileNavItem}>
@@ -221,7 +220,6 @@ useEffect(() => {
                 </li>
               </ul>
             </div>
-          )}
         </>
       );
     } else {

@@ -1,26 +1,14 @@
 import React from 'react';
-import clientPromise from '../../lib/mongodb';
+import navData from '../../data/nav-data.json';
 import ServicesPage from '../../components/ServicesSection/ServicesPage/ServicesPage';
 
-export async function getServerSideProps() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("garage_catalog");
-    const services = await db.collection("services").find({}).sort({ createdAt: -1 }).toArray();
-
-    return {
-      props: {
-        initialServices: JSON.parse(JSON.stringify(services)),
-      },
-    };
-  } catch (err) {
-    console.error("Failed to fetch services for SSR:", err);
-    return {
-      props: {
-        initialServices: [],
-      },
-    };
-  }
+export async function getStaticProps() {
+  const services = navData.services;
+  return {
+    props: {
+      initialServices: services,
+    },
+  };
 }
 
 const LearnMore = ({ initialServices }) => {

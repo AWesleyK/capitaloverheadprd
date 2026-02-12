@@ -4,22 +4,14 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/pageStyles/ServicesSlug.module.scss";
 import { FaCheckCircle } from "react-icons/fa";
+import navData from "../../data/nav-data.json";
 
 export async function getStaticPaths() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("garage_catalog");
-    const services = await db.collection("services").find({}, { projection: { slug: 1 } }).toArray();
+  const paths = navData.services.map(service => ({
+    params: { slug: service.slug },
+  }));
 
-    const paths = services.map(service => ({
-      params: { slug: service.slug },
-    }));
-
-    return { paths, fallback: false };
-  } catch (error) {
-    console.error("MongoDB connection failed in getStaticPaths:", error);
-    return { paths: [], fallback: false };
-  }
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }) {

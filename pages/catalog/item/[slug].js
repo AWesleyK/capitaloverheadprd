@@ -2,11 +2,19 @@
 import clientPromise from "../../../lib/mongodb";
 import styles from "../../../styles/pageStyles/CatalogItem.module.scss";
 import { useRouter } from "next/router";
-import dbConnect from "../../../lib/mongoose";
-import CatalogSettings from "../../../models/settings/catalogSettings";
 
-export async function getServerSideProps(context) {
-  const { slug } = context.params;
+import navData from "../../../data/nav-data.json";
+
+export async function getStaticPaths() {
+  const paths = navData.catalogItems.map(item => ({
+    params: { slug: item.slug },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const { slug } = params;
   const client = await clientPromise;
   const db = client.db("garage_catalog");
   const item = await db.collection("catalogItems").findOne({ slug });
@@ -17,13 +25,7 @@ export async function getServerSideProps(context) {
     };
   }
 
-  // Load catalog settings
-  await dbConnect();
-  const settingsDoc = await CatalogSettings.findOne({ key: "catalogSettings" }).lean();
-  const settings = {
-    showPriceMin: settingsDoc?.showPriceMin ?? true,
-    showPriceMax: settingsDoc?.showPriceMax ?? true,
-  };
+  const settings = navData.catalogSettings;
 
   item._id = item._id.toString();
   if (item.createdAt) item.createdAt = item.createdAt.toString();
