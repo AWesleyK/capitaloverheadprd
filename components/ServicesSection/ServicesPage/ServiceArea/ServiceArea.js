@@ -5,12 +5,20 @@ import Link from 'next/link';
 import { normalizeCity } from '../../../../lib/cities';
 import { FaMapMarkerAlt, FaChevronRight } from 'react-icons/fa';
 
-const ServiceArea = ({ cities = [], intro }) => {
+const ServiceArea = ({ cities = [], intro, isHomePage }) => {
   const list = Array.isArray(cities) && cities.length > 0 ? cities : [];
 
   return (
-    <section className={styles.serviceAreaSection}>
-      <h2 className={styles.heading}>Where We Serve</h2>
+    <section className={`${styles.serviceAreaSection} ${isHomePage ? styles.homeVariant : ''}`}>
+      <h2 className={styles.heading}>
+        {isHomePage ? (
+          <Link href="/services/service-area" className={styles.headingLink}>
+            Where We Serve
+          </Link>
+        ) : (
+          "Where We Serve"
+        )}
+      </h2>
 
       <div className={styles.mapContentWrapper}>
         <p className={styles.description}>
@@ -47,7 +55,14 @@ const ServiceArea = ({ cities = [], intro }) => {
         <p className={styles.callText}>
           Don&apos;t see your city? That&apos;s okay, give us a call and we&apos;ll do our best to reach you!
         </p>
-        <Link href="tel:4054560399" className={styles.callButton}>Call Now</Link>
+        <div className={styles.buttonGroup}>
+          <Link href="tel:4054560399" className={styles.callButton}>Call Now</Link>
+          {isHomePage && (
+            <Link href="/services/service-area" className={styles.secondaryButton}>
+              Full Service Area Map
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

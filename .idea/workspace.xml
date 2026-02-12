@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/api/content/contactInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/content/contactInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/api/sitemap.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/sitemap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="276" />
+    <option name="cachedIndexableFilesCount" value="287" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -105,6 +107,7 @@
       <updated>1770075201979</updated>
       <workItem from="1770075203048" duration="5073000" />
       <workItem from="1770095177134" duration="15315000" />
+      <workItem from="1770825935400" duration="3434000" />
     </task>
     <servers />
   </component>

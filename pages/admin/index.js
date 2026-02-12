@@ -10,6 +10,7 @@ import SearchLogs from "../../components/Admin/Widgets/SearchLogs/SearchLogs";
 import QuickNotes from "../../components/Admin/Widgets/QuickNotes/QuickNotes";
 import RebuildSite from "../../components/Admin/Widgets/RebuildSite/RebuildSite";
 import PromotionUploadControl from "../../components/Admin/Widgets/PromotionUploadControl/PromotionUploadControl";
+import FAQControl from "../../components/Admin/Widgets/FAQControl/FAQControl";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import SiteSettingsControl from "../../components/Admin/Widgets/SiteSettingsControl/SiteSettingsControl";
 
@@ -25,6 +26,7 @@ const CONTROL_COMPONENTS = {
   QuickNotes: <QuickNotes />,
   RebuildSite: <RebuildSite />,
   SiteSettingsControl: <SiteSettingsControl />,
+  FAQControl: <FAQControl />,
 };
 
 const WIDGET_ACCESS = {
@@ -39,6 +41,7 @@ const DEFAULT_LAYOUT = [
   "SearchLogs",
   "QuickNotes",
   "RebuildSite",
+  "FAQControl",
 ];
 
 export default function AdminHome() {

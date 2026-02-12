@@ -6,6 +6,9 @@ import ContactSection from '../components/ContactSection/ContactSection';
 import ApplySection from '../components/ApplySection/ApplySection';
 import ServicesSection from '../components/ServicesSection/ServicesSection';
 import PromotionSection from '../components/PromotionSection/PromotionSection';
+import ServiceArea from '../components/ServicesSection/ServicesPage/ServiceArea/ServiceArea';
+import FAQSection from '../components/FAQSection/FAQSection';
+import { CITY_LIST } from '../lib/cities';
 
 const HomePage = () => {
   return (
@@ -24,6 +27,16 @@ const HomePage = () => {
       </div>
       <div id="services">
         <ServicesSection />
+      </div>
+      <div id="faq">
+        <FAQSection />
+      </div>
+      <div id="service-area">
+        <ServiceArea 
+          cities={CITY_LIST} 
+          isHomePage={true} 
+          intro="Dino Doors brings expert garage door repair and installation right to your doorstep. We proudly serve communities across the heart of Oklahoma with fast, reliable service."
+        />
       </div>
       {/*<div id="apply">
         <ApplySection />
