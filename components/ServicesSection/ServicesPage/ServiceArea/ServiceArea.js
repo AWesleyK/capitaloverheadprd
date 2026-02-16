@@ -5,25 +5,29 @@ import Link from 'next/link';
 import { normalizeCity } from '../../../../lib/cities';
 import { FaMapMarkerAlt, FaChevronRight } from 'react-icons/fa';
 
-const ServiceArea = ({ cities = [], intro, isHomePage }) => {
+const ServiceArea = ({ cities = [], intro, isHomePage, hideHeading }) => {
   const list = Array.isArray(cities) && cities.length > 0 ? cities : [];
 
   return (
     <section className={`${styles.serviceAreaSection} ${isHomePage ? styles.homeVariant : ''}`}>
-      <h2 className={styles.heading}>
-        {isHomePage ? (
-          <Link href="/services/service-area" className={styles.headingLink}>
-            Where We Serve
-          </Link>
-        ) : (
-          "Where We Serve"
-        )}
-      </h2>
+      {!hideHeading && (
+        <h2 className={styles.heading}>
+          {isHomePage ? (
+            <Link href="/services/service-area" className={styles.headingLink}>
+              Where We Serve
+            </Link>
+          ) : (
+            "Where We Serve"
+          )}
+        </h2>
+      )}
 
       <div className={styles.mapContentWrapper}>
-        <p className={styles.description}>
-          {intro || 'We proudly service a wide range of communities across Oklahoma!'}
-        </p>
+        {intro !== "" && (
+          <p className={styles.description}>
+            {intro || 'We proudly service a wide range of communities across Oklahoma!'}
+          </p>
+        )}
         <div className={styles.mapContainer}>
           <img
             className={styles.mapEmbed}

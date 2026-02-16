@@ -18,6 +18,9 @@ try {
   
   console.log('Generating nav data...');
   execSync('node scripts/generate-nav-data.js', { stdio: 'inherit' });
+
+  console.log('Generating llms.txt...');
+  execSync('node scripts/generate-llms-txt.js', { stdio: 'inherit' });
 } catch (error) {
   console.error('Generation scripts failed:', error.message);
   process.exit(1);

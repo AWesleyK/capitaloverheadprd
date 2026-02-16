@@ -7,17 +7,35 @@
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Layout/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Layout/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutDetail.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/CustomerFocusSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/ExpertiseSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/QualityAssuranceSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/SafetyMeasuresSubComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/FAQSection/FAQSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/FAQSection/FAQSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/HomeSection/HomeSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/HomeSection/HomeSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/HomeSection/HomeSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/HomeSection/HomeSection.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/blogs/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/[slug].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/blogs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/blogs/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServicesPage.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Shared/SmartImages.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Shared/SmartImages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/core-values.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/core-values.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/catalog/[type].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/catalog/[type].js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/catalog/item/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/catalog/item/[slug].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/service-area/[city].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/service-area/[city].js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/services/[slug].js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/[slug].js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/services/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/services/service-area.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/services/service-area.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reproduce_issue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/generate-nav-data.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/generate-nav-data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/pre-build.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/pre-build.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/pageStyles/About.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/About.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/pageStyles/CatalogItem.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/CatalogItem.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/pageStyles/CatalogType.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/CatalogType.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/pageStyles/ServicesSlug.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/pageStyles/ServicesSlug.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +133,7 @@
       <updated>1770075201979</updated>
       <workItem from="1770075203048" duration="5073000" />
       <workItem from="1770095177134" duration="15315000" />
-      <workItem from="1770825935400" duration="5548000" />
+      <workItem from="1770825935400" duration="16888000" />
     </task>
     <servers />
   </component>

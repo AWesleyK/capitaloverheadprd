@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './AboutDetail.module.scss';
-import { FaUserCheck } from 'react-icons/fa';
+import { FaTools } from 'react-icons/fa';
 
 const ExpertiseSubComponent = ({ yearsOfExperience }) => {
   return (
     <>
       <div className={styles.iconWrapper}>
-        <FaUserCheck />
+        <FaTools />
       </div>
       <h3 className={styles.h3}>Expertise</h3>
       <p className={styles.detailText}>

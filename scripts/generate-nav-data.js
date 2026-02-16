@@ -50,11 +50,18 @@ async function generateNavData() {
     .project({ title: 1, slug: 1, imageUrl: 1, metaDesc: 1, publishDate: 1 })
     .toArray();
 
+  // Fetch FAQs
+  const faqs = await db
+    .collection("faqs")
+    .find({})
+    .sort({ order: 1, createdAt: -1 })
+    .toArray();
+
   // Fetch Catalog Settings
-  const settingsDoc = await db.collection("settings").findOne({ key: "catalogSettings" });
+  const settingsDoc = await db.collection("catalogsettings").findOne({ key: "catalogSettings" });
   const catalogSettings = {
-    showPriceMin: settingsDoc?.showPriceMin ?? true,
-    showPriceMax: settingsDoc?.showPriceMax ?? true,
+    showPriceMin: settingsDoc?.showPriceMin ?? false,
+    showPriceMax: settingsDoc?.showPriceMax ?? false,
   };
 
   const navData = {
@@ -78,6 +85,12 @@ async function generateNavData() {
       imageUrl: b.imageUrl, 
       metaDesc: b.metaDesc, 
       publishDate: b.publishDate 
+    })),
+    faqs: faqs.map(f => ({
+      _id: f._id.toString(),
+      question: f.question,
+      answer: f.answer,
+      order: f.order
     })),
     catalogSettings,
     lastUpdated: new Date().toISOString()

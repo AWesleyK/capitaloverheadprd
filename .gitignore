@@ -38,3 +38,4 @@ next-env.d.ts
 public/sitemap.xml
 sitemap.xml
 data/nav-data.json
+public/llms.txt

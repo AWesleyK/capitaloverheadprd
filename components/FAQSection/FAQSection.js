@@ -3,12 +3,18 @@ import styles from './FAQSection.module.scss';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { marked } from 'marked';
 
-const FAQSection = () => {
+const FAQSection = ({ initialFaqs = [] }) => {
   const [activeIndex, setActiveIndex] = useState(null);
-  const [faqs, setFaqs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [faqs, setFaqs] = useState(initialFaqs);
+  const [loading, setLoading] = useState(initialFaqs.length === 0);
 
   useEffect(() => {
+    if (initialFaqs.length > 0) {
+      setFaqs(initialFaqs);
+      setLoading(false);
+      return;
+    }
+
     const fetchFaqs = async () => {
       try {
         const res = await fetch('/api/faq/get');

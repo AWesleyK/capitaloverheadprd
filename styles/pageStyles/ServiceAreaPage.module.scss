@@ -1,0 +1,198 @@
+@import '../variables.scss';
+
+.serviceAreaPage {
+  background-color: #fff;
+  color: #1a1a1a;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url('/images/staticmap.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+
+  .heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 40, 104, 0.85), rgba(0, 40, 104, 0.6));
+    z-index: 1;
+  }
+
+  .heroContent {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+    max-width: 900px;
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+      font-weight: 800;
+
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
+      }
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      line-height: 1.4;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.mainContent {
+    padding-bottom: 4rem;
+    background-color: #fff;
+}
+
+.introSection {
+    padding: 5rem 0 2rem;
+    text-align: center;
+
+    .introTitle {
+        font-size: 2.5rem;
+        color: $primary-color;
+        margin-bottom: 2rem;
+        position: relative;
+        display: inline-block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: $secondary-color;
+        }
+    }
+
+    .introText {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: $dark-grey-color;
+        max-width: 850px;
+        margin: 2rem auto 0;
+        font-weight: 400;
+    }
+}
+
+.benefitsSection {
+    padding: 2rem 0 5rem;
+
+    .benefitsGrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+
+    .benefitCard {
+        background: #fff;
+        padding: 3rem 2rem;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefitIconWrapper {
+            width: 80px;
+            height: 80px;
+            background-color: rgba($primary-color, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: $secondary-color;
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        &:hover .benefitIconWrapper {
+            background-color: $secondary-color;
+            color: #fff;
+            transform: rotateY(360deg);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: $primary-color;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: $light-grey-color;
+        }
+    }
+}
+
+.sectionHeading {
+    font-size: 2.5rem;
+    color: $primary-color;
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background-color: $secondary-color;
+    }
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
+    margin: 4rem 0;
+}

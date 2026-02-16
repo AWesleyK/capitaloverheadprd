@@ -189,6 +189,9 @@ const Navbar = ({ services = [], catalogTypes = [] }) => {
                     Services ▾
                   </div>
                   <div className={`${styles.mobileDropdown} ${showServicesDropdown ? styles.show : ""}`}>
+                    <Link href="/services" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+                      All Services
+                    </Link>
                     {services.map((service) => (
                       <Link key={service._id} href={`/services/${service.slug}`} className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
                         {service.name}

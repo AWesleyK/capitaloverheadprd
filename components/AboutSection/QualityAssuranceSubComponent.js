@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './AboutDetail.module.scss';
-import { FaShieldAlt } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const QualityAssuranceSubComponent = () => {
   return (
     <>
       <div className={styles.iconWrapper}>
-        <FaShieldAlt />
+        <FaCheckCircle />
       </div>
       <h3 className={styles.h3}>Quality Assurance</h3>
       <p className={styles.detailText}>

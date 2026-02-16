@@ -106,16 +106,55 @@
   grid-area: rating;
   text-align: center;
   padding: 1rem;
-  background-color: $background1-color;
+  background-color: transparent; // Carousel has its own background
   color: $secondary-color;
   border-radius: 10px;
-  max-width: 300px;
+  width: 100%;
+  max-width: 420px;
   justify-self: center;
+  min-height: 310px; // Matches Carousel min-height (270px) + padding
 }
 
-.ratingImageBox img {
-  max-width: 200px;
-  height: auto;
+.reviewFallback {
+  background-color: $background1-color;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 3px solid $secondary-color;
+  font-family: 'norwester', sans-serif;
+  display: block;
+  text-decoration: none;
+  color: $secondary-color;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    span {
+      text-decoration: underline;
+    }
+    .staticStars span {
+      text-decoration: none;
+    }
+    p {
+      text-decoration: underline;
+    }
+  }
+}
+
+.staticStars {
+  span {
+    color: #ffc107;
+    font-size: 1.5rem;
+    display: block;
+  }
+  p {
+    margin: 0.25rem 0 0;
+    font-weight: bold;
+    color: $secondary-color;
+  }
 }
 
 .cyclingBox {
@@ -170,6 +209,7 @@
   .logoBox {
     max-width: min(90%, 520px);
     justify-self: center;
+    min-height: auto; // Reset min-height for mobile if needed, but carousel is smaller there
   }
 
   .logoBox {

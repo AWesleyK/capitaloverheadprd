@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './AboutDetail.module.scss';
-import { FaHeart } from 'react-icons/fa';
+import { FaUserCheck } from 'react-icons/fa';
 
 const CustomerFocusSubComponent = () => {
   return (
     <>
       <div className={styles.iconWrapper}>
-        <FaHeart />
+        <FaUserCheck />
       </div>
       <h3 className={styles.h3}>Customer Focus</h3>
       <p className={styles.detailText}>

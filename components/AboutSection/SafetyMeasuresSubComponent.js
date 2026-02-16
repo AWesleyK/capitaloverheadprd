@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './AboutDetail.module.scss';
-import { FaHardHat } from 'react-icons/fa';
+import { FaShieldAlt } from 'react-icons/fa';
 
 const SafetyMeasuresSubComponent = () => {
   return (
     <>
       <div className={styles.iconWrapper}>
-        <FaHardHat />
+        <FaShieldAlt />
       </div>
       <h3 className={styles.h3}>Safety Measures</h3>
       <p className={styles.detailText}>

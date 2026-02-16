@@ -9,8 +9,17 @@ import PromotionSection from '../components/PromotionSection/PromotionSection';
 import ServiceArea from '../components/ServicesSection/ServicesPage/ServiceArea/ServiceArea';
 import FAQSection from '../components/FAQSection/FAQSection';
 import { CITY_LIST } from '../lib/cities';
+import navData from '../data/nav-data.json';
 
-const HomePage = () => {
+export async function getStaticProps() {
+  return {
+    props: {
+      faqs: navData.faqs || [],
+    },
+  };
+}
+
+const HomePage = ({ faqs }) => {
   return (
     <>
       <div id="home">
@@ -29,7 +38,7 @@ const HomePage = () => {
         <ServicesSection />
       </div>
       <div id="faq">
-        <FAQSection />
+        <FAQSection initialFaqs={faqs} />
       </div>
       <div id="service-area">
         <ServiceArea 

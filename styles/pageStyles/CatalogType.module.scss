@@ -1,113 +1,365 @@
 @import '../variables.scss';
 
-.container {
-  padding: 4rem 2rem;
-  background-color: $background1-color;
+.catalogPage {
+  background-color: #fff;
+  color: #1a1a1a;
   min-height: 100vh;
 }
 
-.heading {
-  text-align: center;
-  font-size: 2.5rem;
-  color: $primary-color;
-  margin-bottom: 2rem;
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+
+  &.fadeIn {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.filters {
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 280px;
   display: flex;
-  gap: 1rem;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  text-align: center;
+  background-color: $primary-color;
+  color: #fff;
 
-  input,
-  select {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    min-width: 200px;
-    cursor: pointer;
+  .heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 40, 104, 0.9), rgba(0, 40, 104, 0.8));
+    z-index: 1;
+  }
+
+  .heroContent {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      font-weight: 800;
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      p { font-size: 1.2rem; }
+    }
   }
 }
 
-.priceFilterGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
+.catalogLayout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
 
-.grid {
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sidebar Filters */
+.sidebar {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 2rem;
-  justify-content: center;
 }
 
-.card {
-  background-color: white;
-  border: 2px solid $primary-color;
-  border-radius: 10px;
-  padding: 1rem;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 300px;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .cardImage {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-
-  .cardImage:hover {
-    transform: scale(1);
-  }
-  
-  .imageWrapper {
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    border-radius: 5px;
-  }
-  
+.filterBox {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 
   h3 {
-    color: $secondary-color;
+    font-size: 1.25rem;
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 2px solid $secondary-color;
+    padding-bottom: 0.75rem;
+  }
+}
+
+.filterGroup {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $dark-grey-color;
+    margin-bottom: 0.5rem;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+  }
+}
+
+.searchContainer {
+  position: relative;
+
+  .searchIcon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $light-grey-color;
+  }
+
+  input {
+    padding-right: 40px;
+  }
+}
+
+.priceInputs {
+  display: flex;
+  gap: 0.75rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.contactCard {
+  background: $primary-color;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+
+  h4 {
     font-size: 1.3rem;
-    margin-top: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   p {
-    color: #333;
-    font-size: 1rem;
-    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    line-height: 1.5;
   }
 }
 
-@media (max-width: 768px) {
-  .filters {
-    flex-direction: column;
+.phoneButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: $secondary-color;
+  color: #fff;
+  padding: 12px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background: darken($secondary-color, 5%);
+  }
+}
+
+/* Results Header */
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  p {
+    font-size: 1.1rem;
+    color: $dark-grey-color;
+  }
+}
+
+.clearBtn {
+  background: transparent;
+  border: none;
+  color: $secondary-color;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba($secondary-color, 0.1);
+  }
+}
+
+/* Grid & Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+
+    .cardOverlay {
+      opacity: 1;
+    }
+
+    .cardImage {
+      transform: scale(1.1);
+    }
+
+    .itemName {
+      color: $secondary-color;
+    }
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+
+  .cardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($primary-color, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+
+  span {
+    background: #fff;
+    color: $primary-color;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
     align-items: center;
-  }
-
-  .card {
-    width: 90%;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
 }
 
-.fadeIn {
-  animation: fade-in 0.6s ease-in both;
+.cardInfo {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .brandName {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $light-grey-color;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .itemName {
+    font-size: 1.25rem;
+    color: $primary-color;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+  }
+
+  .itemPrice {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin-top: auto;
+  }
+
+  .callForPrice {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $secondary-color;
+    margin-top: auto;
+    font-style: italic;
+  }
 }
 
-@keyframes fade-in {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+.noResults {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: $background1-color;
+  border-radius: 15px;
+  color: $light-grey-color;
+  font-size: 1.2rem;
 }
