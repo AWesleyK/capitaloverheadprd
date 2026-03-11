@@ -65,6 +65,7 @@ async function generateSitemap() {
     "services/service-area",
     "about/blogs",
     "about/core-values",
+    "maintenance-plan",
   ].map(route => ({ route, lastmod: today }));
 
   // Dynamic routes

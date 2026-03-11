@@ -1,0 +1,325 @@
+@import '../../styles/variables.scss';
+
+.maintenancePlanSection {
+  background-color: #ebe7de;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+  border-top: 6px solid $primary-color;
+  transition: all 0.3s ease;
+}
+
+.introContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 40px 0;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.benefitCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 25px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: $primary-color;
+  }
+}
+
+.iconWrapper {
+  font-size: 2.5rem;
+  color: $secondary-color;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.benefitTitle {
+  font-size: 1.25rem;
+  color: $primary-color;
+  margin-bottom: 10px;
+  font-family: 'norwester', sans-serif;
+}
+
+.benefitText {
+  color: $light-grey-color;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: normal;
+}
+
+.ctaWrapper {
+  text-align: center;
+  margin-top: 20px;
+  padding: 30px;
+  background-color: rgba(0, 40, 104, 0.05);
+  border: 1px dashed rgba(0, 40, 104, 0.15);
+  border-radius: 10px;
+  width: 100%;
+}
+
+.ctaText {
+  font-size: 1.1rem;
+  color: $dark-grey-color;
+  margin-bottom: 25px;
+}
+
+.inlineIcon {
+  margin-left: 10px;
+}
+
+.formContainer {
+  width: 100%;
+}
+
+.backLink {
+  background: none;
+  border: none;
+  color: $primary-color;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.heading {
+  font-family: 'norwester', sans-serif;
+  color: $primary-color;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.subHeading {
+  text-align: center;
+  color: $light-grey-color;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  color: $secondary-color;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-family: 'norwester', sans-serif;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: $dark-grey-color;
+}
+
+.input, .select, .textarea {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(0, 40, 104, 0.1);
+  }
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.planSelection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.planCard {
+  border: 2px solid #ddd;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &.active {
+    border-color: $primary-color;
+    background-color: rgba(0, 40, 104, 0.05);
+    border-width: 3px;
+    box-shadow: 0 5px 15px rgba(0, 40, 104, 0.1);
+  }
+
+  &:hover:not(.active) {
+    border-color: #bbb;
+    background-color: #fcfcfc;
+  }
+}
+
+.planTitle {
+  font-size: 1.25rem;
+  color: $primary-color;
+  margin-bottom: 5px;
+}
+
+.planPrice {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $secondary-color;
+  margin-bottom: 10px;
+}
+
+.planDetails {
+  font-size: 0.85rem;
+  color: $light-grey-color;
+  line-height: 1.4;
+}
+
+.submitButton {
+  background-color: $primary-color;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 20px;
+  font-family: 'norwester', sans-serif;
+  display: inline-block;
+  text-align: center;
+
+  &:hover {
+    background-color: lighten($primary-color, 5%);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.secondaryButton {
+  background-color: white;
+  color: $primary-color;
+  padding: 15px 30px;
+  border: 2px solid $primary-color;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, color 0.3s;
+  margin-top: 20px;
+  font-family: 'norwester', sans-serif;
+  display: inline-block;
+  text-align: center;
+
+  &:hover {
+    background-color: $primary-color;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.squarePlaceholder {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px dashed $light-grey-color;
+  border-radius: 8px;
+  text-align: center;
+  background: #fafafa;
+}
+
+.squareText {
+  color: $light-grey-color;
+  font-style: italic;
+  font-size: 0.9rem;
+}
