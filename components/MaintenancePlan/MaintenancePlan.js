@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './MaintenancePlan.module.scss';
 import Link from 'next/link';
-import { FaTools, FaCalendarCheck, FaPercentage, FaShieldAlt, FaArrowRight } from 'react-icons/fa';
+import { FaTools, FaCalendarCheck, FaPercentage, FaShieldAlt, FaArrowRight, FaChevronUp } from 'react-icons/fa';
+import { useInView } from 'react-intersection-observer';
 
 const MaintenancePlan = () => {
   const [step, setStep] = useState(0); // 0: Intro, 1: Form, 2: Success
+  const sectionRef = useRef(null);
+  
+  const { ref: stationaryBtnRef, inView: stationaryBtnInView } = useInView({
+    threshold: 0,
+  });
+
+  const { ref: formTopRef, inView: formTopInView } = useInView({
+    threshold: 0,
+  });
+
+  const isFloatingVisible = (step === 0 && !stationaryBtnInView) || (step === 1 && !formTopInView);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,7 +42,36 @@ const MaintenancePlan = () => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     setStep(2);
-    // In a real application, you would send this to an API
+    // Scroll to top of section for success message
+    scrollToSection();
+  };
+
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      const offset = 100; // Offset for sticky navbar
+      const elementPosition = sectionRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleGetStarted = () => {
+    setStep(1);
+    // Allow step transition to render before scrolling
+    setTimeout(() => {
+      scrollToSection();
+    }, 50);
+  };
+
+  const handleBackToForm = () => {
+    setStep(1);
+    setTimeout(() => {
+      scrollToSection();
+    }, 50);
   };
 
   const renderIntro = () => (
@@ -63,11 +104,11 @@ const MaintenancePlan = () => {
         </div>
       </div>
 
-      <div className={styles.ctaWrapper}>
+      <div className={styles.ctaWrapper} ref={stationaryBtnRef}>
         <p className={styles.ctaText}>
           Don't wait for a breakdown. Enroll today and save capital on future repairs!
         </p>
-        <button className={styles.submitButton} onClick={() => setStep(1)}>
+        <button className={styles.submitButton} onClick={handleGetStarted}>
           Get Started <FaArrowRight className={styles.inlineIcon} />
         </button>
       </div>
@@ -76,6 +117,7 @@ const MaintenancePlan = () => {
 
   const renderForm = () => (
     <div className={styles.formContainer}>
+      <div ref={formTopRef} />
       <button className={styles.backLink} onClick={() => setStep(0)}>
         &larr; Back to Information
       </button>
@@ -237,7 +279,7 @@ const MaintenancePlan = () => {
       <div className={styles.buttonGroup}>
         <button 
           className={styles.submitButton} 
-          onClick={() => setStep(1)}
+          onClick={handleBackToForm}
         >
           Back to Form
         </button>
@@ -249,12 +291,26 @@ const MaintenancePlan = () => {
   );
 
   return (
-    <section className={styles.maintenancePlanSection}>
+    <section className={styles.maintenancePlanSection} ref={sectionRef}>
       <div className={styles.container}>
         {step === 0 && renderIntro()}
         {step === 1 && renderForm()}
         {step === 2 && renderSuccess()}
       </div>
+
+      {step < 2 && (
+        <button 
+          className={`${styles.floatingCta} ${isFloatingVisible ? styles.visible : styles.settled}`} 
+          onClick={step === 0 ? handleGetStarted : scrollToSection}
+          aria-label={step === 0 ? "Get Started" : "Back to Top"}
+        >
+          {step === 0 ? (
+            <>Get Started <FaArrowRight className={styles.inlineIcon} /></>
+          ) : (
+            <>Back to Top <FaChevronUp className={styles.inlineIcon} /></>
+          )}
+        </button>
+      )}
     </section>
   );
 };

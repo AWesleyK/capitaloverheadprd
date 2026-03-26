@@ -222,7 +222,7 @@ const Navbar = ({ services = [], catalogTypes = [] }) => {
                   </Link>
                 </li>
                 <li className={styles.mobileNavItem}>
-                  <Link href="/maintenance-plan" className={styles.mobileNavLink} onClick={closeMobileMenu}>
+                  <Link href="/maintenance-plan" className={styles.mobileMaintenanceBtn} onClick={closeMobileMenu}>
                     Maintenance Plan
                   </Link>
                 </li>
@@ -244,7 +244,7 @@ const Navbar = ({ services = [], catalogTypes = [] }) => {
               <Link href="/services/service-area" className={styles.navLink}>Service Area</Link>
             </li>
             <li className={styles.navItem}>
-              <Link href="/maintenance-plan" className={styles.navLink}>Maintenance Plan</Link>
+              <Link href="/maintenance-plan" className={styles.maintenanceBtn}>Maintenance Plan</Link>
             </li>
           </ul>
           {renderCallButton()}

@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/MaintenancePlan/MaintenancePlan.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/MaintenancePlan/MaintenancePlan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/MaintenancePlan/MaintenancePlan.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/MaintenancePlan/MaintenancePlan.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/generate-sitemap.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/generate-sitemap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Navbar/Navbar.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar/Navbar.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="307" />
+    <option name="cachedIndexableFilesCount" value="310" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -62,10 +64,10 @@
 }]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1775163600000" />
-    <option name="spentUsd" value="0.00673" />
+    <option name="spentUsd" value="0.0641956" />
   </component>
   <component name="RecapUselessUpdatesCounter">
-    <option name="suspendCountdown" value="9" />
+    <option name="suspendCountdown" value="0" />
   </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
@@ -115,7 +117,7 @@
       <workItem from="1770095177134" duration="15315000" />
       <workItem from="1770825935400" duration="18916000" />
       <workItem from="1772057077347" duration="883000" />
-      <workItem from="1773237072388" duration="1075000" />
+      <workItem from="1773237072388" duration="6123000" />
     </task>
     <servers />
   </component>

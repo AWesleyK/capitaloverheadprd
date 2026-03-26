@@ -323,3 +323,52 @@
   font-style: italic;
   font-size: 0.9rem;
 }
+
+.floatingCta {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: $secondary-color;
+    color: white;
+    padding: 16px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'norwester', sans-serif;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease, background-color 0.2s ease;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    &.settled {
+      opacity: 0;
+      transform: translateY(-80px);
+      pointer-events: none;
+    }
+
+    &:active {
+      transform: scale(0.95);
+      background-color: darken($secondary-color, 5%);
+    }
+
+    .inlineIcon {
+      margin-left: 10px;
+      font-size: 1.2rem;
+    }
+  }
+}
