@@ -3,128 +3,147 @@
 .faqSection {
   position: relative;
   background-color: $background1-color;
-  padding: 6rem 1rem;
+  padding: 8rem 1rem;
   display: flex;
   justify-content: center;
   overflow: hidden;
 
+  // Slanted top transition from ServicesSection (dark blue)
   &::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 150px;
-    background: linear-gradient(
-      to bottom,
-      $primary-color 0%,
-      rgba($primary-color, 0.8) 20%,
-      rgba($background1-color, 0.5) 80%,
-      $background1-color 100%
-    );
-    z-index: 0;
+    height: 100px;
+    background-color: $primary-color;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+    z-index: 1;
   }
 }
 
 .container {
   position: relative;
-  max-width: 1000px;
+  max-width: 900px;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 }
 
 .heading {
-  font-size: 2.5rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   color: $primary-color;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 900;
+  font-family: 'norwester', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 
   &::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 4px;
+    width: 120px;
+    height: 10px;
     background: $secondary-color;
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
+    margin: 1rem auto 0;
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
   }
 }
 
 .faqList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .faqItem {
   background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 4px solid transparent;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 
   &:hover {
-    border-color: $secondary-color;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: lighten($primary-color, 60%);
   }
 
   &.active {
-    border-color: $secondary-color;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-color: $primary-color;
+    box-shadow: 0 20px 40px rgba($primary-color, 0.15);
+    
+    .questionBox {
+        background-color: $primary-color;
+        color: white;
+        
+        svg {
+            color: white;
+        }
+    }
   }
 }
 
 .questionBox {
-  padding: 1.5rem;
+  padding: 1.8rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
   
   svg {
     color: $secondary-color;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
   }
 }
 
 .question {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   margin: 0;
-  color: $text-color;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .answerBox {
-  padding: 0 1.5rem 1.5rem 1.5rem;
+  padding: 2rem;
+  background-color: #fafafa;
   border-top: 1px solid #eee;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .answer {
-  font-size: 1.1rem;
-  color: $light-grey-color;
-  line-height: 1.6;
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.8;
   margin: 0;
+  font-family: 'Montserrat', sans-serif;
 
   a {
     color: $secondary-color;
     text-decoration: underline;
-    font-weight: 500;
+    font-weight: 700;
     
     &:hover {
-      color: darken($secondary-color, 10%);
+      color: $primary-color;
     }
-  }
-
-  p {
-    margin: 0.5rem 0;
-    &:first-child { margin-top: 0; }
-    &:last-child { margin-bottom: 0; }
   }
 }
 
 @media screen and (max-width: 768px) {
+  .faqSection {
+    padding: 6rem 1rem;
+  }
+
   .heading {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .question {
@@ -133,5 +152,9 @@
 
   .answer {
     font-size: 1rem;
+  }
+  
+  .questionBox {
+      padding: 1.2rem;
   }
 }

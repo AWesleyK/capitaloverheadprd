@@ -6,6 +6,7 @@ import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import styles from './Layout.module.scss';
 import SiteBanner from './SiteBanner';
+import FloatingCallButton from '../Shared/FloatingCallButton';
 
 const Layout = ({ children }) => {
   const services = navData.services;
@@ -26,7 +27,7 @@ const Layout = ({ children }) => {
       </div>
 
       <main className={styles.main}>{children}</main>
-
+      <FloatingCallButton />
       <Footer />
     </>
   );

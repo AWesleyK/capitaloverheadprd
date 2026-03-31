@@ -5,13 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55ec858e-f25e-4524-865a-a9f87ecadb09" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Shared/FloatingCallButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Shared/FloatingCallButton.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/Dino_Doors_Logo_Full.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/HeroBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/dino guy transparent background.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/AboutSection/AboutSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/AboutSection/AboutSection.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ContactSection/ContactSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ContactSection/ContactSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ContactSection/ContactSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ContactSection/ContactSection.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/FAQSection/FAQSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/FAQSection/FAQSection.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Footer/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Footer/Footer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Footer/Footer.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/Footer/Footer.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/HomeSection/HomeSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/HomeSection/HomeSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/HomeSection/HomeSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/HomeSection/HomeSection.module.scss" afterDir="false" />
@@ -26,9 +31,7 @@
       <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesPage/ServiceArea/ServiceArea.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ServicesSection/ServicesSection.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/components/ServicesSection/ServicesSection.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_document.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/Dino_Doors_Logo_No_bg.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/Dino_Doors_Logo_No_bg.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/images/Dino_Doors_Logo_No_bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/Dino_Doors_Logo_No_bg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/variables.scss" afterDir="false" />
@@ -65,7 +68,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "javascript.preferred.runtime.type.id": "node",
     "js.debugger.nextJs.config.created.client": "true",
     "js.debugger.nextJs.config.created.server": "true",

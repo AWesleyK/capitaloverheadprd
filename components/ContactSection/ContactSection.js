@@ -24,32 +24,16 @@ const ContactSection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-// Define the image dimensions based on the device type
-let imageWidth, imageHeight;
-if (isMobile) {
-  imageWidth = 200;
-  imageHeight = 200;
-} else if (isLaptop) {
-  // Define the dimensions you want for laptop-sized screens
-  imageWidth = 200; // Example width for laptops
-  imageHeight = 200; // Example height for laptops
-} else {
-  // Default to desktop dimensions
-  imageWidth = 300;
-  imageHeight = 300;
-}
-
   return (
     <section className={styles.contactSection}>
       <div className={styles.content}>
         {!isMobile && (
           <div className={styles.imageContainerLeft}>
-            {/* Add your second image here, adjust width and height as needed */}
             <Image
               src="/images/BlackRaisedPanel.jpg" 
-              alt="Second Image"
-              width={imageWidth} // Adjust as needed
-              height={imageHeight} // Adjust as needed
+              alt="Garage Door"
+              width={300}
+              height={300}
               className={styles.image}
             />
           </div>
@@ -64,9 +48,9 @@ if (isMobile) {
             <div className={styles.imageContainer}>
               <Image
                 src="/images/LiftMasterGarageDoorOpener.jpeg"
-                alt="Main Image"
-                width={imageWidth}
-                height={imageHeight}
+                alt="Garage Door Opener"
+                width={250}
+                height={250}
                 className={styles.image}
               />
             </div>
@@ -79,9 +63,9 @@ if (isMobile) {
           <div className={styles.imageContainer}>
             <Image
               src="/images/LiftMasterGarageDoorOpener.jpeg"
-              alt="Main Image"
-              width={imageWidth}
-              height={imageHeight}
+              alt="Garage Door Opener"
+              width={300}
+              height={300}
               className={styles.image}
             />
           </div>

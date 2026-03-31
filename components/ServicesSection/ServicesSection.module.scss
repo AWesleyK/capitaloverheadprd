@@ -1,123 +1,167 @@
 @import '../../styles/variables.scss';
 
 .servicesSection {
-  position: relative; // ✅ Crucial so ::before stays inside this section
-  min-height: 100vh;
+  position: relative;
+  min-height: 80vh;
+  background-color: $primary-color;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-image: url('/images/About_Us_Image.jpg');
-  background-color: $grey-color;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  overflow: hidden; // ✅ Keeps ::before from overflowing
+  justify-content: center;
+  padding: 8rem 2rem;
+  overflow: hidden;
+
+  // Slanted top transition from AboutSection (cream)
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: $background1-color;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 100%);
+    z-index: 1;
+  }
 }
 
-.servicesSection::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-  linear-gradient(
-    to bottom,
-    rgba($grey-color, 1) 0%,
-    rgba($grey-color, 0.7) 30%,
-    rgba($primary-color, 0.3) 35%,
-    rgba($primary-color, 0.7) 90%,
-    rgba($primary-color, 1) 100%
-  );
-
-  z-index: 0;
-}
-
-// Make sure your .content goes above the overlay
 .content {
-  position: relative; // ✅ Needed so it's above the ::before
-  z-index: 1;
+  position: relative;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  flex-direction: row-reverse; // Reverse of AboutSection
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  gap: 4rem;
+}
+
+.imageWrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 110%;
+        height: 110%;
+        border: 4px solid $secondary-color;
+        border-radius: 50px;
+        top: -5%;
+        left: -5%;
+        z-index: -1;
+        transform: rotate(3deg); // Opposite of AboutSection
+    }
+
+    img {
+        border-radius: 40px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
 }
 
 .taglineContainer {
-  background-color: rgb($primary-color, 0.705);
-  color: white;
-  padding: 2rem;
-  width: 40rem;
-  height: 60rem;
-  align-self: flex-start;
-  border-radius: 5px;
-  border-radius: 10px;
-  border: 5px solid $secondary-color;
+  flex: 1.2;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-
-
 .tagline {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 2vh;
-  user-select: none;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  color: white;
+  font-family: 'norwester', sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 8px;
+    background: $secondary-color;
+    margin-top: 10px;
+  }
 }
 
 .catchphrase {
-  font-size: 1.5rem;
-  user-select: none;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: #e0e0e0;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 2.5rem;
 }
 
 .learnMore {
   display: inline-block;
-  background-color: $secondary-color;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background-color: white;
+  color: $primary-color;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
   text-decoration: none;
-  margin-top: 10px;
-  transition: background-color 0.3s ease-in-out;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: 'norwester', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  animation: pulseCTA_Small 4s infinite ease-in-out;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba($secondary-color, 0.4);
+    animation: none;
+  }
 }
 
-.learnMore:hover {
-  opacity: 80%;
+@keyframes pulseCTA_Small {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
-@media screen and (max-width: 1600vh) {
-  .taglineContainer {
-    width: 100%;
-    height: auto;
-    margin-bottom: 2rem;
-  }
+@media screen and (max-width: 1024px) {
+    .content {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 3rem;
+    }
 
-  .content {
-    width: 50%;
-    height: 90%;
-    margin-right: 40vw;
-  }
+    .taglineContainer {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .tagline::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .imageWrapper {
+        width: 100%;
+        max-width: 500px;
+    }
 }
 
 @media screen and (max-width: 768px) {
-  .content {
-    width: 95%;
-    padding: 0.5rem;
-    margin-right: 5vw;
+  .servicesSection {
+    padding: 6rem 1rem;
   }
 
-  .taglineContainer {
-    width: 100%;
-    height: auto;
-    margin-bottom: 5%;
-    margin-right: 5%;
-  }
   .tagline {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 2.5rem;
   }
 
   .catchphrase {
-    font-size: 1.2rem;
-    line-height: 1.5;
+    font-size: 1.1rem;
   }
 }

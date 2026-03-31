@@ -1,5 +1,5 @@
 // /components/ServiceSection/ServiceArea/ServiceArea.js
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ServiceArea.module.scss';
 import Link from 'next/link';
 import { normalizeCity } from '../../../../lib/cities';
@@ -7,6 +7,43 @@ import { FaMapMarkerAlt, FaChevronRight } from 'react-icons/fa';
 
 const ServiceArea = ({ cities = [], intro, isHomePage, hideHeading }) => {
   const list = Array.isArray(cities) && cities.length > 0 ? cities : [];
+  const [activeIndices, setActiveIndices] = useState(new Set());
+  const cardRefs = useRef([]);
+
+  useEffect(() => {
+    // Only set up the observer on touch-capable or small screens if desired, 
+    // but the SCSS will handle the visual part via media queries.
+    const observerOptions = {
+      root: null,
+      // Targets the middle portion of the screen
+      rootMargin: '-35% 0% -35% 0%',
+      threshold: 0.1,
+    };
+
+    const observerCallback = (entries) => {
+      setActiveIndices((prev) => {
+        const next = new Set(prev);
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.getAttribute('data-index'), 10);
+          if (entry.isIntersecting) {
+            next.add(index);
+          } else {
+            next.delete(index);
+          }
+        });
+        return next;
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Filter out nulls and observe
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [list]);
 
   return (
     <section className={`${styles.serviceAreaSection} ${isHomePage ? styles.homeVariant : ''}`}>
@@ -41,7 +78,13 @@ const ServiceArea = ({ cities = [], intro, isHomePage, hideHeading }) => {
           {list.map((city, idx) => {
             const slug = normalizeCity(city);
             return (
-              <Link key={idx} href={`/service-area/${slug}`} className={styles.cityCard}>
+              <Link 
+                key={idx} 
+                href={`/service-area/${slug}`} 
+                className={`${styles.cityCard} ${activeIndices.has(idx) ? styles.active : ''}`}
+                ref={(el) => (cardRefs.current[idx] = el)}
+                data-index={idx}
+              >
                 <div className={styles.cityHeader}>
                   <FaMapMarkerAlt className={styles.markerIcon} />
                   <span className={styles.cityName}>{city}</span>

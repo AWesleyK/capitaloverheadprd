@@ -6,277 +6,352 @@
   background-image: url("/images/Home Screen 1.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  background-color: $primary-color;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $primary-color;
+  overflow: hidden;
+  padding: 4rem 2rem;
 }
 
+// Dark Overlay with radial highlight
 .homeSection::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba($primary-color, 1) 0%,
-    rgba($primary-color, 0.7) 30%,
-    rgba($primary-color, 0.3) 100%
-  );
-  z-index: 0;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba($primary-color, 0.4) 0%, rgba($primary-color, 0.85) 70%, rgba($primary-color, 1) 100%);
+  z-index: 1;
+}
+
+// Decorative Blobs for depth
+.blob1, .blob2 {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba($secondary-color, 0.15) 0%, rgba($secondary-color, 0) 70%);
+    filter: blur(80px);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.blob1 {
+    top: -10%;
+    right: -10%;
+}
+
+.blob2 {
+    bottom: -10%;
+    left: -10%;
 }
 
 .container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   max-width: 1400px;
-  padding: clamp(1rem, 2.5vw, 2rem);
-  display: grid;
-  grid-template-areas:
-    ". tagline cycling"
-    "logo tagline cycling"
-    ". rating cycling";
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: auto auto auto;
-  align-items: center;
-  gap: clamp(1rem, 2.5vw, 2rem);
   margin: 0 auto;
 }
 
-.logoBox {
-  grid-area: logo;
-  background-color: $background1-color;
-  padding: 1rem;
-  border-radius: 10px;
-  text-align: center;
-  max-width: clamp(160px, 14vw, 240px);
-  color: $secondary-color;
-  font-family: 'Shrikhand';
-  font-size: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  align-self: end;
-  justify-self: start;
-
-  a {
+.mainContent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-decoration: none;
-    color: inherit;
+    gap: clamp(2rem, 5vw, 4rem);
+}
+
+.heroWrapper {
+    position: relative;
     width: 100%;
-  }
+    max-width: 900px;
+    perspective: 1200px;
+    animation: heroFloat 8s ease-in-out infinite;
 }
 
-.logoBox img {
-  width: 100%;
-  height: auto;
-  user-select: none;
-  margin-bottom: 0.5rem;
+.heroImageBox {
+    width: 100%;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transform: rotateX(8deg);
+    }
+
+    &:hover {
+        transform: scale(1.02) translateY(-10px);
+    }
 }
 
-.taglineBox {
-  grid-area: tagline;
-  text-align: center;
-  font-family: 'Shrikhand';
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  text-shadow: -1px -1px 0 $secondary-color, 2px -2px 0 $secondary-color, -2px 2px 0 $secondary-color, 2px 2px 0 $secondary-color;
-  //text-shadow: -1px -1px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
-  user-select: none;
-  padding: 1rem;
-  background-color: $primary-color;
-  //color: $secondary-color;
-  color: white;
-  border-radius: 10px;
-  border: 5px solid $secondary-color;
-  max-width: 500px;
-  justify-self: center;
+.mascotWrapper {
+    position: absolute;
+    bottom: -15%;
+    right: -10%;
+    width: clamp(180px, 35vw, 320px);
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(10px 20px 30px rgba(0, 0, 0, 0.4));
+    animation: mascotFloat 6s ease-in-out infinite alternate;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
 }
 
-.innerTaglineBox {
-  border: 5px solid $secondary-color;
-  border-radius: 10px;
-  padding: 0.5rem;
-  margin: 1rem;
+.floatingActions {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: clamp(1rem, 3vw, 3rem);
+    width: 100%;
+    margin-top: 1rem;
 }
 
-.ratingImageBox {
-  grid-area: rating;
-  text-align: center;
-  padding: 1rem;
-  background-color: transparent; // Carousel has its own background
-  color: $secondary-color;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 420px;
-  justify-self: center;
-  min-height: 310px; // Matches Carousel min-height (270px) + padding
+.ctaCard, .ratingCard {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: clamp(1.5rem, 3vw, 2rem);
+    padding: clamp(1rem, 2.5vw, 2.5rem);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-12px);
+        border-color: rgba($secondary-color, 0.4);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+    }
+}
+
+.ctaCard {
+    flex: 0 1 500px;
+}
+
+.callBadge {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    gap: 2rem;
+}
+
+.logoWrap {
+    flex-shrink: 0;
+    width: clamp(120px, 15vw, 160px);
+    height: clamp(120px, 15vw, 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.callBadge:hover .logoWrap {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+.callDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.phone {
+    font-size: clamp(1.1rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    font-family: 'norwester', sans-serif;
+    letter-spacing: 1px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tapToCall {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: rgba($secondary-color, 1);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba($secondary-color, 0.3);
+}
+
+
+.ratingCard {
+    flex: 0 1 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.carouselContainer {
+    width: 100%;
+    
+    // Attempting to override ReviewsCarousel styles if needed
+    :global(.reviews-carousel) {
+        background: transparent !important;
+        border: none !important;
+        color: white !important;
+        padding: 0 !important;
+    }
 }
 
 .reviewFallback {
-  background-color: $background1-color;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 3px solid $secondary-color;
-  font-family: 'norwester', sans-serif;
-  display: block;
-  text-decoration: none;
-  color: $secondary-color;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fallbackContent {
+    .stars {
+        color: #ffc107;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    p {
+        font-weight: 900;
+        font-size: 1.4rem;
+        margin: 0;
+        font-family: 'norwester', sans-serif;
+    }
     
     span {
-      text-decoration: underline;
+        font-size: 0.95rem;
+        opacity: 0.8;
+        font-weight: 500;
     }
-    .staticStars span {
-      text-decoration: none;
-    }
-    p {
-      text-decoration: underline;
-    }
-  }
 }
 
 .staticStars {
-  span {
-    color: #ffc107;
-    font-size: 1.5rem;
-    display: block;
-  }
-  p {
-    margin: 0.25rem 0 0;
-    font-weight: bold;
-    color: $secondary-color;
-  }
-}
-
-.cyclingBox {
-  grid-area: cycling;
-  font-size: clamp(1rem, 1.2vw + 0.5rem, 1.5rem);
-  background-color: $background1-color;
-  color: $secondary-color;
-  font-family: 'norwester';
-  padding: 1rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: clamp(280px, 28vw, 420px);
-  //justify-self: end;
-  align-self: start;
-  border: 3px solid $secondary-color;
-}
-
-.cyclingBox p {
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
-}
-
-.cyclingBox p.fadeOut {
-  opacity: 0;
-}
-
-@media (max-width: 1200px) {
-  .container {
-    grid-template-columns: minmax(0, 0.8fr) auto minmax(0, 1fr);
-  }
-
-  .taglineBox {
-    max-width: 560px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .container {
-    grid-template-areas:
-      "tagline"
-      "rating"
-      "cycling"
-      "logo";
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    justify-items: center;
-  }
-
-  .cyclingBox,
-  .taglineBox,
-  .ratingImageBox,
-  .logoBox {
-    max-width: min(90%, 520px);
-    justify-self: center;
-    min-height: auto; // Reset min-height for mobile if needed, but carousel is smaller there
-  }
-
-  .logoBox {
-    align-self: center;
-
-    a {
-      flex-direction: row;
-      justify-content: center;
-      gap: clamp(1rem, 3vw, 2rem);
+    span {
+        color: #ffc107;
+        font-size: 2.2rem;
     }
-
-    img {
-      width: auto;
-      height: clamp(60px, 10vw, 100px);
-      margin-bottom: 0;
+    p {
+        font-weight: 900;
+        margin: 0;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: 'norwester', sans-serif;
     }
-
-    div {
-      font-size: clamp(1.5rem, 5vw, 2.25rem);
-    }
-  }
 }
 
-@media (max-width: 768px) {
-  .homeSection {
-    min-height: auto;
-    padding: 2rem 0;
-  }
-
-  .container {
-    padding: clamp(0.75rem, 4vw, 1rem);
-    gap: 1rem;
-  }
-
-  .taglineBox {
-    font-size: clamp(1.25rem, 5.5vw, 1.75rem);
-  }
-
-  .cyclingBox,
-  .taglineBox,
-  .logoBox {
+// Solid color at bottom to flow into next section's slant
+.bottomOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    max-width: min(90%, 400px);
-    min-height: auto;
-    align-self: center;
-    text-align: center;
-    margin: 0.5rem auto 0 auto;
-  }
-
-  .logoBox {
-    position: static;
-
-    a {
-      gap: 0.75rem;
-    }
-
-    img {
-      height: clamp(50px, 12vw, 70px);
-    }
-
-    div {
-      font-size: clamp(1.25rem, 5vw, 1.75rem);
-    }
-  }
-
-  .ratingImageBox img {
-    max-width: 150px;
-  }
+    height: 120px;
+    background: linear-gradient(to top, $primary-color 0%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
 }
 
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0) rotateX(8deg); }
+    50% { transform: translateY(-25px) rotateX(4deg); }
+}
+
+@keyframes mascotFloat {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    100% { transform: translate(-15px, -15px) rotate(-3deg) scale(1.05); }
+}
+
+// Media Queries
+@media (max-width: 75em) {
+    .container {
+        max-width: 1100px;
+    }
+}
+
+@media (max-width: 64em) {
+    .homeSection {
+        min-height: auto;
+        padding: 6rem 1.5rem 4rem;
+    }
+
+    .mainContent {
+        gap: 3rem;
+    }
+
+    .floatingActions {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 550px;
+    }
+    
+    .ctaCard, .ratingCard {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+    
+    .mascotWrapper {
+        right: -2rem;
+        bottom: -2rem;
+    }
+}
+
+@media (max-width: 48em) {
+    .homeSection {
+        padding: 5rem 1rem 3rem;
+    }
+
+    .heroWrapper {
+        animation: none;
+        
+        img {
+            transform: none;
+        }
+    }
+
+    .mascotWrapper {
+        width: 160px;
+        bottom: -40px;
+        right: -10px;
+    }
+
+    .ctaCard, .ratingCard {
+        padding: 1.5rem;
+    }
+
+    .callBadge {
+        gap: 1.25rem;
+    }
+
+    .logoWrap {
+        width: 100px;
+        height: 100px;
+    }
+
+    .phone {
+        font-size: clamp(1rem, 5vw, 1.4rem);
+        white-space: nowrap;
+    }
+
+    .tapToCall {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+    }
+
+    .bottomOverlay {
+        height: 80px;
+    }
+}

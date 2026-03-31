@@ -2,77 +2,82 @@
 
 .promotionSection {
   width: 100%;
-  background: linear-gradient(135deg, #0e2238, #1d2e3f);
-  padding: 4rem 1rem;
+  background: radial-gradient(circle at center, $primary-color 0%, darken($primary-color, 10%) 100%);
+  padding: 8rem 1rem;
   text-align: center;
   position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: $background1-color;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    z-index: 1;
+  }
 }
 
 .sectionTitle {
-    font-size: 3rem;
+    font-size: clamp(3rem, 8vw, 5rem);
     font-weight: 900;
-    color: $secondary-color;
+    color: white;
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-    text-shadow:
-      0 0 5px rgba(0, 0, 0, 0.5),
-      0 0 15px rgba(0, 0, 0, 0.3);
-  
-    animation: pulseGlow 1.5s ease-in-out infinite;
+    letter-spacing: 4px;
+    margin-bottom: 3rem;
+    font-family: 'norwester', sans-serif;
     position: relative;
     z-index: 2;
+    
+    span {
+        color: white;
+        display: block;
+        font-size: 0.5em;
+        letter-spacing: 10px;
+        text-shadow: 4px 4px 0px $secondary-color;
+    }
+
+    text-shadow: 4px 4px 0px $secondary-color;
   }
   
-  @keyframes pulseGlow {
-    0% {
-      text-shadow:
-        0 0 6px rgba(255, 255, 255, 0.2),
-        0 0 15px rgba($secondary-color, 0.4),
-        0 0 25px rgba($secondary-color, 0.6);
-    }
-    50% {
-      text-shadow:
-        0 0 10px rgba(255, 255, 255, 0.3),
-        0 0 30px rgba($secondary-color, 0.8),
-        0 0 40px rgba($secondary-color, 1);
-    }
-    100% {
-      text-shadow:
-        0 0 6px rgba(255, 255, 255, 0.2),
-        0 0 15px rgba($secondary-color, 0.4),
-        0 0 25px rgba($secondary-color, 0.6);
-    }
-  }
-
-.sectionTitle::after {
-    content: "";
-    display: block;
-    margin: 0.5rem auto 0;
-    width: 80%;
-    height: 4px;
-    background: $secondary-color;
-    border-radius: 2px;
-  }
-  
-
 .carouselWrapper {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  border-radius: 12px;
+  border-radius: 30px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  background-color: white;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  background-color: transparent;
+  border: 4px solid $secondary-color;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }
 
-.slide img {
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
-  cursor: pointer;
+.slide {
+  position: relative;
+  
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: block;
+    cursor: pointer;
+  }
+}
+
+.slideLink {
+    display: block;
+    position: relative;
+    text-decoration: none;
 }
 
 .arrow {
@@ -80,67 +85,60 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: $secondary-color;
   color: white;
   font-size: 1.5rem;
-  padding: 0.6rem 1rem;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: white;
+    color: $secondary-color;
+    transform: translateY(-50%) scale(1.2);
   }
 }
 
 .left {
-  left: 1rem;
+  left: -25px;
 }
 
 .right {
-  right: 1rem;
+  right: -25px;
 }
 
 .loader,
 .placeholder {
   color: white;
-  font-size: 1.3rem;
-  opacity: 0.8;
+  font-size: 1.5rem;
+  font-family: 'norwester', sans-serif;
+  padding: 4rem;
 }
 
-
+@media screen and (max-width: 1350px) {
+    .left { left: 5px; }
+    .right { right: 5px; }
+}
 
 @media screen and (max-width: 768px) {
-  .slide img {
-    max-height: 180px;
-  }
-}
-
-
-.carousel .control-arrow {
-    background-color: rgba(0, 0, 0, 1); // Always dark background
-    border-radius: 50%;
-    padding: 0.6rem 1rem;
-    font-size: 2.2rem;
-    z-index: 10;
-    transition: background-color 0.3s ease;
-  }
-  
-  .carousel .control-prev.control-arrow {
-    left: -2.5rem;
-  }
-  
-  .carousel .control-next.control-arrow {
-    right: -2.5rem;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .carousel .control-prev.control-arrow,
-    .carousel .control-next.control-arrow {
-      left: 0.5rem;
-      right: 0.5rem;
+    .promotionSection {
+        padding: 6rem 1rem;
     }
-  }
+
+    .sectionTitle {
+        font-size: 3.5rem;
+    }
+
+    .carouselWrapper {
+        border-radius: 15px;
+        margin: 0 10px;
+    }
+}
   

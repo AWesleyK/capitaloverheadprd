@@ -6,10 +6,18 @@ import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 
 const ServicesSection = () => {
-
   return (
     <section className={styles.servicesSection}>
       <div className={styles.content}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/images/jobsite.jpg"
+            alt="Dino Doors Service"
+            width={600}
+            height={400}
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
         <div className={styles.taglineContainer}>
           <h2 className={styles.tagline}>Our Services</h2>
           <p className={styles.catchphrase}>
@@ -19,7 +27,7 @@ const ServicesSection = () => {
             US Automatic, and even MightyMule! 
           </p>
           <Link href="/services">
-            <span className={styles.learnMore}>More Services</span>
+            <span className={styles.learnMore}>Explore Services</span>
           </Link>
         </div>
       </div>

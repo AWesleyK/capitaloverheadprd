@@ -1,30 +1,27 @@
 @import '../../styles/variables.scss';
 
 .contactSection {
-  position: relative; // <-- this is the key!
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(
-    to bottom,
-    rgba($primary-color, 1) 0%,
-    $background1-color 70%,
-    $background1-color 100%
-  );
-  padding: 5vh 2vw;
-  min-height: 70vh;
+  background-color: $background1-color;
+  padding: 10vh 2vw;
+  min-height: 60vh;
   width: 100%;
+  overflow: hidden;
 
+  // Slanted top transition from dark blue HomeSection
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: -50px;
-    right: 0;
-    width: 50%;
-    height: 50px;
-    background-color: $background1-color;
-    clip-path: ellipse(100% 100% at 100% 0%);
-    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: $primary-color;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 100%);
+    z-index: 1;
   }
 }
 
@@ -32,98 +29,158 @@
 .content {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 3rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
 }
 
 .taglineContainer {
-  background-color: $primary-color;
-  color: white;
-  padding: 2rem;
+  background-color: white;
+  color: $primary-color;
+  padding: 4rem 3rem;
   width: 100%;
   max-width: 700px;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  margin: 0 5vw;
-  border-radius: 10px;
-  border: 5px solid $secondary-color;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  margin: 0 1rem;
+  border-left: 8px solid $secondary-color;
+  border-right: 8px solid $primary-color;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  
+  &::after {
+    content: "★ ★ ★ ★ ★";
+    position: absolute;
+    top: -20px;
+    background: $secondary-color;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-family: 'norwester', sans-serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
 }
 
 .imageContainer,
 .imageContainerLeft {
-  border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50% 50% 50% 10%; // Unique teardrop/egg shape
   overflow: hidden;
+  border: 10px solid white;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+
+  &:hover {
+    transform: rotate(5deg) scale(1.05);
+  }
 }
 
 .imageContainerLeft {
-  margin-left: 10%;
+  margin-top: -50px;
+}
+
+.imageContainer {
+  margin-bottom: -50px;
 }
 
 .image {
-  border-radius: 20px;
   width: 100%;
-  height: auto;
-}
-
-.tagline {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 2vh;
-  user-select: none;
+  height: 100%;
+  object-fit: cover;
 }
 
 .catchphrase {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
   user-select: none;
-  line-height: 1.6;
+  line-height: 1.5;
+  margin-bottom: 2.5rem;
+  color: $primary-color;
 }
 
 .callButton {
   display: inline-block;
   background-color: $secondary-color;
   color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
+  padding: 1.5rem 3.5rem;
+  border-radius: 50px;
   text-decoration: none;
-  margin-top: 20px;
-  font-size: 1.2rem;
-  transition: background-color 0.3s ease-in-out;
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-family: 'norwester', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba($secondary-color, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 2px solid transparent;
+  animation: pulseCTA_Button 3s infinite ease-in-out;
+
+  &:hover {
+    background-color: white;
+    color: $secondary-color;
+    border-color: $secondary-color;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba($secondary-color, 0.5);
+    animation: none;
+  }
 }
 
-.callButton:hover {
-  opacity: 80%;
+@keyframes pulseCTA_Button {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); box-shadow: 0 12px 25px rgba($secondary-color, 0.5); }
+    100% { transform: scale(1); }
+}
+
+@media screen and (max-width: 1100px) {
+  .imageContainerLeft, .imageContainer {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 @media screen and (max-width: 768px) {
+  .contactSection {
+    padding: 8vh 1rem;
+    &::before {
+        height: 50px;
+    }
+  }
+
   .taglineContainer {
-    font-size: 0.9rem;
-    padding: 1rem;
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 5rem;
+    padding: 3rem 1.5rem;
+    border-radius: 30px;
+    margin-bottom: 2rem;
+    
+    &::after {
+        font-size: 1rem;
+        top: -15px;
+    }
   }
 
   .catchphrase {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .imageContainer {
-    width: 90%;
+    width: 250px;
+    height: 250px;
     margin: 1rem auto;
   }
 
-  .contactSection {
-    padding: 4vh 1rem;
-    flex-direction: column;
+  .callButton {
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
   }
 }

@@ -10,7 +10,7 @@
 
 .heading {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   font-size: 2.5rem;
   color: $primary-color;
   margin-bottom: 2rem;
@@ -24,23 +24,16 @@
     background: $secondary-color;
     margin: 0.5rem auto 0;
     border-radius: 2px;
-    transition: width 0.3s ease;
-  }
-
-  &:hover::after {
-    width: 100px;
   }
 }
 
 .headingLink {
   text-decoration: none;
   color: inherit;
-  display: inline-block;
   transition: all 0.3s ease;
 
   &:hover {
     color: $secondary-color;
-    transform: scale(1.05);
   }
 }
 
@@ -53,77 +46,33 @@
   text-align: center;
 }
 
-/* New grid-based layout for city links */
 .cityGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-top: 3rem;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
 }
 
 .cityCard {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  background: #fff;
+  justify-content: center;
+  align-items: center;
+  background: white;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.5rem;
   text-decoration: none;
-  color: inherit;
+  color: $primary-color;
   box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: $secondary-color;
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-    transform-origin: left;
-  }
+  transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-color: rgba($secondary-color, 0.2);
-
-    &::before {
-      transform: scaleX(1);
-    }
-
-    .cityCta {
-      color: darken($secondary-color, 10%);
-      .arrowIcon {
-        transform: translateX(4px);
-      }
-    }
+    border-color: $secondary-color;
 
     .markerIcon {
-      color: $secondary-color;
-      transform: scale(1.1);
-    }
-
-    .cityName {
       color: $secondary-color;
     }
   }
@@ -131,221 +80,265 @@
 
 .cityHeader {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .markerIcon {
   color: $primary-color;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   transition: all 0.3s ease;
 }
 
 .cityName {
   font-weight: 700;
   font-size: 1.1rem;
-  color: $primary-color;
 }
 
 .cityCta {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 0.5rem;
-  margin-top: auto;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: $secondary-color;
-  transition: color 0.3s ease;
+  font-weight: 800;
+  color: white;
+  background-color: $secondary-color;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba($secondary-color, 0.3);
 
   .arrowIcon {
     font-size: 0.8rem;
-    transition: transform 0.3s ease;
   }
-}
-
-/* Legacy list (kept for compatibility if needed) */
-ul.serviceList {
-  columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
-  font-size: 1.1rem;
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2rem;
-  color: #333;
-  margin: 0 auto;
-  margin-top: 1rem;
-}
-
-.serviceList li::before {
-  content: '✔';
-  margin-right: 0.5rem;
-  color: $secondary-color;
 }
 
 .callToAction {
   position: relative;
-  z-index: 1;
-  margin-top: 5rem;
+  z-index: 2;
+  margin-top: 4rem;
   text-align: center;
-  margin-bottom: 4rem;
   background: $primary-color;
   color: white;
-  padding: 4rem 2.5rem;
+  padding: 3rem 2rem;
   border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0,40,104,0.15);
-
-  @media (max-width: 768px) {
-    padding: 3rem 1.5rem;
-    margin-top: 3rem;
-  }
 }
 
 .callText {
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
-  color: white;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-  font-weight: 300;
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
-}
-
-.callButton {
-  background-color: $secondary-color;
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
   font-size: 1.2rem;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  display: inline-block;
-  box-shadow: 0 4px 15px rgba($secondary-color, 0.3);
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba($secondary-color, 0.4);
-    background-color: darken($secondary-color, 5%);
-  }
+  margin-bottom: 1.5rem;
+  color: white;
 }
 
 .buttonGroup {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  gap: 1rem;
   flex-wrap: wrap;
+}
+
+.callButton {
+  background-color: $secondary-color;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($secondary-color, 0.4);
+  }
 }
 
 .secondaryButton {
   background-color: transparent;
   color: white;
-  padding: 1rem 2.5rem;
+  padding: 0.8rem 2rem;
   border-radius: 50px;
   text-decoration: none;
-  font-size: 1.2rem;
   font-weight: 600;
   border: 2px solid white;
   transition: all 0.3s ease;
-  display: inline-block;
 
   &:hover {
     background-color: white;
     color: $primary-color;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
   }
 }
 
 .mapContainer {
-  max-width: 600px; // or whatever width you want to match the image
+  max-width: 800px;
   margin: 0 auto;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-
-  img, iframe {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  img {
     width: 100%;
     height: auto;
+    display: block;
   }
 }
 
-.mapContentWrapper {
-  position: relative;
-  z-index: 1;
-  padding: 2rem 0;
-  margin-bottom: 2rem;
-  width: 100%;
-  margin: 0 auto;
-}
-
+// HOME PAGE SPECIFIC RESTYLING
 .homeVariant {
-  background-color: #fdfdfd;
-  background-image: 
-    radial-gradient(circle at 2px 2px, rgba($primary-color, 0.05) 1px, transparent 0);
-  background-size: 30px 30px;
+  padding: 8rem 2rem;
+  background-color: $primary-color;
 
-  .mapContentWrapper {
-    width: 85%;
-    max-width: 1200px;
-    border: 1px solid rgba($primary-color, 0.1);
-    background-color: #fff;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-    padding: 3rem;
-    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-    &:hover {
-      transform: translateY(-8px);
-    }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: $background1-color;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 100%);
+    z-index: 1;
   }
 
   .heading {
-    color: $primary-color;
-    font-size: 3rem;
-    margin-bottom: 3rem;
-    
+    color: white;
+    font-family: 'norwester', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    text-transform: uppercase;
+    letter-spacing: 3px;
     &::after {
-      width: 80px;
-      height: 5px;
+        width: 100px;
+        height: 8px;
     }
+  }
+
+  .description {
+    color: #ccc;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 4rem;
   }
 
   .mapContainer {
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    border: 4px solid #fff;
-    transition: transform 0.4s ease;
-
-    &:hover {
-      transform: scale(1.02);
-    }
+    border-radius: 30px;
+    border: 4px solid white;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
   }
 
   .cityCard {
-    border: 1px solid rgba($primary-color, 0.08);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: white;
+    backdrop-filter: blur(5px);
+    padding: 2rem;
+
     &:hover {
-      background-color: rgba($primary-color, 0.01);
+        background: white;
+        color: $primary-color;
+        .cityName { color: $primary-color; }
+        .cityCta { 
+            background-color: $primary-color; 
+            color: white; 
+            box-shadow: 0 4px 10px rgba($primary-color, 0.2);
+        }
+    }
+  }
+
+  .cityName {
+    font-family: 'norwester', sans-serif;
+    font-size: 1.3rem;
+  }
+
+  .markerIcon {
+    font-size: 2rem;
+  }
+
+  .callToAction {
+    background: white;
+    color: $primary-color;
+    border-radius: 40px;
+    padding: 4rem 3rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .callText {
+    color: $primary-color;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .callButton, .secondaryButton {
+    font-family: 'norwester', sans-serif;
+    font-size: 1.4rem;
+    padding: 1rem 2.5rem;
+    text-transform: uppercase;
+  }
+
+  .secondaryButton {
+    color: $primary-color;
+    border-color: $primary-color;
+    &:hover {
+        color: white;
+        background-color: $primary-color;
     }
   }
 }
 
-.mapEmbed {
-  width: 100%;
-  height: auto; // Let the height be auto so it scales proportionally
-  display: block;
-  object-fit: contain; // Or 'cover' if you want it to fill but crop slightly
-  margin: 0 auto;
-  max-width: 800px;
+@media (max-width: 768px) {
+  .serviceAreaSection {
+    padding: 4rem 1rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+
+  .cityGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .homeVariant {
+      padding: 6rem 1rem;
+      .heading { font-size: 2.5rem; }
+      .callText { font-size: 1.2rem; }
+      .callToAction { padding: 3rem 1.5rem; }
+
+      .cityCard.active {
+        background: white;
+        color: $primary-color;
+        .cityName { color: $primary-color; }
+        .cityCta { 
+            background-color: $primary-color; 
+            color: white; 
+        }
+      }
+  }
+
+  .cityCard.active {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: $secondary-color;
+
+    .markerIcon {
+      color: $secondary-color;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+    .cityGrid {
+        grid-template-columns: 1fr;
+    }
 }
 
   
