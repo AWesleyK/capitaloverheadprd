@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './ReviewsCarousel.module.scss';
 import { FaChevronLeft, FaChevronRight, FaStar } from 'react-icons/fa';
 
-const ReviewsCarousel = ({ reviews, googleUrl, heading }) => {
+const ReviewsCarousel = ({ reviews, googleUrl, heading, className }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timeoutRef = useRef(null);
@@ -27,6 +27,7 @@ const ReviewsCarousel = ({ reviews, googleUrl, heading }) => {
   if (!reviews || reviews.length === 0) return null;
 
   const truncateText = (text, maxLength = 280) => {
+    if (!text) return "";
     if (text.length <= maxLength) return text;
     return (
       <>
@@ -40,7 +41,7 @@ const ReviewsCarousel = ({ reviews, googleUrl, heading }) => {
 
   return (
     <div
-      className={styles.carouselContainer}
+      className={`${styles.carouselContainer} ${className || ''} reviews-carousel`}
       tabIndex={0}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -72,19 +73,19 @@ const ReviewsCarousel = ({ reviews, googleUrl, heading }) => {
               {review.profile_photo_url && (
                 <img
                   src={review.profile_photo_url}
-                  alt={review.author_name}
+                  alt={review.author_name || "Google User"}
                   className={styles.authorPhoto}
                 />
               )}
               <div className={styles.authorInfo}>
-                <p className={styles.authorName}>{review.author_name}</p>
-                <p className={styles.reviewMeta}>{review.relative_time_description}</p>
+                <p className={styles.authorName}>{review.author_name || "Google User"}</p>
+                <p className={styles.reviewMeta}>{review.relative_time_description || ""}</p>
               </div>
             </div>
             
             <div className={styles.ratingStars}>
               {[...Array(5)].map((_, i) => (
-                <FaStar key={i} color={i < Math.floor(review.rating) ? '#ffc107' : '#e4e5e9'} />
+                <FaStar key={i} color={i < Math.floor(review.rating || 5) ? '#ffc107' : '#e4e5e9'} />
               ))}
             </div>
             

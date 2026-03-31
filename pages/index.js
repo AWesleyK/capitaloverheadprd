@@ -1,6 +1,6 @@
 // /pages/index.js
 import React from 'react';
-import { GoogleReviewClient } from '@infinite-dev/google-review-api';
+import { googleReviewClient } from '../lib/GoogleReviewAPi';
 import HomeSection from '../components/HomeSection/HomeSection';
 import AboutSection from '../components/AboutSection/AboutSection';
 import ContactSection from '../components/ContactSection/ContactSection';
@@ -12,34 +12,81 @@ import FAQSection from '../components/FAQSection/FAQSection';
 import { CITY_LIST } from '../lib/cities';
 import navData from '../data/nav-data.json';
 
+function formatRelativeTime(createTime) {
+  if (!createTime) return '';
+  const date = new Date(createTime);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+  const diffInDays = Math.floor(diffInSeconds / 86400);
+
+  if (diffInDays === 0) return 'Today';
+  if (diffInDays === 1) return 'Yesterday';
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+  if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
+  return `${Math.floor(diffInDays / 365)} years ago`;
+}
+
+function mapGbpReview(gbpReview) {
+  if (!gbpReview) return null;
+
+  // The API returns differently based on its internal routing.
+  // GMB API uses: reviewer.displayName, comment, starRating
+  // Places API uses: author_name, text, rating
+  
+  const authorName = gbpReview.reviewer?.displayName || 
+                     gbpReview.author_name || 
+                     gbpReview.displayName || 
+                     'Google User';
+
+  const profilePhoto = gbpReview.reviewer?.profilePhotoUrl || 
+                       gbpReview.profile_photo_url || 
+                       gbpReview.photoUrl || 
+                       null;
+
+  const textContent = gbpReview.comment || 
+                      gbpReview.text || 
+                      gbpReview.reviewText || 
+                      '';
+
+  const ratingMap = { 'ONE': 1, 'TWO': 2, 'THREE': 3, 'FOUR': 4, 'FIVE': 5 };
+  const ratingValue = ratingMap[gbpReview.starRating] || 
+                      gbpReview.rating || 
+                      gbpReview.starRating || 
+                      5;
+
+  const relativeTime = gbpReview.relative_time_description || 
+                       formatRelativeTime(gbpReview.createTime || gbpReview.updateTime);
+
+  return {
+    author_name: authorName,
+    profile_photo_url: profilePhoto,
+    rating: typeof ratingValue === 'number' ? ratingValue : 5,
+    text: textContent,
+    relative_time_description: relativeTime
+  };
+}
+
 export async function getStaticProps() {
   let reviews = [];
   let stats = null;
 
   try {
-    const token = process.env.CLIENT_GBP_REVIEWS_TOKEN;
-    if (token) {
-      const client = new GoogleReviewClient(undefined, token);
+    const title = "Dino Doors";
+    const reviewResult = await googleReviewClient.getReviewsByTitle(title);
+    
+    if (reviewResult) {
+      reviews = (reviewResult.reviews || [])
+        .map(mapGbpReview)
+        .filter(Boolean);
 
-      // Attempt to fetch 5-star reviews first
-      let reviewsData = [];
-      try {
-        reviewsData = await client.getFiveStarReviews();
-        // If no 5-star reviews, try getting all reviews
-        if (!reviewsData || reviewsData.length === 0) {
-          const all = await client.getReviews();
-          reviewsData = all?.reviews || [];
-        }
-      } catch (e) {
-        console.warn('Failed to fetch 5-star reviews, falling back to all reviews:', e.message);
-        const all = await client.getReviews().catch(() => null);
-        reviewsData = all?.reviews || [];
-      }
-
-      const statsData = await client.getStats().catch(() => null);
-
-      reviews = reviewsData.slice(0, 5); // Take top 5
-      stats = statsData;
+      stats = {
+        averageRating: reviewResult.averageRating,
+        totalReviewCount: reviewResult.totalReviewCount,
+        title: reviewResult.title,
+        // The title-based result doesn't have a direct URL, 
+        // we could try getStats(title) too but it didn't return a URL in tests.
+      };
     }
   } catch (error) {
     console.error('Error in getStaticProps fetching reviews:', error);
