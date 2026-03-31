@@ -6,450 +6,352 @@
   background-image: url("/images/Home Screen 1.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  background-color: $primary-color;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $primary-color;
+  overflow: hidden;
+  padding: 4rem 2rem;
 }
 
+// Dark Overlay with radial highlight
 .homeSection::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-                  to top,
-                  rgba($primary-color, 1) 0%,
-                  rgba($primary-color, 0.7) 30%,
-                  rgba($primary-color, 0.3) 100%
-  );
-  z-index: 0;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba($primary-color, 0.4) 0%, rgba($primary-color, 0.85) 70%, rgba($primary-color, 1) 100%);
+  z-index: 1;
+}
+
+// Decorative Blobs for depth
+.blob1, .blob2 {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba($secondary-color, 0.15) 0%, rgba($secondary-color, 0) 70%);
+    filter: blur(80px);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.blob1 {
+    top: -10%;
+    right: -10%;
+}
+
+.blob2 {
+    bottom: -10%;
+    left: -10%;
 }
 
 .container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
-  max-width: 87.5rem;
-  padding: clamp(1rem, 2.5vw, 2rem);
-  display: grid;
-  grid-template-areas:
-    ". hero cycling"
-    "logoMascot hero cycling"
-    ". rating cycling";
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: auto auto auto;
-  align-items: center;
-  gap: clamp(1rem, 2.5vw, 2rem);
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-/* NEW hero image replacing tagline box */
-.heroImageBox {
-  grid-area: hero;
-  justify-self: center;
-  width: 100%;
-  max-width: clamp(22rem, 55vw, 50rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-}
-
-.logoMascotWrapper {
-  grid-area: logoMascot;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  align-self: end;
-  justify-self: start;
-  position: relative;
-  /* Reduced gap to bring mascot closer */
-  gap: 0;
-}
-
-.logoBox {
-  background-color: $background1-color;
-  padding: 0.5rem 0.5rem 0.75rem;
-  border-radius: 1.125rem;
-  text-align: center;
-  max-width: clamp(11.25rem, 18vw, 16rem);
-  color: $secondary-color;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
-  border: 0.1875rem solid $secondary-color;
-  /* logoBox on top of mascot */
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
-
-  &::after {
-        content: "TAP TO CALL";
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: $secondary-color;
-        color: white;
-        padding: 6px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-family: 'norwester', sans-serif;
-        white-space: nowrap;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        z-index: 10;
-        border: 2px solid white;
-        pointer-events: none;
-        animation: badgeBounce 2s infinite ease-in-out;
-    }
-
-    &:hover {
-        transform: scale(1.05) rotate(-2deg);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        border-color: lighten($secondary-color, 10%);
-        
-        .logoWrap {
-            border-color: lighten($secondary-color, 10%);
-        }
-
-        .phoneBadge {
-            background-color: lighten($primary-color, 5%);
-            border-color: lighten($secondary-color, 10%);
-            color: white; // already white but good to ensure
-        }
-
-        &::after {
-            background: white;
-            color: $secondary-color;
-            border-color: $secondary-color;
-        }
-    }
-
-  /* Pulsing effect to draw attention */
-  animation: pulseLogo 3s infinite ease-in-out;
-
-  a {
+.mainContent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-decoration: none;
-    color: inherit;
+    gap: clamp(2rem, 5vw, 4rem);
+}
+
+.heroWrapper {
+    position: relative;
     width: 100%;
-    gap: 0;
-  }
+    max-width: 900px;
+    perspective: 1200px;
+    animation: heroFloat 8s ease-in-out infinite;
 }
 
-@keyframes pulseLogo {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.02) rotate(1deg); }
-    100% { transform: scale(1) rotate(0deg); }
+.heroImageBox {
+    width: 100%;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transform: rotateX(8deg);
+    }
+
+    &:hover {
+        transform: scale(1.02) translateY(-10px);
+    }
 }
 
-@keyframes badgeBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-5px); }
+.mascotWrapper {
+    position: absolute;
+    bottom: -15%;
+    right: -10%;
+    width: clamp(180px, 35vw, 320px);
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(10px 20px 30px rgba(0, 0, 0, 0.4));
+    animation: mascotFloat 6s ease-in-out infinite alternate;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.floatingActions {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: clamp(1rem, 3vw, 3rem);
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.ctaCard, .ratingCard {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: clamp(1.5rem, 3vw, 2rem);
+    padding: clamp(1rem, 2.5vw, 2.5rem);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-12px);
+        border-color: rgba($secondary-color, 0.4);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+    }
+}
+
+.ctaCard {
+    flex: 0 1 500px;
+}
+
+.callBadge {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    gap: 2rem;
 }
 
 .logoWrap {
-  width: 100%;
-  border: 0.1875rem solid $secondary-color;
-  border-bottom: none;
-  border-radius: 0.875rem 0.875rem 0 0;
-  background-color: $background1-color;
-  padding: 0.75rem 0.75rem 0.35rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    flex-shrink: 0;
+    width: clamp(120px, 15vw, 160px);
+    height: clamp(120px, 15vw, 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
 
-  img {
+.callBadge:hover .logoWrap {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+.callDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.phone {
+    font-size: clamp(1.1rem, 2.5vw, 2.2rem);
+    font-weight: 900;
+    font-family: 'norwester', sans-serif;
+    letter-spacing: 1px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tapToCall {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: rgba($secondary-color, 1);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba($secondary-color, 0.3);
+}
+
+
+.ratingCard {
+    flex: 0 1 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.carouselContainer {
     width: 100%;
-    height: auto;
-    user-select: none;
-    display: block;
-    max-width: 10rem;
-  }
-}
-
-.phoneBadge {
-  width: 100%;
-  border: 0.1875rem solid $secondary-color;
-  border-top: none;
-  border-radius: 0 0 0.875rem 0.875rem;
-  background-color: $primary-color;
-  color: white;
-  font-family: 'norwester', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 0.5rem 0.8rem;
-  line-height: 1;
-}
-
-.phoneNumber {
-  font-size: clamp(1rem, 1.3vw, 1.3rem);
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-}
-
-.star {
-  color: #d4af37;
-  font-size: clamp(1rem, 1.4vw, 1.35rem);
-  line-height: 1;
-}
-
-.mascotBox {
-  width: clamp(8rem, 20vw, 17rem);
-  display: flex;
-  align-items: flex-end;
-  pointer-events: none;
-  /* Mascot behind logoBox and closer */
-  z-index: 1;
-  margin-left: -8.5rem; /* Increased overlap to stay clear of HeroBox */
-  margin-bottom: -1rem; /* Adjust if needed to sit on "bottom" */
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-    user-select: none;
-  }
-}
-
-.ratingImageBox {
-  grid-area: rating;
-  text-align: center;
-  padding: 1rem;
-  background-color: transparent;
-  color: $secondary-color;
-  border-radius: 0.625rem;
-  width: 100%;
-  max-width: 26rem;
-  justify-self: center;
-  min-height: 19.5rem;
+    
+    // Attempting to override ReviewsCarousel styles if needed
+    :global(.reviews-carousel) {
+        background: transparent !important;
+        border: none !important;
+        color: white !important;
+        padding: 0 !important;
+    }
 }
 
 .reviewFallback {
-  background-color: $background1-color;
-  padding: 1rem;
-  border-radius: 0.625rem;
-  border: 0.1875rem solid $secondary-color;
-  font-family: 'norwester', sans-serif;
-  display: block;
-  text-decoration: none;
-  color: $secondary-color;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
 
-  &:hover {
-    transform: translateY(-0.125rem);
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
-
-    span {
-      text-decoration: underline;
+.fallbackContent {
+    .stars {
+        color: #ffc107;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
     }
-
-    .staticStars span {
-      text-decoration: none;
-    }
-
+    
     p {
-      text-decoration: underline;
+        font-weight: 900;
+        font-size: 1.4rem;
+        margin: 0;
+        font-family: 'norwester', sans-serif;
     }
-  }
+    
+    span {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        font-weight: 500;
+    }
 }
 
 .staticStars {
-  span {
-    color: #ffc107;
-    font-size: 1.5rem;
-    display: block;
-  }
-
-  p {
-    margin: 0.25rem 0 0;
-    font-weight: bold;
-    color: $secondary-color;
-  }
+    span {
+        color: #ffc107;
+        font-size: 2.2rem;
+    }
+    p {
+        font-weight: 900;
+        margin: 0;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: 'norwester', sans-serif;
+    }
 }
 
-.cyclingBox {
-  grid-area: cycling;
-  font-size: clamp(1rem, 1.2vw + 0.5rem, 1.5rem);
-  background-color: $background1-color;
-  color: $secondary-color;
-  font-family: 'norwester';
-  padding: 1rem;
-  border-radius: 0.625rem;
-  width: 100%;
-  max-width: clamp(17.5rem, 30vw, 26rem);
-  align-self: start;
-  border: 0.1875rem solid $secondary-color;
+// Solid color at bottom to flow into next section's slant
+.bottomOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(to top, $primary-color 0%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
 }
 
-.cyclingBox p {
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0) rotateX(8deg); }
+    50% { transform: translateY(-25px) rotateX(4deg); }
 }
 
-.fadeOut {
-  opacity: 0;
+@keyframes mascotFloat {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    100% { transform: translate(-15px, -15px) rotate(-3deg) scale(1.05); }
 }
 
+// Media Queries
 @media (max-width: 75em) {
-  .container {
-    grid-template-columns: minmax(0, 0.8fr) auto minmax(0, 1fr);
-  }
-
-  .heroImageBox {
-    max-width: clamp(20rem, 55vw, 45rem);
-  }
+    .container {
+        max-width: 1100px;
+    }
 }
 
 @media (max-width: 64em) {
-  .container {
-    grid-template-areas:
-      "hero"
-      "rating"
-      "cycling"
-      "logoMascot";
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    justify-items: center;
-  }
-
-  .logoMascotWrapper {
-    justify-content: center;
-    align-self: center;
-    width: 100%;
-    max-width: min(95%, 45rem);
-    display: flex;
-    align-items: flex-end;
-    gap: 0; /* Reduced for mobile too */
-    margin-top: 1rem;
-    position: relative;
-  }
-
-  .cyclingBox,
-  .heroImageBox,
-  .ratingImageBox {
-    max-width: min(90%, 45rem); /* Slightly smaller to prevent overcrowding */
-    justify-self: center;
-    min-height: auto;
-  }
-
-  .logoBox {
-    width: auto;
-    max-width: clamp(10rem, 40vw, 15rem); /* Slightly smaller */
-    z-index: 2;
-    animation: none; // Disable pulse on smaller screens to prevent distraction
-
-    a {
-      flex-direction: column;
-      gap: 0;
+    .homeSection {
+        min-height: auto;
+        padding: 6rem 1.5rem 4rem;
     }
-  }
 
-  .mascotBox {
-    width: clamp(8rem, 25vw, 13rem); /* Slightly larger for visibility */
-    margin-left: -3.5rem; /* Reduced overlap to show more mascot */
-    z-index: 1;
-  }
-
-  .logoWrap {
-    img {
-      max-width: clamp(5.625rem, 18vw, 8.125rem);
+    .mainContent {
+        gap: 3rem;
     }
-  }
 
-  .phoneNumber {
-    font-size: clamp(1rem, 4vw, 1.4rem);
-  }
-
-  .star {
-    font-size: clamp(1rem, 4.2vw, 1.4rem);
-  }
+    .floatingActions {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 550px;
+    }
+    
+    .ctaCard, .ratingCard {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+    
+    .mascotWrapper {
+        right: -2rem;
+        bottom: -2rem;
+    }
 }
 
 @media (max-width: 48em) {
-  .homeSection {
-    min-height: auto;
-    padding: 2rem 0;
-  }
-
-  .container {
-    padding: clamp(0.75rem, 4vw, 1rem);
-    gap: 1rem;
-  }
-
-  .cyclingBox,
-  .heroImageBox {
-    width: 100%;
-    max-width: min(95%, 35rem);
-    min-height: auto;
-    align-self: center;
-    text-align: center;
-    margin: 0.5rem auto 0 auto;
-  }
-
-  .logoMascotWrapper {
-    width: 100%;
-    max-width: min(95%, 35rem);
-    align-self: center;
-    margin: 0.5rem auto 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 0;
-    position: relative;
-  }
-
-  .logoBox {
-    position: static;
-    width: auto;
-    flex: 0 1 auto; /* Don't force grow too much */
-    max-width: 13rem;
-    z-index: 2;
-  }
-
-  .mascotBox {
-    flex: 0 1 clamp(7.5rem, 25vw, 10.5rem);
-    width: auto;
-    margin-left: -2.5rem; /* Reduced overlap for small mobile visibility */
-    z-index: 1;
-  }
-
-  .logoWrap {
-    padding: 0.65rem 0.65rem 0.25rem;
-
-    img {
-      max-width: clamp(5rem, 26vw, 7rem);
+    .homeSection {
+        padding: 5rem 1rem 3rem;
     }
-  }
 
-  .phoneBadge {
-    gap: 0.35rem;
-    padding: 0.65rem 0.4rem 0.75rem;
-  }
+    .heroWrapper {
+        animation: none;
+        
+        img {
+            transform: none;
+        }
+    }
 
-  .phoneNumber {
-    font-size: clamp(0.95rem, 4.5vw, 1.15rem);
-  }
+    .mascotWrapper {
+        width: 160px;
+        bottom: -40px;
+        right: -10px;
+    }
 
-  .star {
-    font-size: clamp(0.95rem, 4.5vw, 1.15rem);
-  }
+    .ctaCard, .ratingCard {
+        padding: 1.5rem;
+    }
 
-  .ratingImageBox img {
-    max-width: 9.375rem;
-  }
+    .callBadge {
+        gap: 1.25rem;
+    }
+
+    .logoWrap {
+        width: 100px;
+        height: 100px;
+    }
+
+    .phone {
+        font-size: clamp(1rem, 5vw, 1.4rem);
+        white-space: nowrap;
+    }
+
+    .tapToCall {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+    }
+
+    .bottomOverlay {
+        height: 80px;
+    }
 }
