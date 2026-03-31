@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Footer.module.scss";
 import Image from "../Shared/SmartImages";
 import Link from "next/link";
+import { FaFacebookF, FaInstagram, FaGoogle, FaTiktok, FaYoutube } from "react-icons/fa6";
 
 const Footer = () => {
   const [quickLinks, setQuickLinks] = useState([]);
@@ -81,41 +82,46 @@ const Footer = () => {
               href="https://www.facebook.com/DinoDoorsGarageDoors/"
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="Facebook"
           >
-            <Image
-                src="/images/link_images/f.png"
-                alt="Facebook"
-                className={styles.socialLink}
-                width={30}
-                height={30}
-            />
+            <FaFacebookF />
           </a>
           <a
               href="https://www.instagram.com/dinodoorsgaragedoors/"
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="Instagram"
           >
-            <Image
-                src="/images/link_images/IG.png"
-                alt="Instagram"
-                className={styles.socialLink}
-                width={30}
-                height={30}
-            />
+            <FaInstagram />
+          </a>
+          <a
+              href="https://www.tiktok.com/@dinodoors2024"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="TikTok"
+          >
+            <FaTiktok />
+          </a>
+          <a
+              href="https://www.youtube.com/@DinoDoorsGarageDoors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="YouTube"
+          >
+            <FaYoutube />
           </a>
           <a
               href="https://share.google/2QuDoeRfdBkV5nrvf"
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="Google"
           >
-            <Image
-                src="/images/link_images/G.png"
-                alt="Google"
-                className={styles.socialLink}
-                width={30}
-                height={30}
-
-            />
+            <FaGoogle />
           </a>
         </div>
 
@@ -180,7 +186,7 @@ const Footer = () => {
 
           <div className={styles.companyLogo}>
             <Image
-                src="/images/Dino_Doors_Logo_Full.png"
+                src="/images/Dino_Doors_Logo_Full.jpeg"
                 alt="Dino Doors Logo"
                 layout="fill"
                 objectFit="contain"

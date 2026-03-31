@@ -1,197 +1,367 @@
 @import '../../styles/variables.scss';
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 5vw;
-  background-color: $background1-color;
-  top: 0;
-  left: 0;
-  right: 0;
-  transition: all 0.3s ease-in-out;
-  height: 10vh;
   position: relative;
-  border-top: 0.1rem solid white;
-  border-bottom: 0.1rem solid white;
-  z-index: 500;
-}
-
-.sticky {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-}
+  background-color: #fffbef; // Cream/Off-white from variables
+  border-top: 6px solid #b71113; // Thick red stripe
+  border-bottom: 8px solid #041f4e; // Thick blue stripe
+  z-index: 10000;
+  transition: all 0.3s ease-in-out;
 
-.linksContainer {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
+  &.scrolled {
+    border-top: 3px solid #b71113;
+    border-bottom: 4px solid #041f4e;
 
-.navList {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
+    .container {
+      height: 70px;
+      
+      @media (max-width: 1100px) {
+        height: 60px;
+      }
+    }
 
-.navItem {
-  margin: 0 3vw;
-  position: relative;
-  cursor: pointer;
-}
+    .logo {
+      height: 60px;
+      transform: translateY(0);
+      background-color: transparent; // Reset on scroll if preferred, or keep
+      box-shadow: none;
+      padding: 0;
+      
+      @media (max-width: 1100px) {
+        height: 50px;
+      }
+      
+      @media (max-width: 480px) {
+        height: 40px;
+      }
+      
+      &:hover {
+        transform: translateY(0) scale(1.05);
+      }
+    }
 
-.navLink {
-  color: black;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background-color: $primary-color;
-    transition: width 0.3s ease;
-  }
-
-  &:hover {
-    color: $primary-color;
-    &::after {
-      width: 100%;
+    .navLinkWrapper {
+      height: 70px;
+      
+      @media (max-width: 1100px) {
+        height: 60px;
+      }
     }
   }
-}
-
-.navLinkSpecial {
-  color: $primary-color;
-  text-decoration: none;
-  font-size: 1.5rem;
-}
-
-.dropdownContent {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: $primary-color;
-  color: white;
-  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.2);
-  z-index: 999;
-  min-width: 16rem;
-  padding: 0.8rem 0;
-  border-radius: 0 0 12px 12px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dropdown:hover .dropdownContent,
-.showDropdown .dropdownContent {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdownItem {
-  display: block;
-  padding: 0.8rem 1.5rem;
-  color: white;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding-left: 1.8rem;
+  
+  // Thin white stripe under the red one
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: white;
+    z-index: 10001;
   }
 }
 
-.navButtonContainer {
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
-  justify-content: flex-end;
-  height: 50%;
-  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 110px; // Proportional height
+  transition: height 0.3s ease-in-out;
+  
+  @media (max-width: 1100px) {
+    height: 80px;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 1rem;
+  }
 }
 
-.navButton {
-  background-color: $secondary-color;
-  color: white;
-  border-radius: 1rem;
-  border: none;
-  padding: 1rem 3rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 1.2rem;
-  font-family: 'norwester';
+.logoSection {
+  flex: 0 0 200px;
+  display: flex;
+  align-items: center;
 
-  &:hover {
-    opacity: 0.8;
+  @media (max-width: 1100px) {
+    flex: 0 1 auto;
   }
 }
 
 .logo {
-  height: 12vh;
+  height: 160px;
   width: auto;
+  object-fit: contain;
+  transform: translateY(25px);
+  transition: all 0.3s ease-in-out;
+  z-index: 10005; // Ensure it's above the border
+  background-color: $background1-color;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  @media (max-width: 1100px) {
+    height: 110px;
+    transform: translateY(15px);
+  }
+
+  @media (max-width: 768px) {
+    height: 90px;
+    transform: translateY(10px);
+  }
+
+  @media (max-width: 480px) {
+    height: 70px;
+    transform: translateY(5px);
+  }
+  
+  &:hover {
+    transform: translateY(25px) scale(1.05);
+    
+    @media (max-width: 1100px) {
+      transform: translateY(15px) scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      transform: translateY(10px) scale(1.05);
+    }
+
+    @media (max-width: 480px) {
+      transform: translateY(5px) scale(1.05);
+    }
+  }
 }
 
-.logoContainer {
-  display: inline-block;
-  height: 10vh;
+.centerSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+  margin: 0;
   padding: 0;
-  line-height: 0;
+  color: #041f4e;
 }
 
-.mobileMenuToggle {
-  display: none;
+.navItem {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.hamburgerMenu {
+.navLinkWrapper {
+  display: flex;
+  align-items: center;
+  height: 110px; // Match container height to ensure large hover area
+  transition: height 0.3s ease-in-out;
+  
+  @media (max-width: 1100px) {
+    height: 80px;
+  }
+}
+
+.linkWithCarat {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navLink {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #b71113;
+  }
+}
+
+.carat {
+  margin-left: 4px;
+  font-size: 1rem;
+  color: #666;
+}
+
+.dropdown {
+  position: absolute;
+  top: 90%; // Overlap slightly with the nav link wrapper
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fffbef;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 0.75rem 0;
+  z-index: 10002;
+  border-top: 4px solid #b71113;
+  
+  // Bridge to prevent losing hover
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: transparent;
+  }
+  
+  &::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #b71113;
+  }
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #041f4e;
+    color: #fffbef;
+  }
+}
+
+.buttonSection {
+  flex: 0 0 250px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.callButton {
+  background-color: #b71113; // Dark red from image
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  white-space: nowrap; // Prevent phone number from wrapping
+  animation: pulseNavbarCall 4s infinite ease-in-out;
+
+  &:hover {
+    background-color: #900e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    animation: none;
+  }
+}
+
+@keyframes pulseNavbarCall {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.phoneIcon {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  color: white; // Explicitly white
+}
+
+/* Mobile Styling */
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
+}
+
+.mobileCallIcon {
+  background-color: #b71113;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  animation: pulseNavbarCall 4s infinite ease-in-out;
+
+  &::after {
+    content: "CALL NOW";
+    font-family: 'Montserrat', sans-serif;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.6rem;
+  }
+}
+
+.mobileToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.hamburger {
+  width: 30px;
+  height: 20px;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 2rem;
-  height: 1.4rem;
-  cursor: pointer;
-  position: relative;
+
+  span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #041f4e;
+    border-radius: 3px;
+    transition: all 0.3s;
+  }
 }
 
-.hamburgerLine {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-  transition: all 0.3s ease;
-  transform-origin: center;
-}
-
-.open {
-  .hamburgerLine {
-    background-color: $primary-color;
-    
-    &:nth-child(1) {
-      transform: translateY(0.6rem) rotate(45deg);
-    }
-    
-    &:nth-child(2) {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    
-    &:nth-child(3) {
-      transform: translateY(-0.6rem) rotate(-45deg);
-    }
+.hamburger.active {
+  span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  span:nth-child(2) {
+    opacity: 0;
+  }
+  span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
   }
 }
 
@@ -199,134 +369,75 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
-  background-color: $primary-color;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 1.5rem;
+  right: 0;
+  background-color: #fffbef;
   max-height: 0;
   overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.4s ease-in-out;
+  border-bottom: 2px solid #041f4e;
 }
 
 .mobileMenuOpen {
-  max-height: 100vh;
-  padding: 1.5rem;
-  opacity: 1;
-  visibility: visible;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
-.mobileNavList {
+.mobileNavLinks {
   list-style: none;
-  width: 100%;
-  padding: 0;
+  padding: 1.5rem;
   margin: 0;
 }
 
 .mobileNavItem {
-  margin: 1rem 0;
-  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .mobileNavLink {
-  color: white;
-  text-decoration: none;
   font-size: 1.4rem;
-  padding: 0.8rem 1.2rem;
-  display: block;
-  width: 100%;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-weight: 500;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-  }
-}
-
-.mobileDropdownItem {
-  padding: 0.6rem 0 0.6rem 2.5rem;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.8);
-  display: block;
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.05);
-    padding-left: 2.8rem;
-  }
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
 }
 
 .mobileDropdown {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0;
   max-height: 0;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.3s ease;
+  padding-left: 1rem;
 }
 
-.mobileDropdown.show {
-  max-height: 800px;
-  padding: 0.5rem 0 0.5rem 1rem;
+.showMobileDropdown {
+  max-height: 500px;
 }
 
-@media screen and (max-width: 1200px) {
-  .navItem {
-    margin: 0 2vw;
+.mobileDropdownItem {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+  color: #666;
+  text-decoration: none;
+}
+
+.mobileMenuCallButton {
+  display: block;
+  background-color: #b71113;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .navLinks {
+    gap: 1.5rem;
   }
-
   .navLink {
-    font-size: 1rem;
-  }
-
-  .navButton {
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .navItem {
-    display: none;
-  }
-
-  .linksContainer {
-    position: static;
-    transform: none;
-  }
-
-  .mobileMenuToggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 2vw;
-  }
-
-  .open .hamburgerMenu {
-    transform: rotate(90deg);
-  }
-
-  .navButton {
-    padding: 3vw 4vw;
-    font-size: 1rem;
-    margin: auto;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .navButton {
-    margin-right: 10vw;
+    font-size: 1.1rem;
   }
 }

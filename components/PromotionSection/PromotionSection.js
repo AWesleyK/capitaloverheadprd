@@ -49,7 +49,9 @@ const PromotionSection = () => {
 
   return (
     <section className={styles.promotionSection}>
-      <h1 className={styles.sectionTitle}>Dino Deals</h1>
+      <h1 className={styles.sectionTitle}>
+        Dino <span>Deals</span>
+      </h1>
       <div className={styles.carouselWrapper}>
         <Carousel
           autoPlay={autoplay}
@@ -80,7 +82,7 @@ const PromotionSection = () => {
         >
           {images.map((src, index) => (
             <div key={index} className={styles.slide}>
-              <a href={`tel:${PHONE_NUMBER}`}>
+              <a href={`tel:${PHONE_NUMBER}`} className={styles.slideLink}>
                 <img src={src} alt={`Promotion ${index + 1}`} />
               </a>
             </div>

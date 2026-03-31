@@ -5,7 +5,8 @@ import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 import ReviewsCarousel from '../ReviewsCarousel';
 
-const GOOGLE_REVIEWS_FALLBACK_URL = "https://www.google.com/search?sca_esv=2df7ce30d2edfc27&rlz=1C1VDKB_enUS940US940&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOQC5nFziusos4HBfs_oFulEqkn_aXPIa0xfM30L_CFEF6MDET2Q5fW-3eQcdCMLpsrJfHMksddKrsLuewTn6B3g2-CmC&q=Dino+Doors+Reviews&sa=X&ved=2ahUKEwi5xJKu896SAxWLkyYFHQBuKiEQ0bkNegQIOBAH&biw=1424&bih=911&dpr=1";
+const GOOGLE_REVIEWS_FALLBACK_URL =
+    "https://www.google.com/search?sca_esv=2df7ce30d2edfc27&rlz=1C1VDKB_enUS940US940&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOQC5nFziusos4HBfs_oFulEqkn_aXPIa0xfM30L_CFEF6MDET2Q5fW-3eQcdCMLpsrJfHMksddKrsLuewTn6B3g2-CmC&q=Dino+Doors+Reviews&sa=X&ved=2ahUKEwi5xJKu896SAxWLkyYFHQBuKiEQ0bkNegQIOBAH&biw=1424&bih=911&dpr=1";
 
 const HomeSection = () => {
   const phrases = [
@@ -28,7 +29,11 @@ const HomeSection = () => {
           setReviewData(data);
         } else {
           const errorData = await response.json().catch(() => ({}));
-          console.error('Failed to fetch reviews:', response.status, errorData.error_message || response.statusText);
+          console.error(
+              'Failed to fetch reviews:',
+              response.status,
+              errorData.error_message || response.statusText
+          );
         }
       } catch (error) {
         console.error('Error fetching reviews:', error);
@@ -51,62 +56,85 @@ const HomeSection = () => {
   }, []);
 
   return (
-    <section className={styles.homeSection}>
-      <div className={styles.container}>
-        {/* Tagline */}
-        <div className={styles.taglineBox}>
-          <div className={styles.innerTaglineBox}>
-            <p>Where Rural Meets Reliable!</p>
+      <section className={styles.homeSection}>
+        <div className={styles.container}>
+          {/* Hero Image Box */}
+          <div className={styles.heroImageBox}>
+            <Image
+                src="/images/HeroBox.png"
+                alt="Dino Doors Hero Graphic"
+                width={800}
+                height={448}
+            />
+          </div>
+
+          {/* Google Reviews Carousel or Fallback */}
+          <div className={styles.ratingImageBox}>
+            {!loadingReviews && reviewData?.reviews?.length > 0 ? (
+                <ReviewsCarousel
+                    reviews={reviewData.reviews}
+                    googleUrl={reviewData.url}
+                />
+            ) : (
+                !loadingReviews && (
+                    <a
+                        href={reviewData?.url || GOOGLE_REVIEWS_FALLBACK_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.reviewFallback}
+                    >
+                      {reviewData?.rating ? (
+                          <span>
+                    Rated {reviewData.rating}★ on Google ({reviewData.user_ratings_total} reviews)
+                  </span>
+                      ) : (
+                          <div className={styles.staticStars}>
+                            <span>★★★★★</span>
+                            <p>Top Rated on Google</p>
+                          </div>
+                      )}
+                    </a>
+                )
+            )}
+          </div>
+
+          {/* Cycling Phrase Box */}
+          <div className={styles.cyclingBox}>
+            <p className={fade ? styles.fadeOut : ''}>{phrases[currentPhraseIndex]}</p>
+          </div>
+
+          {/* Bottom-left Logo / Phone Box + Mascot */}
+          <div className={styles.logoMascotWrapper}>
+            <div className={styles.logoBox}>
+              <Link href="tel:4054560399">
+                <div className={styles.logoWrap}>
+                  <Image
+                      src="/images/Dino_Doors_Logo_No_bg.png"
+                      alt="Call Dino Doors"
+                      width={160}
+                      height={160}
+                  />
+                </div>
+
+                <div className={styles.phoneBadge}>
+                  <span className={styles.star}>★</span>
+                  <span className={styles.phoneNumber}>(405) 456-0399</span>
+                  <span className={styles.star}>★</span>
+                </div>
+              </Link>
+            </div>
+
+            <div className={styles.mascotBox}>
+              <Image
+                  src="/images/dino guy transparent background.png"
+                  alt="Dino Doors Mascot"
+                  width={250}
+                  height={375}
+              />
+            </div>
           </div>
         </div>
-
-        {/* Google Reviews Carousel or Fallback */}
-        <div className={styles.ratingImageBox}>
-          {!loadingReviews && reviewData?.reviews?.length > 0 ? (
-            <ReviewsCarousel
-              reviews={reviewData.reviews}
-              googleUrl={reviewData.url}
-            />
-          ) : (
-            !loadingReviews && (
-              <a 
-                href={reviewData?.url || GOOGLE_REVIEWS_FALLBACK_URL} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={styles.reviewFallback}
-              >
-                {reviewData?.rating ? (
-                  <span>Rated {reviewData.rating}★ on Google ({reviewData.user_ratings_total} reviews)</span>
-                ) : (
-                  <div className={styles.staticStars}>
-                    <span>★★★★★</span>
-                    <p>Top Rated on Google</p>
-                  </div>
-                )}
-              </a>
-            )
-          )}
-        </div>
-
-        {/* Cycling Phrase Box */}
-        <div className={styles.cyclingBox}>
-          <p className={fade ? 'fadeOut' : ''}>{phrases[currentPhraseIndex]}</p>
-        </div>
-
-        {/* Bottom-left Logo and Call Now */}
-        <div className={styles.logoBox}>
-          <Link href="tel:4054560399">
-            <Image
-              src="/images/Dino_Doors_Logo_Partial.png"
-              alt="Call Now Logo"
-              width={160}
-              height={160}
-            />
-            <div>Call Now!</div>
-          </Link>
-        </div>
-      </div>
-    </section>
+      </section>
   );
 };
 

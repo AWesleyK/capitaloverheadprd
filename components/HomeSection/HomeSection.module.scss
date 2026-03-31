@@ -20,10 +20,10 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(
-    to top,
-    rgba($primary-color, 1) 0%,
-    rgba($primary-color, 0.7) 30%,
-    rgba($primary-color, 0.3) 100%
+                  to top,
+                  rgba($primary-color, 1) 0%,
+                  rgba($primary-color, 0.7) 30%,
+                  rgba($primary-color, 0.3) 100%
   );
   z-index: 0;
 }
@@ -32,12 +32,12 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1400px;
+  max-width: 87.5rem;
   padding: clamp(1rem, 2.5vw, 2rem);
   display: grid;
   grid-template-areas:
-    ". tagline cycling"
-    "logo tagline cycling"
+    ". hero cycling"
+    "logoMascot hero cycling"
     ". rating cycling";
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   grid-template-rows: auto auto auto;
@@ -46,19 +46,95 @@
   margin: 0 auto;
 }
 
-.logoBox {
-  grid-area: logo;
-  background-color: $background1-color;
-  padding: 1rem;
-  border-radius: 10px;
-  text-align: center;
-  max-width: clamp(160px, 14vw, 240px);
-  color: $secondary-color;
-  font-family: 'Shrikhand';
-  font-size: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+/* NEW hero image replacing tagline box */
+.heroImageBox {
+  grid-area: hero;
+  justify-self: center;
+  width: 100%;
+  max-width: clamp(22rem, 55vw, 50rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.logoMascotWrapper {
+  grid-area: logoMascot;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
   align-self: end;
   justify-self: start;
+  position: relative;
+  /* Reduced gap to bring mascot closer */
+  gap: 0;
+}
+
+.logoBox {
+  background-color: $background1-color;
+  padding: 0.5rem 0.5rem 0.75rem;
+  border-radius: 1.125rem;
+  text-align: center;
+  max-width: clamp(11.25rem, 18vw, 16rem);
+  color: $secondary-color;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
+  border: 0.1875rem solid $secondary-color;
+  /* logoBox on top of mascot */
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+
+  &::after {
+        content: "TAP TO CALL";
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: $secondary-color;
+        color: white;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-family: 'norwester', sans-serif;
+        white-space: nowrap;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        z-index: 10;
+        border: 2px solid white;
+        pointer-events: none;
+        animation: badgeBounce 2s infinite ease-in-out;
+    }
+
+    &:hover {
+        transform: scale(1.05) rotate(-2deg);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-color: lighten($secondary-color, 10%);
+        
+        .logoWrap {
+            border-color: lighten($secondary-color, 10%);
+        }
+
+        .phoneBadge {
+            background-color: lighten($primary-color, 5%);
+            border-color: lighten($secondary-color, 10%);
+            color: white; // already white but good to ensure
+        }
+
+        &::after {
+            background: white;
+            color: $secondary-color;
+            border-color: $secondary-color;
+        }
+    }
+
+  /* Pulsing effect to draw attention */
+  animation: pulseLogo 3s infinite ease-in-out;
 
   a {
     display: flex;
@@ -67,59 +143,105 @@
     text-decoration: none;
     color: inherit;
     width: 100%;
+    gap: 0;
   }
 }
 
-.logoBox img {
+@keyframes pulseLogo {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.02) rotate(1deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes badgeBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.logoWrap {
   width: 100%;
-  height: auto;
-  user-select: none;
-  margin-bottom: 0.5rem;
+  border: 0.1875rem solid $secondary-color;
+  border-bottom: none;
+  border-radius: 0.875rem 0.875rem 0 0;
+  background-color: $background1-color;
+  padding: 0.75rem 0.75rem 0.35rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: auto;
+    user-select: none;
+    display: block;
+    max-width: 10rem;
+  }
 }
 
-.taglineBox {
-  grid-area: tagline;
-  text-align: center;
-  font-family: 'Shrikhand';
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  text-shadow: -1px -1px 0 $secondary-color, 2px -2px 0 $secondary-color, -2px 2px 0 $secondary-color, 2px 2px 0 $secondary-color;
-  //text-shadow: -1px -1px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
-  user-select: none;
-  padding: 1rem;
+.phoneBadge {
+  width: 100%;
+  border: 0.1875rem solid $secondary-color;
+  border-top: none;
+  border-radius: 0 0 0.875rem 0.875rem;
   background-color: $primary-color;
-  //color: $secondary-color;
   color: white;
-  border-radius: 10px;
-  border: 5px solid $secondary-color;
-  max-width: 500px;
-  justify-self: center;
+  font-family: 'norwester', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.5rem 0.8rem;
+  line-height: 1;
 }
 
-.innerTaglineBox {
-  border: 5px solid $secondary-color;
-  border-radius: 10px;
-  padding: 0.5rem;
-  margin: 1rem;
+.phoneNumber {
+  font-size: clamp(1rem, 1.3vw, 1.3rem);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.star {
+  color: #d4af37;
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  line-height: 1;
+}
+
+.mascotBox {
+  width: clamp(8rem, 20vw, 17rem);
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+  /* Mascot behind logoBox and closer */
+  z-index: 1;
+  margin-left: -8.5rem; /* Increased overlap to stay clear of HeroBox */
+  margin-bottom: -1rem; /* Adjust if needed to sit on "bottom" */
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+  }
 }
 
 .ratingImageBox {
   grid-area: rating;
   text-align: center;
   padding: 1rem;
-  background-color: transparent; // Carousel has its own background
+  background-color: transparent;
   color: $secondary-color;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 26rem;
   justify-self: center;
-  min-height: 310px; // Matches Carousel min-height (270px) + padding
+  min-height: 19.5rem;
 }
 
 .reviewFallback {
   background-color: $background1-color;
   padding: 1rem;
-  border-radius: 10px;
-  border: 3px solid $secondary-color;
+  border-radius: 0.625rem;
+  border: 0.1875rem solid $secondary-color;
   font-family: 'norwester', sans-serif;
   display: block;
   text-decoration: none;
@@ -127,17 +249,19 @@
   font-weight: bold;
   font-size: 1.1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+
     span {
       text-decoration: underline;
     }
+
     .staticStars span {
       text-decoration: none;
     }
+
     p {
       text-decoration: underline;
     }
@@ -150,6 +274,7 @@
     font-size: 1.5rem;
     display: block;
   }
+
   p {
     margin: 0.25rem 0 0;
     font-weight: bold;
@@ -164,12 +289,11 @@
   color: $secondary-color;
   font-family: 'norwester';
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   width: 100%;
-  max-width: clamp(280px, 28vw, 420px);
-  //justify-self: end;
+  max-width: clamp(17.5rem, 30vw, 26rem);
   align-self: start;
-  border: 3px solid $secondary-color;
+  border: 0.1875rem solid $secondary-color;
 }
 
 .cyclingBox p {
@@ -177,63 +301,86 @@
   transition: opacity 0.6s ease-in-out;
 }
 
-.cyclingBox p.fadeOut {
+.fadeOut {
   opacity: 0;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 75em) {
   .container {
     grid-template-columns: minmax(0, 0.8fr) auto minmax(0, 1fr);
   }
 
-  .taglineBox {
-    max-width: 560px;
+  .heroImageBox {
+    max-width: clamp(20rem, 55vw, 45rem);
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 64em) {
   .container {
     grid-template-areas:
-      "tagline"
+      "hero"
       "rating"
       "cycling"
-      "logo";
+      "logoMascot";
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     justify-items: center;
   }
 
+  .logoMascotWrapper {
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+    max-width: min(95%, 45rem);
+    display: flex;
+    align-items: flex-end;
+    gap: 0; /* Reduced for mobile too */
+    margin-top: 1rem;
+    position: relative;
+  }
+
   .cyclingBox,
-  .taglineBox,
-  .ratingImageBox,
-  .logoBox {
-    max-width: min(90%, 520px);
+  .heroImageBox,
+  .ratingImageBox {
+    max-width: min(90%, 45rem); /* Slightly smaller to prevent overcrowding */
     justify-self: center;
-    min-height: auto; // Reset min-height for mobile if needed, but carousel is smaller there
+    min-height: auto;
   }
 
   .logoBox {
-    align-self: center;
+    width: auto;
+    max-width: clamp(10rem, 40vw, 15rem); /* Slightly smaller */
+    z-index: 2;
+    animation: none; // Disable pulse on smaller screens to prevent distraction
 
     a {
-      flex-direction: row;
-      justify-content: center;
-      gap: clamp(1rem, 3vw, 2rem);
+      flex-direction: column;
+      gap: 0;
     }
+  }
 
+  .mascotBox {
+    width: clamp(8rem, 25vw, 13rem); /* Slightly larger for visibility */
+    margin-left: -3.5rem; /* Reduced overlap to show more mascot */
+    z-index: 1;
+  }
+
+  .logoWrap {
     img {
-      width: auto;
-      height: clamp(60px, 10vw, 100px);
-      margin-bottom: 0;
+      max-width: clamp(5.625rem, 18vw, 8.125rem);
     }
+  }
 
-    div {
-      font-size: clamp(1.5rem, 5vw, 2.25rem);
-    }
+  .phoneNumber {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+  }
+
+  .star {
+    font-size: clamp(1rem, 4.2vw, 1.4rem);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48em) {
   .homeSection {
     min-height: auto;
     padding: 2rem 0;
@@ -244,39 +391,65 @@
     gap: 1rem;
   }
 
-  .taglineBox {
-    font-size: clamp(1.25rem, 5.5vw, 1.75rem);
-  }
-
   .cyclingBox,
-  .taglineBox,
-  .logoBox {
+  .heroImageBox {
     width: 100%;
-    max-width: min(90%, 400px);
+    max-width: min(95%, 35rem);
     min-height: auto;
     align-self: center;
     text-align: center;
     margin: 0.5rem auto 0 auto;
   }
 
+  .logoMascotWrapper {
+    width: 100%;
+    max-width: min(95%, 35rem);
+    align-self: center;
+    margin: 0.5rem auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0;
+    position: relative;
+  }
+
   .logoBox {
     position: static;
+    width: auto;
+    flex: 0 1 auto; /* Don't force grow too much */
+    max-width: 13rem;
+    z-index: 2;
+  }
 
-    a {
-      gap: 0.75rem;
-    }
+  .mascotBox {
+    flex: 0 1 clamp(7.5rem, 25vw, 10.5rem);
+    width: auto;
+    margin-left: -2.5rem; /* Reduced overlap for small mobile visibility */
+    z-index: 1;
+  }
+
+  .logoWrap {
+    padding: 0.65rem 0.65rem 0.25rem;
 
     img {
-      height: clamp(50px, 12vw, 70px);
+      max-width: clamp(5rem, 26vw, 7rem);
     }
+  }
 
-    div {
-      font-size: clamp(1.25rem, 5vw, 1.75rem);
-    }
+  .phoneBadge {
+    gap: 0.35rem;
+    padding: 0.65rem 0.4rem 0.75rem;
+  }
+
+  .phoneNumber {
+    font-size: clamp(0.95rem, 4.5vw, 1.15rem);
+  }
+
+  .star {
+    font-size: clamp(0.95rem, 4.5vw, 1.15rem);
   }
 
   .ratingImageBox img {
-    max-width: 150px;
+    max-width: 9.375rem;
   }
 }
-

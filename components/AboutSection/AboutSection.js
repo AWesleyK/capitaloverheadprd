@@ -6,13 +6,19 @@ import Link from 'next/link';
 import Image from '../Shared/SmartImages';
 
 const AboutSection = () => {
-  const images = [];
-
   return (
     <section className={styles.aboutSection}>
       <div className={styles.content}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/images/family.jpg"
+            alt="Dino Doors Family"
+            width={600}
+            height={400}
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
         <div className={styles.taglineContainer}>
-          <div className={styles.taglineBorder}></div>
           <h2 className={styles.tagline}>About Us</h2>
           <p className={styles.catchphrase}>
             At Dino Doors we take pride in being your local garage door and automatic gate repair and installation provider. 
@@ -23,7 +29,7 @@ const AboutSection = () => {
             Serving the Garvin County and surrounding areas with a smile! 
           </p>
           <Link href="/about/core-values">
-            <span className={styles.learnMore}>Core Values</span>
+            <span className={styles.learnMore}>Our Core Values</span>
           </Link>
         </div>
       </div>
