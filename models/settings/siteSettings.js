@@ -13,6 +13,10 @@ const SiteSettingsSchema = new mongoose.Schema(
     phoneDisplay: { type: String },   // pretty format for UI
     addressLine1: { type: String },
     addressLine2: { type: String },
+    facebookPercentageRecommended: { type: Number, min: 0, max: 100 },
+    facebookReviewCount: { type: Number, min: 0 },
+    facebookReviewsUrl: { type: String },
+    facebookReviewLabel: { type: String },
   },
   { timestamps: true }
 );

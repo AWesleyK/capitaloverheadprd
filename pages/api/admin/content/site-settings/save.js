@@ -17,12 +17,45 @@ export default async function handler(req, res) {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    const { email, phone, addressLine1, addressLine2 } = req.body || {};
+    const {
+      email,
+      phone,
+      addressLine1,
+      addressLine2,
+      facebookPercentageRecommended,
+      facebookReviewCount,
+      facebookReviewsUrl,
+      facebookReviewLabel,
+    } = req.body || {};
 
     // Validate phone is exactly 10 digits
     if (!/^\d{10}$/.test(phone)) {
       return res.status(400).json({
         error: "Phone number must be exactly 10 digits (numbers only).",
+      });
+    }
+
+    // Facebook fields validation
+    if (
+      facebookPercentageRecommended !== undefined &&
+      (facebookPercentageRecommended < 0 || facebookPercentageRecommended > 100)
+    ) {
+      return res.status(400).json({
+        error: "Facebook recommendation percentage must be between 0 and 100.",
+      });
+    }
+    if (
+      facebookReviewCount !== undefined &&
+      (facebookReviewCount < 0 || !Number.isInteger(Number(facebookReviewCount)))
+    ) {
+      return res.status(400).json({
+        error: "Facebook review count must be a non-negative integer.",
+      });
+    }
+    if (facebookReviewsUrl && !/^https?:\/\/.+/.test(facebookReviewsUrl)) {
+      return res.status(400).json({
+        error:
+          "Facebook reviews URL must be a valid URL starting with http:// or https://.",
       });
     }
 
@@ -38,6 +71,10 @@ export default async function handler(req, res) {
           phoneDisplay,
           addressLine1: addressLine1 || "",
           addressLine2: addressLine2 || "",
+          facebookPercentageRecommended: Number(facebookPercentageRecommended) || 0,
+          facebookReviewCount: Number(facebookReviewCount) || 0,
+          facebookReviewsUrl: facebookReviewsUrl || "",
+          facebookReviewLabel: facebookReviewLabel || "",
         },
       },
       {

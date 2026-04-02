@@ -219,6 +219,64 @@
   }
 }
 
+.facebookSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding-top: 1rem;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 250px;
+
+  .fbIcon {
+    color: #1877f2;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    filter: drop-shadow(0 0 5px rgba(#1877f2, 0.3));
+  }
+
+  .fbRatingText {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 700;
+  }
+
+  .fbLink {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    &:hover {
+      background: #1877f2;
+      border-color: #1877f2;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(#1877f2, 0.4);
+      text-decoration: none;
+    }
+
+    svg {
+      font-size: 0.7rem;
+    }
+  }
+}
+
 .marqueeSection {
   width: 100%;
   margin-top: 2rem;
