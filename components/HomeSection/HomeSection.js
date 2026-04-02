@@ -4,12 +4,12 @@ import styles from './HomeSection.module.scss';
 import Image from '../Shared/SmartImages';
 import Link from 'next/link';
 import ReviewsMarquee from '../ReviewsMarquee';
-import { FaExternalLinkAlt } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaFacebook } from 'react-icons/fa';
 
 const GOOGLE_REVIEWS_FALLBACK_URL =
     "https://www.google.com/search?sca_esv=2df7ce30d2edfc27&rlz=1C1VDKB_enUS940US940&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOQC5nFziusos4HBfs_oFulEqkn_aXPIa0xfM30L_CFEF6MDET2Q5fW-3eQcdCMLpsrJfHMksddKrsLuewTn6B3g2-CmC&q=Dino+Doors+Reviews&sa=X&ved=2ahUKEwi5xJKu896SAxWLkyYFHQBuKiEQ0bkNegQIOBAH&biw=1424&bih=911&dpr=1";
 
-const HomeSection = ({ reviews, stats }) => {
+const HomeSection = ({ reviews, stats, siteSettings }) => {
   return (
       <section className={styles.homeSection}>
         {/* Background Decorative Elements */}
@@ -65,6 +65,27 @@ const HomeSection = ({ reviews, stats }) => {
                       <span className={styles.ratingText}>
                         {stats.averageRating}/5 Google Rating ({stats.totalReviewCount} Reviews)
                       </span>
+                    </div>
+                  )}
+
+                  {siteSettings?.facebookPercentageRecommended > 0 && (
+                    <div className={styles.facebookSummary}>
+                      <div className={styles.fbIcon}>
+                        <FaFacebook />
+                      </div>
+                      <span className={styles.fbRatingText}>
+                        {siteSettings.facebookPercentageRecommended}% Recommend ({siteSettings.facebookReviewCount} Reviews)
+                      </span>
+                      {siteSettings.facebookReviewsUrl && (
+                        <a
+                          href={siteSettings.facebookReviewsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.fbLink}
+                        >
+                          {siteSettings.facebookReviewLabel || "View Facebook Reviews"} <FaExternalLinkAlt />
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>

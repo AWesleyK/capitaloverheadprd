@@ -1,5 +1,7 @@
 // /pages/index.js
 import React from 'react';
+import dbConnect from '../lib/mongoose';
+import SiteSettings from '../models/settings/siteSettings';
 import { googleReviewClient } from '../lib/GoogleReviewAPi';
 import HomeSection from '../components/HomeSection/HomeSection';
 import AboutSection from '../components/AboutSection/AboutSection';
@@ -70,8 +72,15 @@ function mapGbpReview(gbpReview) {
 export async function getStaticProps() {
   let reviews = [];
   let stats = null;
+  let siteSettings = null;
 
   try {
+    await dbConnect();
+    const settingsDoc = await SiteSettings.findOne({ key: "siteSettings" }).lean();
+    if (settingsDoc) {
+      siteSettings = JSON.parse(JSON.stringify(settingsDoc));
+    }
+
     const title = "Dino Doors";
     const reviewResult = await googleReviewClient.getReviewsByTitle(title);
     
@@ -97,16 +106,17 @@ export async function getStaticProps() {
       faqs: navData.faqs || [],
       reviews,
       stats,
+      siteSettings,
     },
     revalidate: 86400, // Revalidate daily
   };
 }
 
-const HomePage = ({ faqs, reviews, stats }) => {
+const HomePage = ({ faqs, reviews, stats, siteSettings }) => {
   return (
     <>
       <div id="home">
-        <HomeSection reviews={reviews} stats={stats} />
+        <HomeSection reviews={reviews} stats={stats} siteSettings={siteSettings} />
       </div>
       <div>
         <ContactSection />
