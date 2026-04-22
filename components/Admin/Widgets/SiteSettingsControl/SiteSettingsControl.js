@@ -8,6 +8,10 @@ export default function SiteSettingsControl({ disabled = false }) {
     phoneDisplay: "",
     addressLine1: "",
     addressLine2: "",
+    facebookPercentageRecommended: "",
+    facebookReviewCount: "",
+    facebookReviewsUrl: "",
+    facebookReviewLabel: "",
   });
   const [loading, setLoading] = useState(true);
   const [saveMessage, setSaveMessage] = useState("");
@@ -26,6 +30,10 @@ export default function SiteSettingsControl({ disabled = false }) {
               phoneDisplay: data.phoneDisplay || "",
               addressLine1: data.addressLine1 || "",
               addressLine2: data.addressLine2 || "",
+              facebookPercentageRecommended: data.facebookPercentageRecommended ?? "",
+              facebookReviewCount: data.facebookReviewCount ?? "",
+              facebookReviewsUrl: data.facebookReviewsUrl || "",
+              facebookReviewLabel: data.facebookReviewLabel || "",
             });
           }
         } else {
@@ -124,6 +132,59 @@ export default function SiteSettingsControl({ disabled = false }) {
           placeholder="Elmore City, OK 73433"
           value={form.addressLine2}
           onChange={(e) => handleChange("addressLine2", e.target.value)}
+          disabled={disabled}
+        />
+      </div>
+
+      <hr className={styles.divider} />
+      <h3 className={styles.sectionTitle}>Facebook Reviews</h3>
+
+      <div className={styles.fieldRow}>
+        <div className={styles.field}>
+          <label>Facebook Recommendation %</label>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            placeholder="96"
+            value={form.facebookPercentageRecommended}
+            onChange={(e) =>
+              handleChange("facebookPercentageRecommended", e.target.value)
+            }
+            disabled={disabled}
+          />
+        </div>
+        <div className={styles.field}>
+          <label>Facebook Review Count</label>
+          <input
+            type="number"
+            min="0"
+            placeholder="36"
+            value={form.facebookReviewCount}
+            onChange={(e) => handleChange("facebookReviewCount", e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+      </div>
+
+      <div className={styles.field}>
+        <label>Facebook Reviews URL</label>
+        <input
+          type="text"
+          placeholder="https://www.facebook.com/..."
+          value={form.facebookReviewsUrl}
+          onChange={(e) => handleChange("facebookReviewsUrl", e.target.value)}
+          disabled={disabled}
+        />
+      </div>
+
+      <div className={styles.field}>
+        <label>Facebook Review Label (optional)</label>
+        <input
+          type="text"
+          placeholder="View Facebook Reviews"
+          value={form.facebookReviewLabel}
+          onChange={(e) => handleChange("facebookReviewLabel", e.target.value)}
           disabled={disabled}
         />
       </div>
