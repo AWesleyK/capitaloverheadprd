@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './FAQSection.module.scss';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { marked } from 'marked';
 
-const FAQSection = ({ initialFaqs = [] }) => {
+const FAQSection = ({ initialFaqs = [], limit }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [faqs, setFaqs] = useState(initialFaqs);
   const [loading, setLoading] = useState(initialFaqs.length === 0);
@@ -36,6 +37,8 @@ const FAQSection = ({ initialFaqs = [] }) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  const displayFaqs = limit ? faqs.slice(0, limit) : faqs;
+
   if (loading) return null;
   if (faqs.length === 0) return null;
 
@@ -44,7 +47,7 @@ const FAQSection = ({ initialFaqs = [] }) => {
       <div className={styles.container}>
         <h2 className={styles.heading}>Frequently Asked Questions</h2>
         <div className={styles.faqList}>
-          {faqs.map((faq, index) => (
+          {displayFaqs.map((faq, index) => (
             <div 
               key={index} 
               className={`${styles.faqItem} ${activeIndex === index ? styles.active : ''}`}
@@ -65,6 +68,13 @@ const FAQSection = ({ initialFaqs = [] }) => {
             </div>
           ))}
         </div>
+        {limit && faqs.length > limit && (
+          <div className={styles.viewAllWrapper}>
+            <Link href="/about/faq" className={styles.viewAllButton}>
+              View All FAQs
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

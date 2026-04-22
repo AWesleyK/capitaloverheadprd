@@ -121,7 +121,7 @@ const HomePage = ({ faqs, reviews, stats }) => {
         <ServicesSection />
       </div>
       <div id="faq">
-        <FAQSection initialFaqs={faqs} />
+        <FAQSection initialFaqs={faqs} limit={3} />
       </div>
       <div id="service-area">
         <ServiceArea 

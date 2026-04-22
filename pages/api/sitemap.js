@@ -1,5 +1,6 @@
 import clientPromise from "../../lib/mongodb";
 import { CITY_LIST, normalizeCity } from "../../lib/cities";
+import cityServiceData from "../../data/dinodoors-city-service-pages.json";
 
 const DOMAIN = process.env.NEXT_PUBLIC_SITE_URL || "https://dinodoors.net";
 
@@ -41,6 +42,7 @@ export default async function handler(req, res) {
       { route: "services/service-area", lastmod: today },
       { route: "about/blogs", lastmod: today },
       { route: "about/core-values", lastmod: today },
+      { route: "about/faq", lastmod: today },
     ];
 
     // 2. Service Routes
@@ -49,10 +51,21 @@ export default async function handler(req, res) {
       lastmod: getNewestDate([s.createdAt, s.modifiedAt])
     }));
 
-    // 3. Service Area Routes (from CITY_LIST)
-    const serviceAreaRoutes = CITY_LIST.map((city) => ({
-      route: `service-area/${normalizeCity(city)}`,
-      lastmod: today
+    // 3. Service Area Routes (from cityServiceData or CITY_LIST fallback)
+    const serviceAreaRoutes = (cityServiceData.cityHubs && cityServiceData.cityHubs.length > 0)
+      ? cityServiceData.cityHubs.map((hub) => ({
+          route: `service-area/${hub.citySlug.replace(/-ok$/, '')}`,
+          lastmod: (cityServiceData.generatedAt || today).split("T")[0]
+        }))
+      : CITY_LIST.map((city) => ({
+          route: `service-area/${normalizeCity(city)}`,
+          lastmod: today
+        }));
+
+    // 3.1. City Service Routes (from JSON)
+    const cityServiceRoutes = (cityServiceData.cityServicePages || []).map(page => ({
+      route: `service-area/${page.citySlug.replace(/-ok$/, '')}/${page.serviceSlug}`,
+      lastmod: (cityServiceData.generatedAt || today).split("T")[0]
     }));
 
     // 4. Catalog Item Routes
@@ -80,6 +93,7 @@ export default async function handler(req, res) {
       ...staticRoutes,
       ...serviceRoutes,
       ...serviceAreaRoutes,
+      ...cityServiceRoutes,
       ...catalogTypeRoutes,
       ...catalogItemRoutes,
       ...blogRoutes,

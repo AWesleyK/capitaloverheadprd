@@ -6,6 +6,8 @@ import styles from "../../styles/pageStyles/ServicesSlug.module.scss";
 import { FaCheckCircle, FaPhoneAlt, FaTools, FaShieldAlt } from "react-icons/fa";
 import Link from "next/link";
 import navData from "../../data/nav-data.json";
+import { getCityServicePagesForService, formatCitySlugForUrl } from "../../lib/cityServiceData";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 export async function getStaticPaths() {
   const paths = navData.services.map(service => ({
@@ -20,14 +22,21 @@ export async function getStaticProps({ params }) {
   const db = client.db("garage_catalog");
   const service = await db.collection("services").findOne({ slug: params.slug });
 
+  const cityServicePages = getCityServicePagesForService(params.slug).map(page => ({
+    cityName: page.cityName,
+    citySlug: formatCitySlugForUrl(page.citySlug),
+    serviceSlug: page.serviceSlug
+  }));
+
   return {
     props: {
-      service: JSON.parse(JSON.stringify(service))
+      service: JSON.parse(JSON.stringify(service)),
+      cityServicePages
     }
   };
 }
 
-export default function ServicePage({ service }) {
+export default function ServicePage({ service, cityServicePages }) {
   return (
     <>
       <Head>
@@ -109,6 +118,46 @@ export default function ServicePage({ service }) {
               </div>
             </aside>
           </div>
+
+          {cityServicePages && cityServicePages.length > 0 && (
+            <section className={styles.areasServedSection} style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+              <h2 className={styles.sectionTitle}>Areas We Serve for {service.name}</h2>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
+                gap: '1rem',
+                marginTop: '1.5rem'
+              }}>
+                {cityServicePages.map((page, index) => (
+                  <Link 
+                    key={index} 
+                    href={`/service-area/${page.citySlug}/${page.serviceSlug}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '1rem',
+                      background: '#f8f9fa',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      color: '#333',
+                      fontWeight: '600',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#bf0a30';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#f8f9fa';
+                      e.currentTarget.style.color = '#333';
+                    }}
+                  >
+                    <FaMapMarkerAlt style={{ marginRight: '8px' }} /> {page.cityName}, OK
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           <div className={styles.bottomCta}>
             <div className={styles.ctaBox}>

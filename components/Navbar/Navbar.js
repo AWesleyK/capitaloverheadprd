@@ -63,6 +63,7 @@ const Navbar = ({ services = [], catalogTypes = [] }) => {
         { name: "Meet the Owner", href: "/about" },
         { name: "Core Values", href: "/about/core-values" },
         { name: "Blog", href: "/about/blogs" },
+        { name: "FAQ", href: "/about/faq" },
       ]
     },
     { 

@@ -250,14 +250,76 @@
 }
 
 /* Variant Classes */
+.variant_0 {
+  // Default - Red/Navy
+  .card { border-left-color: $primary-color; }
+}
+
 .variant_1 {
   .section h2 { border-bottom-color: $primary-color; }
-  .card { border-left-color: $secondary-color; }
+  .card { 
+    border-left: none;
+    border-top: 5px solid $secondary-color;
+    border-radius: 15px;
+  }
 }
 
 .variant_2 {
-  .wrapper { background-color: #fafafa; }
-  .card { background-color: $background1-color; }
+  background-color: #f8f9fa;
+  .card { 
+    background-color: #fff;
+    border-left-color: #333;
+  }
+  .ctaBox {
+    background: linear-gradient(135deg, #333 0%, #000 100%);
+  }
+}
+
+.variant_3 {
+  .header .title { color: $secondary-color; }
+  .section h2 { 
+    border-bottom: none;
+    background: $primary-color;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+  }
+  .card {
+    border: 2px solid $primary-color;
+    border-left-width: 2px;
+  }
+}
+
+/* Animations */
+.animateOnScroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+  &.isVisible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 600px) {

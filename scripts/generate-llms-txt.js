@@ -42,6 +42,7 @@ async function generateLlmsTxt() {
   content += "## About Dino Doors\n\n";
   content += "Dino Doors Garage Doors and More is a family-owned and operated small company based in the heart of Oklahoma. Founded in 2019 by Jonathan Gruszka, we offer rural communities honest, dependable garage door and gate service. Our vision is to provide high-quality solutions with integrity and heart. Our physical location is in the heart of Elmore City.\n\n";
   content += "### Our Core Values\n\n";
+  content += "Full details: /about/core-values\n\n";
   content += "- **Expertise**: With years of experience, our skilled technicians handle everything from simple repairs to complex installations.\n";
   content += "- **Customer Focus**: We prioritize our customers' needs and ensure they are satisfied with every job.\n";
   content += "- **Quality Assurance**: We use high-quality parts and stand behind our work with warranties you can count on.\n";
@@ -60,6 +61,18 @@ async function generateLlmsTxt() {
 
   // 2. Product Catalog
   console.log("Fetching catalog...");
+
+  // Load city-service pages data
+  const cityServicePagesPath = path.join(__dirname, "../data/dinodoors-city-service-pages.json");
+  let cityServicePagesData = { cityHubs: [], cityServicePages: [] };
+  if (fs.existsSync(cityServicePagesPath)) {
+    try {
+      cityServicePagesData = JSON.parse(fs.readFileSync(cityServicePagesPath, "utf8"));
+    } catch (err) {
+      console.error("⚠️ Failed to parse city-service pages data:", err.message);
+    }
+  }
+
   const catalogTypes = await db.collection("catalogTypes").find({}).toArray();
   const catalogItems = await db.collection("catalogItems").find({}).toArray();
   
@@ -89,10 +102,29 @@ async function generateLlmsTxt() {
   content += "## Our Service Areas\n\n";
   content += "Dino Doors provides expert garage door repair and installation across southern and central Oklahoma. We serve both residential and commercial properties.\n\n";
   content += "Main Service Area Page: /services/service-area\n\n";
-  content += "### Cities We Serve:\n";
-  for (const city of CITY_LIST) {
-    const slug = normalizeCity(city);
-    content += `- ${city} (Slug: /service-area/${slug})\n`;
+  content += "### Cities and Local Service Pages:\n";
+
+  if (cityServicePagesData.cityHubs.length > 0) {
+    for (const hub of cityServicePagesData.cityHubs) {
+      const cityUrlSlug = hub.citySlug.replace(/-ok$/, '');
+      content += `#### ${hub.cityName}, OK\n`;
+      content += `Slug: /service-area/${cityUrlSlug}\n`;
+      content += `${hub.intro || ""}\n\n`;
+
+      const cityServices = cityServicePagesData.cityServicePages.filter(p => p.citySlug === hub.citySlug);
+      if (cityServices.length > 0) {
+        content += `Local services in ${hub.cityName}:\n`;
+        for (const cs of cityServices) {
+          content += `- ${cs.serviceName}: /service-area/${cityUrlSlug}/${cs.serviceSlug}\n`;
+        }
+        content += "\n";
+      }
+    }
+  } else {
+    for (const city of CITY_LIST) {
+      const slug = normalizeCity(city);
+      content += `- ${city} (Slug: /service-area/${slug})\n`;
+    }
   }
   content += "\n";
 
@@ -119,6 +151,7 @@ async function generateLlmsTxt() {
   const faqs = await db.collection("faqs").find({}).sort({ order: 1 }).toArray();
   if (faqs.length > 0) {
     content += "## Frequently Asked Questions\n\n";
+    content += "Main FAQ page: /about/faq\n\n";
     for (const faq of faqs) {
       content += `### ${faq.question}\n`;
       content += `${stripHtml(faq.answer)}\n\n`;

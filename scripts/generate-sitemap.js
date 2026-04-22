@@ -48,11 +48,22 @@ async function generateSitemap() {
     db.collection("blogs")
         .find(
             { isPublished: true, publishDate: { $lte: new Date() } },
-            { projection: { slug: 1, createdAt: 1, updatedAt: 1 } }
+            { projection: { slug: 1, createdAt: 1, updatedAt: 1, publishDate: 1 } }
         )
         .toArray(),
     db.collection("catalogTypes").find({}, { projection: { type: 1, createdAt: 1, updatedAt: 1 } }).toArray(),
   ]);
+
+  // Load city-service pages data
+  const cityServicePagesPath = path.join(__dirname, "../data/dinodoors-city-service-pages.json");
+  let cityServicePagesData = { cityHubs: [], cityServicePages: [], generatedAt: today };
+  try {
+    if (fs.existsSync(cityServicePagesPath)) {
+      cityServicePagesData = JSON.parse(fs.readFileSync(cityServicePagesPath, "utf8"));
+    }
+  } catch (err) {
+    console.error("⚠️ Failed to load city-service pages for sitemap:", err.message);
+  }
 
   // Determine which catalog types are used
   const usedTypes = new Set(catalogItems.map((item) => item.type));
@@ -65,6 +76,7 @@ async function generateSitemap() {
     "services/service-area",
     "about/blogs",
     "about/core-values",
+    "about/faq",
   ].map(route => ({ route, lastmod: today }));
 
   // Dynamic routes
@@ -73,9 +85,19 @@ async function generateSitemap() {
     lastmod: getNewestDate([s.createdAt, s.modifiedAt])
   }));
 
-  const serviceAreaRoutes = CITY_LIST.map((city) => ({
-    route: `service-area/${normalizeCity(city)}`,
-    lastmod: today
+  const serviceAreaRoutes = cityServicePagesData.cityHubs.length > 0 
+    ? cityServicePagesData.cityHubs.map((hub) => ({
+        route: `service-area/${hub.citySlug.replace(/-ok$/, '')}`,
+        lastmod: (cityServicePagesData.generatedAt || today).split("T")[0]
+      }))
+    : CITY_LIST.map((city) => ({
+        route: `service-area/${normalizeCity(city)}`,
+        lastmod: today
+      }));
+
+  const cityServiceRoutes = cityServicePagesData.cityServicePages.map(page => ({
+    route: `service-area/${page.citySlug.replace(/-ok$/, '')}/${page.serviceSlug}`,
+    lastmod: (cityServicePagesData.generatedAt || today).split("T")[0]
   }));
 
   const catalogItemRoutes = catalogItems.map((c) => ({
@@ -85,7 +107,7 @@ async function generateSitemap() {
 
   const blogRoutes = blogs.map((b) => ({
     route: `about/blogs/${b.slug}`,
-    lastmod: getNewestDate([b.createdAt, b.updatedAt])
+    lastmod: getNewestDate([b.createdAt, b.updatedAt, b.publishDate])
   }));
 
   // Use encodeURIComponent for safety (spaces, special chars, etc.)
@@ -100,6 +122,7 @@ async function generateSitemap() {
     ...staticRoutes,
     ...serviceRoutes,
     ...serviceAreaRoutes,
+    ...cityServiceRoutes,
     ...catalogTypeRoutes,
     ...catalogItemRoutes,
     ...blogRoutes,
