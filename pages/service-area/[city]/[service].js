@@ -219,7 +219,7 @@ export default function CityServicePage({ pageData, cityHub }) {
             <Link href={`/service-area/${formatCitySlugForUrl(pageData.citySlug)}`} className={styles.serviceLink}>
               <FaMapMarkerAlt style={{ marginRight: '8px' }} /> {pageData.cityName} Hub
             </Link>
-            <Link href={internalLinks.parentServicePath} className={styles.serviceLink}>
+            <Link href={fixInternalPath(internalLinks.parentServicePath)} className={styles.serviceLink}>
               <FaTools style={{ marginRight: '8px' }} /> Main {pageData.serviceName} Page
             </Link>
             {internalLinks.siblingServicePages && internalLinks.siblingServicePages.slice(0, 4).map((link, i) => (
