@@ -18,11 +18,12 @@ const Navbar = ({ services = [], catalogTypes = [] }) => {
     window.addEventListener("resize", handleResize);
 
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 60) {
         setScrolled(true);
-      } else {
+      } else if (window.scrollY < 10) {
         setScrolled(false);
       }
+      // Dead zone between 10-60px prevents flickering near the threshold
     };
     window.addEventListener("scroll", handleScroll);
 

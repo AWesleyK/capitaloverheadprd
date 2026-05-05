@@ -15,27 +15,24 @@
 
     .container {
       height: 70px;
-      
+
       @media (max-width: 1100px) {
         height: 60px;
       }
     }
 
     .logo {
-      height: 60px;
+      height: 56px;
       transform: translateY(0);
-      background-color: transparent; // Reset on scroll if preferred, or keep
-      box-shadow: none;
-      padding: 0;
-      
+
       @media (max-width: 1100px) {
-        height: 50px;
+        height: 48px;
       }
-      
+
       @media (max-width: 480px) {
         height: 40px;
       }
-      
+
       &:hover {
         transform: translateY(0) scale(1.05);
       }
@@ -43,7 +40,7 @@
 
     .navLinkWrapper {
       height: 70px;
-      
+
       @media (max-width: 1100px) {
         height: 60px;
       }
@@ -98,13 +95,10 @@
   width: auto;
   object-fit: contain;
   transform: translateY(25px);
-  transition: all 0.3s ease-in-out;
-  z-index: 10005; // Ensure it's above the border
-  background-color: $background1-color;
-  border-radius: 50%;
-  padding: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  
+  position: relative;
+  z-index: 10005;
+  transition: height 0.3s ease, transform 0.3s ease;
+
   @media (max-width: 1100px) {
     height: 110px;
     transform: translateY(15px);
@@ -119,10 +113,10 @@
     height: 70px;
     transform: translateY(5px);
   }
-  
+
   &:hover {
     transform: translateY(25px) scale(1.05);
-    
+
     @media (max-width: 1100px) {
       transform: translateY(15px) scale(1.05);
     }

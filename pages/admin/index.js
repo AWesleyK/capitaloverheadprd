@@ -177,7 +177,9 @@ export default function AdminHome() {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        {Component && React.cloneElement(Component, { disabled: !allowed })}
+                        <div className={styles.widgetBody}>
+                          {Component && React.cloneElement(Component, { disabled: !allowed })}
+                        </div>
                       </div>
                     )}
                   </Draggable>
