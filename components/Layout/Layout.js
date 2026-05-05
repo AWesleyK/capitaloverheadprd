@@ -17,8 +17,17 @@ const Layout = ({ children }) => {
       <Head>
         <link rel="icon" href="/Dino_Doors_Logo_No_bg.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Dino Doors Garage Doors and More" />
-        <title>Dino Doors</title>
+        {/* Default title/description — individual pages override these */}
+        <title>Dino Doors | Garage Door Repair & Installation in Oklahoma</title>
+        <meta key="description" name="description" content="Dino Doors provides expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service — call (405) 456-0399." />
+        {/* OG defaults */}
+        <meta key="og:type" property="og:type" content="website" />
+        <meta key="og:site_name" property="og:site_name" content="Dino Doors" />
+        <meta key="og:image" property="og:image" content="https://dinodoors.net/transparent-icon.png" />
+        <meta key="og:image:alt" property="og:image:alt" content="Dino Doors logo" />
+        {/* Twitter defaults */}
+        <meta key="twitter:card" name="twitter:card" content="summary" />
+        <meta key="twitter:image" name="twitter:image" content="https://dinodoors.net/transparent-icon.png" />
       </Head>
 
       <div className={styles.stickyContainer}>

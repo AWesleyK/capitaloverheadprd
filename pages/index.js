@@ -1,5 +1,6 @@
 // /pages/index.js
 import React from 'react';
+import Head from 'next/head';
 import dbConnect from '../lib/mongoose';
 import SiteSettings from '../models/settings/siteSettings';
 import { googleReviewClient } from '../lib/GoogleReviewAPi';
@@ -13,6 +14,25 @@ import ServiceArea from '../components/ServicesSection/ServicesPage/ServiceArea/
 import FAQSection from '../components/FAQSection/FAQSection';
 import { CITY_LIST } from '../lib/cities';
 import navData from '../data/nav-data.json';
+
+const SITE_URL = "https://dinodoors.net";
+
+const homepageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${SITE_URL}/#webpage`,
+  "url": SITE_URL,
+  "name": "Dino Doors | Garage Door Repair & Installation in Oklahoma",
+  "description": "Expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service from Dino Doors.",
+  "isPartOf": { "@id": `${SITE_URL}/#website` },
+  "about": { "@id": `${SITE_URL}/#business` },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL }
+    ]
+  }
+};
 
 function formatRelativeTime(createTime) {
   if (!createTime) return '';
@@ -115,6 +135,21 @@ export async function getStaticProps() {
 const HomePage = ({ faqs, reviews, stats, siteSettings }) => {
   return (
     <>
+      <Head>
+        <title>Dino Doors | Garage Door Repair & Installation in Oklahoma</title>
+        <meta name="description" content="Dino Doors provides expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service — call (405) 456-0399." />
+        <link rel="canonical" href={SITE_URL} />
+        <meta property="og:title" content="Dino Doors | Garage Door Repair & Installation in Oklahoma" />
+        <meta property="og:description" content="Expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service from Dino Doors." />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Dino Doors | Garage Door Repair & Installation in Oklahoma" />
+        <meta name="twitter:description" content="Expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service from Dino Doors." />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageSchema) }}
+        />
+      </Head>
       <div id="home">
         <HomeSection reviews={reviews} stats={stats} siteSettings={siteSettings} />
       </div>
