@@ -87,6 +87,12 @@ export default function CityServicePage({ pageData, cityHub }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={`https://dinodoors.net${canonicalPath}`} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={`https://dinodoors.net${canonicalPath}`} />
+        <meta property="og:image" content="https://dinodoors.net/transparent-icon.png" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

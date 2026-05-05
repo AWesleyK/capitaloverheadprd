@@ -142,6 +142,13 @@ const CatalogTypePage = ({ type, initialSettings, initialItems }) => {
       <Head>
         <title>{displayTypeName} Catalog | Dino Doors Garage Doors and More</title>
         <meta name="description" content={`Browse our selection of ${displayTypeName} at Dino Doors. Quality products, expert advice, and professional installation across Oklahoma.`} />
+        <link rel="canonical" href={`https://dinodoors.net/catalog/${encodeURIComponent(type)}`} />
+        <meta property="og:title" content={`${displayTypeName} Catalog | Dino Doors`} />
+        <meta property="og:description" content={`Browse our selection of ${displayTypeName} at Dino Doors. Quality products, expert advice, and professional installation across Oklahoma.`} />
+        <meta property="og:url" content={`https://dinodoors.net/catalog/${encodeURIComponent(type)}`} />
+        <meta property="og:image" content="https://dinodoors.net/transparent-icon.png" />
+        <meta name="twitter:title" content={`${displayTypeName} Catalog | Dino Doors`} />
+        <meta name="twitter:description" content={`Browse our selection of ${displayTypeName} at Dino Doors. Quality products, expert advice, and professional installation across Oklahoma.`} />
       </Head>
 
       <div className={styles.catalogPage}>

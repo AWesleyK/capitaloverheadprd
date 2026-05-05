@@ -94,6 +94,30 @@ export default function CityServiceAreaPage({ cityHub, cityServicePages, service
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={`https://dinodoors.net${canonicalPath}`} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={`https://dinodoors.net${canonicalPath}`} />
+        <meta property="og:image" content="https://dinodoors.net/transparent-icon.png" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dinodoors.net" },
+            { "@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://dinodoors.net/services/service-area" },
+            { "@type": "ListItem", "position": 3, "name": cityName, "item": `https://dinodoors.net${canonicalPath}` }
+          ]
+        }) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        }) }} />
       </Head>
 
       <main className={`${styles.wrapper} ${variantClass}`}>

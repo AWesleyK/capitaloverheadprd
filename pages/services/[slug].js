@@ -37,11 +37,46 @@ export async function getStaticProps({ params }) {
 }
 
 export default function ServicePage({ service, cityServicePages }) {
+  const SITE_URL = "https://dinodoors.net";
+  const pageUrl = `${SITE_URL}/services/${service.slug}`;
+  const metaDesc = service.metaDescription || (service.description || '').split('\n')[0].slice(0, 160);
+  const ogImage = service.imageUrl || `${SITE_URL}/transparent-icon.png`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+      { "@type": "ListItem", "position": 2, "name": "Services", "item": `${SITE_URL}/services` },
+      { "@type": "ListItem", "position": 3, "name": service.name, "item": pageUrl }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.name,
+    "description": metaDesc,
+    "url": pageUrl,
+    "provider": { "@id": `${SITE_URL}/#business` },
+    "areaServed": { "@type": "State", "name": "Oklahoma" }
+  };
+
   return (
     <>
       <Head>
         <title>{service.name} | Dino Doors Garage Doors and More</title>
-        <meta name="description" content={service.description} />
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:title" content={`${service.name} | Dino Doors`} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta name="twitter:title" content={`${service.name} | Dino Doors`} />
+        <meta name="twitter:description" content={metaDesc} />
+        <meta name="twitter:image" content={ogImage} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       </Head>
 
       <div className={styles.servicePage}>

@@ -57,11 +57,53 @@ export default function CatalogItemPage({ item, settings }) {
     });
   };
 
+  const SITE_URL = "https://dinodoors.net";
+  const pageUrl = `${SITE_URL}/catalog/item/${item.slug}`;
+  const metaDesc = item.description ? item.description.split('\n')[0].slice(0, 160) : `View details for ${item.name} by ${item.brand} at Dino Doors Catalog.`;
+  const ogImage = item.imageUrl || `${SITE_URL}/transparent-icon.png`;
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": item.name,
+    "description": metaDesc,
+    "image": ogImage,
+    "brand": { "@type": "Brand", "name": item.brand },
+    "url": pageUrl,
+    "offers": {
+      "@type": "Offer",
+      "seller": { "@id": `${SITE_URL}/#business` },
+      "availability": "https://schema.org/InStock",
+      "url": pageUrl,
+      ...(item.priceMin ? { "price": item.priceMin, "priceCurrency": "USD" } : {})
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+      { "@type": "ListItem", "position": 2, "name": "Catalog", "item": `${SITE_URL}/catalog/${encodeURIComponent(item.type.toLowerCase())}` },
+      { "@type": "ListItem", "position": 3, "name": item.name, "item": pageUrl }
+    ]
+  };
+
   return (
     <>
       <Head>
         <title>{item.name} | {item.brand} | Dino Doors Garage Doors and More</title>
-        <meta name="description" content={item.description || `View details for ${item.name} by ${item.brand} at Dino Doors Catalog.`} />
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:title" content={`${item.name} | ${item.brand} | Dino Doors`} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta name="twitter:title" content={`${item.name} | ${item.brand} | Dino Doors`} />
+        <meta name="twitter:description" content={metaDesc} />
+        <meta name="twitter:image" content={ogImage} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <div className={styles.itemPage}>
