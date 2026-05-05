@@ -55,6 +55,22 @@ export default function CityServicePage({ pageData, cityHub }) {
     );
   };
 
+  // Local Service Schema
+  const localServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": pageData.serviceName,
+    "description": description,
+    "url": `https://dinodoors.net${canonicalPath}`,
+    "provider": { "@id": "https://dinodoors.net/#business" },
+    "areaServed": {
+      "@type": "City",
+      "name": pageData.cityName,
+      "addressRegion": "OK",
+      "addressCountry": "US"
+    }
+  };
+
   // FAQ Schema
   const faqSchema = {
     "@context": "https://schema.org",
@@ -93,14 +109,9 @@ export default function CityServicePage({ pageData, cityHub }) {
         <meta property="og:image" content="https://dinodoors.net/transparent-icon.png" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <main className={`${styles.wrapper} ${variantClass}`}>
