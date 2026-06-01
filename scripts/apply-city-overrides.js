@@ -1,13 +1,16 @@
 // scripts/apply-city-overrides.js
 //
-// Merges admin-authored city-hub edits (stored in the `cityHubOverrides`
-// Mongo collection) onto the committed base content in
-// data/dinodoors-city-service-pages.json.
+// Reconciles admin-authored city changes (stored in Mongo) with the committed
+// base content in data/dinodoors-city-service-pages.json:
 //
-// The JSON file remains the source of truth for structure + default content;
-// Mongo only holds the changed fields per city. This step is intentionally
-// NON-FATAL: if MONGODB_URI is missing or Mongo is unreachable, it leaves the
-// base JSON untouched so a build can never lose city content.
+//   effective cityHubs = (base hubs ∪ cityHubsAdded) − cityHubsDeleted
+//                        then field overrides from cityHubOverrides applied
+//
+// Deleted cities also have their city/service combo pages removed so they
+// aren't generated or sitemapped. The JSON file stays the source of truth for
+// structure/defaults. This step is NON-FATAL: if MONGODB_URI is missing or
+// Mongo is unreachable, the base JSON is used unchanged so a build can never
+// lose city content.
 
 if (process.env.NODE_ENV !== "production") {
   try {
@@ -45,30 +48,47 @@ async function applyCityOverrides() {
   try {
     await client.connect();
     const db = client.db("garage_catalog");
-    const overrides = await db.collection("cityHubOverrides").find({}).toArray();
+    const [overrides, added, deleted] = await Promise.all([
+      db.collection("cityHubOverrides").find({}).toArray(),
+      db.collection("cityHubsAdded").find({}).toArray(),
+      db.collection("cityHubsDeleted").find({}).toArray(),
+    ]);
 
-    if (overrides.length === 0) {
-      console.log("apply-city-overrides: no overrides found — base JSON unchanged.");
-      return;
+    const overrideBySlug = new Map(overrides.map((o) => [o.citySlug, o]));
+    const deletedSlugs = new Set(deleted.map((d) => d.citySlug));
+
+    // 1. Base ∪ added (added wins on slug collision is avoided — base kept, dup skipped)
+    let hubs = [...data.cityHubs];
+    const baseSlugs = new Set(hubs.map((h) => h.citySlug));
+    for (const a of added) {
+      if (a && a.citySlug && !baseSlugs.has(a.citySlug)) hubs.push(a);
     }
 
-    const bySlug = new Map(overrides.map((o) => [o.citySlug, o]));
-    let applied = 0;
-    for (const hub of data.cityHubs) {
-      const ov = bySlug.get(hub.citySlug);
+    // 2. Remove deleted
+    hubs = hubs.filter((h) => !deletedSlugs.has(h.citySlug));
+
+    // 3. Apply field overrides
+    for (const hub of hubs) {
+      const ov = overrideBySlug.get(hub.citySlug);
       if (!ov) continue;
       for (const field of OVERRIDABLE) {
-        if (typeof ov[field] === "string" && ov[field].trim() !== "") {
-          hub[field] = ov[field];
-        }
+        if (typeof ov[field] === "string" && ov[field].trim() !== "") hub[field] = ov[field];
       }
-      applied++;
+    }
+
+    data.cityHubs = hubs;
+
+    // 4. Drop combo pages belonging to deleted cities
+    if (Array.isArray(data.cityServicePages) && deletedSlugs.size > 0) {
+      data.cityServicePages = data.cityServicePages.filter((p) => !deletedSlugs.has(p.citySlug));
     }
 
     fs.writeFileSync(JSON_PATH, JSON.stringify(data, null, 2));
-    console.log(`✅ apply-city-overrides: merged overrides for ${applied} city hub(s).`);
+    console.log(
+      `✅ apply-city-overrides: ${hubs.length} hubs (` +
+        `+${added.length} added, -${deletedSlugs.size} deleted, ${overrides.length} overridden).`
+    );
   } catch (err) {
-    // Never fail the build over content overrides.
     console.warn("⚠️  apply-city-overrides: Mongo error — using base JSON unchanged.", err.message);
   } finally {
     await client.close().catch(() => {});
