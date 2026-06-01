@@ -18,6 +18,14 @@ export default function BlogIndexPage({ blogs }) {
       <Head>
         <title>Dino Doors Blog | Garage Door Tips & News</title>
         <meta name="description" content="Stay updated with the latest garage door tips, maintenance guides, and news from Dino Doors. Your trusted source for garage door expertise in Oklahoma." />
+        <link rel="canonical" href="https://dinodoors.net/about/blogs" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Dino Doors Blog | Garage Door Tips & News" />
+        <meta property="og:description" content="Garage door tips, maintenance guides, and news from Dino Doors — Oklahoma's trusted garage door experts." />
+        <meta property="og:url" content="https://dinodoors.net/about/blogs" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Dino Doors Blog | Garage Door Tips & News" />
+        <meta name="twitter:description" content="Garage door tips, maintenance guides, and news from Dino Doors." />
       </Head>
       <div className={styles.blogIndexPage}>
         <h1 className={styles.heading}>Check Out Some of Our Helpful Blogs!</h1>
