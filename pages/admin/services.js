@@ -50,10 +50,36 @@ export default function ServicesPage() {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [services, setServices] = useState([]);
-  const [editingId, setEditingId] = useState(null);
   const [editingForm, setEditingForm] = useState({});
   const [editingImage, setEditingImage] = useState({});
   const [editingFile, setEditingFile] = useState({});
+  const [expanded, setExpanded] = useState(() => new Set());
+
+  // Toggle a service card open/closed; seed its edit fields the first time it opens.
+  const toggleExpand = (service) => {
+    const id = service._id;
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+    setEditingForm((prev) =>
+      prev[id]
+        ? prev
+        : {
+            ...prev,
+            [id]: {
+              name: service.name,
+              description: service.description,
+              metaTitle: service.metaTitle || "",
+              metaDescription: service.metaDescription || "",
+              highlights: Array.isArray(service.highlights) ? service.highlights.join("\n") : "",
+              faqs: Array.isArray(service.faqs) ? service.faqs : [],
+            },
+          }
+    );
+    setEditingImage((prev) => (prev[id] !== undefined ? prev : { ...prev, [id]: service.imageUrl }));
+  };
 
   const fetchServices = async () => {
     const res = await fetch("/api/services/get");
@@ -126,10 +152,10 @@ export default function ServicesPage() {
 
     if (res.ok) {
       alert("Service updated!");
-      setEditingId(null);
-      setEditingForm({});
-      setEditingImage({});
-      setEditingFile({});
+      setExpanded((prev) => { const n = new Set(prev); n.delete(id); return n; });
+      setEditingForm((prev) => { const n = { ...prev }; delete n[id]; return n; });
+      setEditingImage((prev) => { const n = { ...prev }; delete n[id]; return n; });
+      setEditingFile((prev) => { const n = { ...prev }; delete n[id]; return n; });
       fetchServices();
     } else {
       alert("Update failed.");
@@ -216,12 +242,40 @@ export default function ServicesPage() {
           <p>No services yet.</p>
         ) : (
           services.map((service) => {
-            const isEditing = editingId === service._id;
+            const isOpen = expanded.has(service._id);
 
             return (
-              <div key={service._id} style={{ marginBottom: "2rem" }}>
-                {isEditing ? (
-                  <>
+              <div
+                key={service._id}
+                style={{ border: "1px solid #e2e2e2", borderRadius: 8, marginBottom: "0.75rem", overflow: "hidden" }}
+              >
+                <div
+                  onClick={() => toggleExpand(service)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "1rem",
+                    padding: "0.85rem 1.25rem",
+                    cursor: "pointer",
+                    background: isOpen ? "#faf0f0" : "#fafafa",
+                  }}
+                >
+                  <span style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontWeight: 600 }}>
+                    <span style={{ transform: isOpen ? "rotate(90deg)" : "none", transition: "transform 0.15s", display: "inline-block" }}>▶</span>
+                    {service.name}
+                  </span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(service._id); }}
+                    className={styles.button}
+                    style={{ background: "#c53030", padding: "0.3rem 0.7rem", fontSize: "0.8rem" }}
+                  >
+                    Delete
+                  </button>
+                </div>
+
+                {isOpen && (
+                  <div style={{ padding: "1rem 1.25rem 1.25rem" }}>
                     <div className={styles.formGroup}>
                       <label>Service Name:</label>
                       <input
@@ -341,59 +395,13 @@ export default function ServicesPage() {
                       Update
                     </button>
                     <button
-                      onClick={() => setEditingId(null)}
+                      onClick={() => toggleExpand(service)}
                       className={styles.button}
                       style={{ background: "#6b7280", marginLeft: "0.5rem" }}
                     >
-                      Cancel
+                      Collapse
                     </button>
-                  </>
-                ) : (
-                  <>
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
-                    <img
-                      src={service.imageUrl}
-                      alt={service.name}
-                      style={{
-                        width: "100%",
-                        maxHeight: 300,
-                        objectFit: "cover",
-                        borderRadius: 6,
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        setEditingId(service._id);
-                        setEditingForm((prev) => ({
-                          ...prev,
-                          [service._id]: {
-                            name: service.name,
-                            description: service.description,
-                            metaTitle: service.metaTitle || "",
-                            metaDescription: service.metaDescription || "",
-                            highlights: Array.isArray(service.highlights) ? service.highlights.join("\n") : "",
-                            faqs: Array.isArray(service.faqs) ? service.faqs : [],
-                          },
-                        }));
-                        setEditingImage((prev) => ({
-                          ...prev,
-                          [service._id]: service.imageUrl,
-                        }));
-                      }}
-                      className={styles.button}
-                      style={{ marginTop: "0.5rem", marginRight: "0.5rem" }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(service._id)}
-                      className={styles.button}
-                      style={{ background: "#c53030", marginTop: "0.5rem" }}
-                    >
-                      Delete
-                    </button>
-                  </>
+                  </div>
                 )}
               </div>
             );
