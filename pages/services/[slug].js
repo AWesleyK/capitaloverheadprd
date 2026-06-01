@@ -3,7 +3,7 @@ import clientPromise from "../../lib/mongodb";
 import Head from "next/head";
 import Image from "../../components/Shared/SmartImages";
 import styles from "../../styles/pageStyles/ServicesSlug.module.scss";
-import { FaCheckCircle, FaPhoneAlt, FaTools, FaShieldAlt } from "react-icons/fa";
+import { FaCheckCircle, FaPhoneAlt, FaTools, FaShieldAlt, FaQuestionCircle } from "react-icons/fa";
 import Link from "next/link";
 import navData from "../../data/nav-data.json";
 import { getCityServicePagesForService, formatCitySlugForUrl } from "../../lib/cityServiceData";
@@ -62,10 +62,23 @@ export default function ServicePage({ service, cityServicePages }) {
     "areaServed": { "@type": "State", "name": "Oklahoma" }
   };
 
+  const highlights = Array.isArray(service.highlights) ? service.highlights : [];
+  const faqs = Array.isArray(service.faqs) ? service.faqs : [];
+
+  const faqSchema = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+    }))
+  } : null;
+
   return (
     <>
       <Head>
-        <title>{service.name} | Dino Doors Garage Doors and More</title>
+        <title>{service.metaTitle || `${service.name} | Dino Doors Garage Doors and More`}</title>
         <meta name="description" content={metaDesc} />
         <link rel="canonical" href={pageUrl} />
         <meta property="og:title" content={`${service.name} | Dino Doors`} />
@@ -77,6 +90,9 @@ export default function ServicePage({ service, cityServicePages }) {
         <meta name="twitter:image" content={ogImage} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+        {faqSchema && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        )}
       </Head>
 
       <div className={styles.servicePage}>
@@ -114,6 +130,19 @@ export default function ServicePage({ service, cityServicePages }) {
                   ))}
                 </div>
               </section>
+
+              {highlights.length > 0 && (
+                <section className={styles.descriptionSection}>
+                  <h2 className={styles.sectionTitle}>What&apos;s Included</h2>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '0.75rem' }}>
+                    {highlights.map((h, i) => (
+                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
+                        <FaCheckCircle style={{ color: '#bf0a30', flexShrink: 0, marginTop: '0.25rem' }} /> <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
 
               <div className={styles.features}>
                 <div className={styles.featureItem}>
@@ -189,6 +218,22 @@ export default function ServicePage({ service, cityServicePages }) {
                   >
                     <FaMapMarkerAlt style={{ marginRight: '8px' }} /> {page.cityName}, OK
                   </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {faqs.length > 0 && (
+            <section className={styles.areasServedSection} style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+              <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
+              <div style={{ display: 'grid', gap: '1.25rem', marginTop: '1.5rem' }}>
+                {faqs.map((f, i) => (
+                  <div key={i} style={{ background: '#f8f9fa', borderRadius: '8px', padding: '1.25rem 1.5rem' }}>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: '0 0 0.5rem' }}>
+                      <FaQuestionCircle style={{ color: '#bf0a30', flexShrink: 0 }} /> {f.question}
+                    </h3>
+                    <p style={{ margin: 0 }}>{f.answer}</p>
+                  </div>
                 ))}
               </div>
             </section>

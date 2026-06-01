@@ -24,7 +24,7 @@ async function generateNavData() {
   // Fetch Services
   const services = await db
     .collection("services")
-    .find({}, { projection: { name: 1, slug: 1, imageUrl: 1 } })
+    .find({}, { projection: { name: 1, slug: 1, imageUrl: 1, metaTitle: 1, metaDescription: 1, highlights: 1, faqs: 1 } })
     .sort({ name: 1 })
     .toArray();
 
@@ -65,7 +65,16 @@ async function generateNavData() {
   };
 
   const navData = {
-    services: services.map(s => ({ _id: s._id.toString(), name: s.name, slug: s.slug, imageUrl: s.imageUrl })),
+    services: services.map(s => ({
+      _id: s._id.toString(),
+      name: s.name,
+      slug: s.slug,
+      imageUrl: s.imageUrl,
+      metaTitle: s.metaTitle || "",
+      metaDescription: s.metaDescription || "",
+      highlights: Array.isArray(s.highlights) ? s.highlights : [],
+      faqs: Array.isArray(s.faqs) ? s.faqs : [],
+    })),
     catalogTypes: activeTypes.map(t => ({ _id: t._id.toString(), type: t.type, typeName: t.typeName })),
     catalogItems: catalogItems.map(i => ({ 
       _id: i._id.toString(), 

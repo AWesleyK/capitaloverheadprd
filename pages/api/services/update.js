@@ -3,6 +3,7 @@
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import { withAuth } from '../../../lib/middleware/withAuth';
+import { normalizeSeoFields } from "./add";
 
 const slugify = (text) =>
   text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
@@ -47,6 +48,7 @@ async function handler(req, res) {
           description,
           imageUrl,
           slug: newSlug,
+          ...normalizeSeoFields(req.body),
           modifiedAt: new Date(),
         },
       }

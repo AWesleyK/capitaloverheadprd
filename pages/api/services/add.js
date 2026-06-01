@@ -5,6 +5,25 @@ import { withAuth } from '../../../lib/middleware/withAuth';
 const slugify = (text) =>
   text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-");
 
+// Normalize optional SEO/content fields shared by add + update.
+export const normalizeSeoFields = (body = {}) => {
+  const str = (v) => (typeof v === "string" ? v.trim() : "");
+  const highlights = Array.isArray(body.highlights)
+    ? body.highlights.map((h) => str(h)).filter(Boolean)
+    : [];
+  const faqs = Array.isArray(body.faqs)
+    ? body.faqs
+        .map((f) => ({ question: str(f?.question), answer: str(f?.answer) }))
+        .filter((f) => f.question && f.answer)
+    : [];
+  return {
+    metaTitle: str(body.metaTitle),
+    metaDescription: str(body.metaDescription),
+    highlights,
+    faqs,
+  };
+};
+
 async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method not allowed");
 
@@ -27,6 +46,7 @@ async function handler(req, res) {
       description,
       imageUrl,
       slug,
+      ...normalizeSeoFields(req.body),
       createdAt: new Date(),
     });
 
