@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useInView } from 'react-intersection-observer';
 import styles from '../../styles/pageStyles/ServiceAreaCity.module.scss';
-import { FaWrench, FaShieldAlt, FaQuestionCircle, FaClock, FaCheckCircle, FaTools, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaWrench, FaShieldAlt, FaQuestionCircle, FaClock, FaCheckCircle, FaTools, FaMapMarkerAlt, FaHome, FaChevronRight } from 'react-icons/fa';
 import navData from '../../data/nav-data.json';
 import { getCityHubBySlug, getCityServicePagesForCity, getAllCityHubs, formatCitySlugForUrl, fixInternalPath } from '../../lib/cityServiceData';
 
@@ -73,6 +73,36 @@ export default function CityServiceAreaPage({ cityHub, cityServicePages, service
     );
   };
 
+  // Local Service schema — brings the city hub to parity with the city/service
+  // pages and reinforces local relevance (provider = the global #business entity).
+  const localServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": `Garage Door Repair & Installation in ${cityBase}, OK`,
+    "serviceType": "Garage door repair, installation, and maintenance",
+    "description": description,
+    "url": `https://dinodoors.net${canonicalPath}`,
+    "provider": { "@id": "https://dinodoors.net/#business" },
+    "areaServed": {
+      "@type": "City",
+      "name": cityBase,
+      "addressRegion": "OK",
+      "addressCountry": "US"
+    },
+    ...(Array.isArray(cityServicePages) && cityServicePages.length > 0
+      ? {
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": `Garage Door Services in ${cityBase}, OK`,
+            "itemListElement": cityServicePages.map((p) => ({
+              "@type": "Offer",
+              "itemOffered": { "@type": "Service", "name": p.serviceName }
+            }))
+          }
+        }
+      : {})
+  };
+
   const faqs = [
     {
       q: `Do you offer emergency garage door repair in ${cityBase}?`,
@@ -118,11 +148,25 @@ export default function CityServiceAreaPage({ cityHub, cityServicePages, service
             "acceptedAnswer": { "@type": "Answer", "text": f.a }
           }))
         }) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema) }} />
       </Head>
 
       <main className={`${styles.wrapper} ${variantClass}`}>
+        {/* Breadcrumbs — match the city/service pages for consistent nav + linking */}
+        <nav className={`${styles.breadcrumbNav} ${styles.fadeIn}`} style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.9rem', color: '#666' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', color: 'inherit', textDecoration: 'none' }}>
+            <FaHome style={{ marginRight: '4px' }} /> Home
+          </Link>
+          <FaChevronRight style={{ fontSize: '0.7rem', opacity: 0.5 }} />
+          <Link href="/services/service-area" style={{ color: 'inherit', textDecoration: 'none' }}>
+            Service Areas
+          </Link>
+          <FaChevronRight style={{ fontSize: '0.7rem', opacity: 0.5 }} />
+          <span style={{ fontWeight: 'bold', color: '#333' }}>{cityBase}, {cityHub.state}</span>
+        </nav>
+
         <header className={`${styles.header} ${styles.fadeIn}`}>
-          <h1 className={styles.title}>Garage Door Services in {cityBase}, OK</h1>
+          <h1 className={styles.title}>Garage Door Repair &amp; Installation in {cityBase}, OK</h1>
           <p className={styles.subtext}>Local, dependable, and done right—the first time.</p>
         </header>
 
