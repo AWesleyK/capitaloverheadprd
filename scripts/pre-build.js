@@ -13,6 +13,9 @@ if (!fs.existsSync(dataDir)) {
 
 // 2. Run generation scripts
 try {
+  console.log('Applying city content overrides...');
+  execSync('node scripts/apply-city-overrides.js', { stdio: 'inherit' });
+
   console.log('Generating sitemap...');
   execSync('node scripts/generate-sitemap.js', { stdio: 'inherit' });
   
