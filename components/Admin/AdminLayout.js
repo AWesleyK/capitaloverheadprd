@@ -7,6 +7,7 @@ import styles from "./AdminLayout.module.scss";
 const navItems = [
   { label: "Catalog", path: "/admin/catalog", minTier: 1, requireAdmin: true },
   { label: "Services", path: "/admin/services", minTier: 1, requireAdmin: true },
+  { label: "City Content", path: "/admin/cities", minTier: 1, requireAdmin: true },
   { label: "Settings", path: "/admin/settings", minTier: 2, requireAdmin: true },
   { label: "Blogs", path: "/admin/blogs", minTier: 1, requireAdmin: false },
 ];
