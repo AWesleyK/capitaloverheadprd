@@ -143,8 +143,14 @@ const HomePage = ({ faqs, reviews, stats, siteSettings }) => {
         <meta property="og:description" content="Expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service from Dino Doors." />
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${SITE_URL}/og-card.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Dino Doors — Garage Doors & More · (405) 456-0399 · Oklahoma" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dino Doors | Garage Door Repair & Installation in Oklahoma" />
         <meta name="twitter:description" content="Expert garage door repair, installation, and maintenance across Oklahoma. Fast, reliable service from Dino Doors." />
+        <meta name="twitter:image" content={`${SITE_URL}/og-card.png`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageSchema) }}
