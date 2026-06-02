@@ -60,7 +60,7 @@ export default function CatalogItemPage({ item, settings }) {
   const SITE_URL = "https://dinodoors.net";
   const pageUrl = `${SITE_URL}/catalog/item/${item.slug}`;
   const metaDesc = item.description ? item.description.split('\n')[0].slice(0, 160) : `View details for ${item.name} by ${item.brand} at Dino Doors Catalog.`;
-  const ogImage = item.imageUrl || `${SITE_URL}/transparent-icon.png`;
+  const ogImage = item.imageUrl || `${SITE_URL}/og-card.png`;
 
   const productSchema = {
     "@context": "https://schema.org",
@@ -98,10 +98,10 @@ export default function CatalogItemPage({ item, settings }) {
         <meta property="og:title" content={`${item.name} | ${item.brand} | Dino Doors`} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content={ogImage} />
+        <meta key="og:image" property="og:image" content={ogImage} />
         <meta name="twitter:title" content={`${item.name} | ${item.brand} | Dino Doors`} />
         <meta name="twitter:description" content={metaDesc} />
-        <meta name="twitter:image" content={ogImage} />
+        <meta key="twitter:image" name="twitter:image" content={ogImage} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>

@@ -23,11 +23,11 @@ const Layout = ({ children }) => {
         {/* OG defaults */}
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:site_name" property="og:site_name" content="Dino Doors" />
-        <meta key="og:image" property="og:image" content="https://dinodoors.net/transparent-icon.png" />
-        <meta key="og:image:alt" property="og:image:alt" content="Dino Doors logo" />
+        <meta key="og:image" property="og:image" content="https://dinodoors.net/og-card.png" />
+        <meta key="og:image:alt" property="og:image:alt" content="Dino Doors — Garage Doors & More · (405) 456-0399 · Oklahoma" />
         {/* Twitter defaults */}
-        <meta key="twitter:card" name="twitter:card" content="summary" />
-        <meta key="twitter:image" name="twitter:image" content="https://dinodoors.net/transparent-icon.png" />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
+        <meta key="twitter:image" name="twitter:image" content="https://dinodoors.net/og-card.png" />
       </Head>
 
       <div className={styles.stickyContainer}>

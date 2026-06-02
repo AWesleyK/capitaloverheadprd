@@ -40,7 +40,7 @@ export default function ServicePage({ service, cityServicePages }) {
   const SITE_URL = "https://dinodoors.net";
   const pageUrl = `${SITE_URL}/services/${service.slug}`;
   const metaDesc = service.metaDescription || (service.description || '').split('\n')[0].slice(0, 160);
-  const ogImage = service.imageUrl || `${SITE_URL}/transparent-icon.png`;
+  const ogImage = service.imageUrl || `${SITE_URL}/og-card.png`;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -84,10 +84,10 @@ export default function ServicePage({ service, cityServicePages }) {
         <meta property="og:title" content={`${service.name} | Dino Doors`} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content={ogImage} />
+        <meta key="og:image" property="og:image" content={ogImage} />
         <meta name="twitter:title" content={`${service.name} | Dino Doors`} />
         <meta name="twitter:description" content={metaDesc} />
-        <meta name="twitter:image" content={ogImage} />
+        <meta key="twitter:image" name="twitter:image" content={ogImage} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
         {faqSchema && (

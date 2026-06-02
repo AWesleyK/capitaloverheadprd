@@ -71,7 +71,8 @@ export default function BlogPostPage({ blog, baseUrl }) {
         {/* Open Graph */}
         <meta property="og:title" content={blog.seoTitle || blog.title} />
         <meta property="og:description" content={blog.metaDesc} />
-        <meta property="og:image" content={blog.imageUrl} />
+        <meta key="og:image" property="og:image" content={blog.imageUrl} />
+        <meta key="og:image:alt" property="og:image:alt" content={blog.title} />
         <meta property="og:url" content={fullUrl} />
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={publishDate} />
@@ -85,7 +86,7 @@ export default function BlogPostPage({ blog, baseUrl }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blog.seoTitle || blog.title} />
         <meta name="twitter:description" content={blog.metaDesc} />
-        <meta name="twitter:image" content={blog.imageUrl} />
+        <meta key="twitter:image" name="twitter:image" content={blog.imageUrl} />
 
         {/* JSON-LD */}
         <script
